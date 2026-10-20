@@ -1,5 +1,7 @@
 # WZBC-Launcher 开发约定
 
+- 本项目由 Dr-jesper 与 Codex 共同维护，README 与关于页须明确标注；SHOU-PCL 等来源贡献者的署名继续保留。
+
 - 本仓库为温州商学院 Minecraft 社团定制，基于 SHOU-PCL main 的 842393281c5ed8bb5745efc37ce775bd0a21f4a1（v1.2.0 / zyf）。保留原功能、许可证、作者署名、赞助链接与第三方声明。
 - origin 为 https://github.com/Dr-jesper/WZBC-Launcher.git；SHOU-PCL 来源远程可命名为 shou。只向自己的 fork 推送。来源更新只跟踪 SHOU-PCL，不直接同步 PCL-CE。
 - main 为发行基线，WZBC-Launcher 为首轮定制分支。修改前阅读本文件、CONTRIBUTING.md 与相关模块文档，核对分支、远程及工作区现有修改。

@@ -2,6 +2,8 @@
 
 WZBC-Launcher 使用温州商学院 Minecraft 社团品牌与授权校园素材，在 SHOU-PCL main v1.2.0 的基础上定制。
 
+本项目由 Dr-jesper 与 Codex 共同维护，README 与启动器关于页均标注当前维护者，并保留来源项目的作者与贡献者署名。
+
 ## 品牌与主题
 
 - 品牌紫 #601986、纸白 #F7F5F0 与深紫背景。WZBC 主题枚举为 5，新配置默认使用 WZBC。

@@ -10,7 +10,7 @@ public sealed class ClubReleaseVersionTest
     [TestMethod]
     public void CurrentFormalReleaseStartsAboveLegacyClubBaseline()
     {
-        Assert.AreEqual("v1.2.0-wzbc.1", ClubRelease.CurrentTag);
+        Assert.AreEqual("v1.2.0-wzbc.2", ClubRelease.CurrentTag);
         Assert.AreEqual("zyf", ClubRelease.CurrentCodename);
 
         var formal = new ClubRelease("v1.1.0", "formal", "", "");
@@ -29,9 +29,9 @@ public sealed class ClubReleaseVersionTest
     {
         Assert.IsTrue(new ClubRelease("v1.2.1", "patch", "", "")
             .IsNewerThan(ClubRelease.CurrentTag));
-        Assert.IsFalse(new ClubRelease("v1.2.0-wzbc.1", "current", "", "")
+        Assert.IsFalse(new ClubRelease("v1.2.0-wzbc.2", "current", "", "")
             .IsNewerThan(ClubRelease.CurrentTag));
-        Assert.IsTrue(new ClubRelease("v1.2.0-wzbc.2", "next preview", "", "")
+        Assert.IsTrue(new ClubRelease("v1.2.0-wzbc.3", "next preview", "", "")
             .IsNewerThan(ClubRelease.CurrentTag));
         Assert.IsTrue(new ClubRelease("v1.2.0", "stable", "", "")
             .IsNewerThan(ClubRelease.CurrentTag));

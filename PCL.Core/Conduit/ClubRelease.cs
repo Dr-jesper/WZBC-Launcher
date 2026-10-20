@@ -7,7 +7,7 @@ namespace PCL.Core.Conduit;
 
 public sealed record ClubRelease(string Tag, string Title, string Notes, string PageUrl)
 {
-    public const string CurrentVersion = "1.2.0-wzbc.1";
+    public const string CurrentVersion = "1.2.0-wzbc.2";
     public const string CurrentCodename = "zyf";
     public const string CurrentTag = "v" + CurrentVersion;
 

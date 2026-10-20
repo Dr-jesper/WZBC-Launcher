@@ -1,6 +1,6 @@
 # WZBC-Launcher 构建
 
-需要 Windows 和 .NET 10 SDK。预览版使用 Beta 配置；首轮本地构建 SDK 为 10.0.402。来源为 SHOU-PCL main 842393281c5ed8bb5745efc37ce775bd0a21f4a1，来源版本 1.2.0 / zyf，WZBC 预览版为 1.2.0-wzbc.1。
+需要 Windows 和 .NET 10 SDK。预览版使用 Beta 配置；首轮本地构建 SDK 为 10.0.402。来源为 SHOU-PCL main 842393281c5ed8bb5745efc37ce775bd0a21f4a1，来源版本 1.2.0 / zyf，WZBC 预览版为 1.2.0-wzbc.2。
 
 ```powershell
 # 开发编译

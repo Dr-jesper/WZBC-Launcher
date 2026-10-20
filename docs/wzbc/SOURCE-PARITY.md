@@ -20,6 +20,6 @@
 | 来源历史与许可证 | 与 main 完全一致 |
 | Minecraft 启动主模块 ModLaunch | 仅社团账户错误文案不同，启动流程与参数逻辑一致 |
 
-保留 Microsoft / MUA / LittleSkin，增加 WZBC Skin 识别；社团服务器改为 WZBC 三条入口。共享配置和缓存使用独立目录，发行源绑定 WZBC fork，不接受来源仓库的默认更新回退。预览版号为 1.2.0-wzbc.1，来源基线仍为 1.2.0 / zyf。
+保留 Microsoft / MUA / LittleSkin，增加 WZBC Skin 识别；社团服务器改为 WZBC 三条入口。共享配置和缓存使用独立目录，发行源绑定 WZBC fork，不接受来源仓库的默认更新回退。预览版号为 1.2.0-wzbc.2，来源基线仍为 1.2.0 / zyf。
 
 核对证明源码没有遗漏，关键功能及来源更新已经纳入。编译、测试与界面检查见 [VALIDATION.md](VALIDATION.md)；真实登录、下载、整合包、游戏启动和入服仍需验收。
