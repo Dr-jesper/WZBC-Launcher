@@ -63,16 +63,16 @@ public class ClubIntegrationTest
     {
         Assert.AreEqual("", ClubCatalog.FindServer("untrusted.example --demo").Address);
         Assert.AreEqual("", ClubCatalog.FindServer(null).Address);
-        Assert.AreEqual("smp.shoumc.com", ClubCatalog.FindServer("smp").Address);
-        Assert.AreEqual("create.shoumc.com", ClubCatalog.FindServer("create").Address);
-        Assert.AreEqual("shou.shoumc.com", ClubCatalog.FindServer("shou").Address);
+        Assert.AreEqual("mc.wzbcmc.cn", ClubCatalog.FindServer("modded").Address);
+        Assert.AreEqual("mc-2.wzbcmc.cn", ClubCatalog.FindServer("modded-alt").Address);
+        Assert.AreEqual("build.wzbcmc.cn", ClubCatalog.FindServer("build").Address);
     }
 
     [TestMethod]
     public void NoConnectionOverridesOldInstanceAddressButNullPreservesLegacyLaunch()
     {
         Assert.AreEqual("", ClubCatalog.ResolveLaunchServer(ClubCatalog.FindServer("none").Address, "old.example"));
-        Assert.AreEqual("smp.shoumc.com", ClubCatalog.ResolveLaunchServer(ClubCatalog.FindServer("smp").Address, "old.example"));
+        Assert.AreEqual("mc.wzbcmc.cn", ClubCatalog.ResolveLaunchServer(ClubCatalog.FindServer("modded").Address, "old.example"));
         Assert.AreEqual("old.example", ClubCatalog.ResolveLaunchServer(null, "old.example"));
     }
 
@@ -81,6 +81,8 @@ public class ClubIntegrationTest
     {
         Assert.IsTrue(ClubCatalog.CanJoin(new McProfile { ProfileType = ProfileType.Microsoft }));
         Assert.IsTrue(ClubCatalog.CanJoin(new McProfile { ProfileType = ProfileType.Authlib, Server = ClubCatalog.MuaAuth }));
+        Assert.IsTrue(ClubCatalog.CanJoin(new McProfile { ProfileType = ProfileType.Authlib, Server = ClubCatalog.SkinAuth }));
+        Assert.IsFalse(ClubCatalog.CanJoin(new McProfile { ProfileType = ProfileType.Authlib, Server = "https://skin.wzbcmc.cn.attacker.test/api/yggdrasil" }));
         Assert.IsFalse(ClubCatalog.CanJoin(new McProfile { ProfileType = ProfileType.Offline, Server = ClubCatalog.MuaAuth }));
         Assert.IsFalse(ClubCatalog.CanJoin(new McProfile { ProfileType = ProfileType.Authlib, Server = "https://other.example/yggdrasil" }));
     }
@@ -94,7 +96,7 @@ public class ClubIntegrationTest
             new { draft = false, published_at = "2026-10-03T00:00:00Z", tag_name = "v9.0.0", html_url = "https://github.com/PCL-Community/PCL-CE/releases/tag/v9.0.0", name = "upstream", body = "" },
             new { draft = false, published_at = "2026-10-02T00:00:00Z", tag_name = "conduit-v2.15.1-club.2", html_url = ClubCatalog.Repository + "/releases/tag/conduit-v2.15.1-club.2", name = "club", body = "notes" }
         });
-        var release = ClubRelease.ParseLatest(json);
+        var release = ClubRelease.ParseLatest(json, ClubCatalog.Repository);
         Assert.IsNotNull(release);
         Assert.AreEqual("club", release.Title);
         Assert.IsTrue(release.IsNewerThan("conduit-v2.15.1-club.1"));
@@ -119,7 +121,7 @@ public class ClubIntegrationTest
             new { draft = false, published_at = "2026-10-02T00:00:00Z", tag_name = "conduit-v2.15.1-club.10", html_url = ClubCatalog.Repository + "/releases/tag/conduit-v2.15.1-club.10", name = "latest", body = "" },
             new { draft = false, published_at = "2026-10-04T00:00:00Z", tag_name = "conduit-v2.15.1-club.2", html_url = ClubCatalog.Repository + "/releases/tag/conduit-v2.15.1-club.2", name = "older", body = "" }
         });
-        Assert.AreEqual("conduit-v2.15.1-club.10", ClubRelease.ParseLatest(json)!.Tag);
+        Assert.AreEqual("conduit-v2.15.1-club.10", ClubRelease.ParseLatest(json, ClubCatalog.Repository)!.Tag);
     }
 
     [TestMethod]
@@ -143,11 +145,11 @@ public class ClubIntegrationTest
     }
 
     [TestMethod]
-    public void DianaTextAndSurfaceHaveReadableContrastInBothModes()
+    public void WzbcTextAndSurfaceHaveReadableContrastInBothModes()
     {
         foreach (var dark in new[] { false, true })
         {
-            var colors = DianaPalette.Colors(dark);
+            var colors = WzbcPalette.Colors(dark);
             foreach (var (text, background) in new[] { ("Gray1", "Background"), ("1", "White"), ("2", "Background") })
             {
                 var a = Luminance(colors[text]);

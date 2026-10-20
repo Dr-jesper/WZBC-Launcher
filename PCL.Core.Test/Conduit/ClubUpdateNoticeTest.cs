@@ -18,7 +18,7 @@ public sealed class ClubUpdateNoticeTest
               <h1>更新日志</h1>
               <ul>
                 <li><a href="/updates/2026-08-18/"><span>2026.08.18</span> · <strong>SHOU 服务器更新公告</strong></a></li>
-                <li><a href="https://conduit-club.github.io/updates/2026-09-28/"><span>2026.09.28</span> · 生存服务器新增插件</a></li>
+                <li><a href="https://wzbcmc.cn/updates/2026-09-28/"><span>2026.09.28</span> · 生存服务器新增插件</a></li>
                 <li><a href="/updates/2026-09-28/">2026.09.28 · 同日的装饰性改写</a></li>
                 <li><a href="/updates/2026-07-12/">2026.07.12 · 更早记录</a></li>
                 <li><a href="/updates/2026-10-03/">2026.10.03 · 尚未发布</a></li>
@@ -33,7 +33,7 @@ public sealed class ClubUpdateNoticeTest
         Assert.AreEqual("生存服务器新增插件", notices[0].Title);
         Assert.AreEqual(new DateOnly(2026, 8, 18), notices[1].Date);
         Assert.AreEqual(new DateOnly(2026, 7, 12), notices[2].Date);
-        Assert.AreEqual("https://conduit-club.github.io/updates/2026-09-28/", notices[0].Url.ToString());
+        Assert.AreEqual("https://wzbcmc.cn/updates/2026-09-28/", notices[0].Url.ToString());
     }
 
     [TestMethod]
@@ -45,13 +45,13 @@ public sealed class ClubUpdateNoticeTest
     }
 
     [TestMethod]
-    [DataRow("https://conduit-club.github.io/updates/2026-09-28/", true)]
+    [DataRow("https://wzbcmc.cn/updates/2026-09-28/", true)]
     [DataRow("/updates/2026-09-28/", true)]
-    [DataRow("https://conduit-club.github.io:444/updates/2026-09-28/", false)]
-    [DataRow("http://conduit-club.github.io/updates/2026-09-28/", false)]
-    [DataRow("https://conduit-club.github.io.attacker.test/updates/2026-09-28/", false)]
+    [DataRow("https://wzbcmc.cn:444/updates/2026-09-28/", false)]
+    [DataRow("http://wzbcmc.cn/updates/2026-09-28/", false)]
+    [DataRow("https://wzbcmc.cn.attacker.test/updates/2026-09-28/", false)]
     [DataRow("https://attacker.test/updates/2026-09-28/", false)]
-    [DataRow("https://conduit-club.github.io/updates/2026-09-28/?next=https://attacker.test/", false)]
+    [DataRow("https://wzbcmc.cn/updates/2026-09-28/?next=https://attacker.test/", false)]
     [DataRow("//attacker.test/updates/2026-09-28/", false)]
     public void ArticleLinksRequireTrustedHttpsOriginAndDatePath(string href, bool expected)
         => Assert.AreEqual(expected, ClubUpdateNoticeParser.TryGetTrustedArticle(href, out _, out _));
@@ -75,7 +75,7 @@ public sealed class ClubUpdateNoticeTest
         var notice = new ClubUpdateNotice(
             new DateOnly(2026, 10, 2),
             "域名、资源与 SMP",
-            new Uri("https://conduit-club.github.io/updates/2026-10-02/"));
+            new Uri("https://wzbcmc.cn/updates/2026-10-02/"));
         const string html = """
             <article>
               <nav>不要把面包屑放进正文</nav>
@@ -106,7 +106,7 @@ public sealed class ClubUpdateNoticeTest
         var notice = new ClubUpdateNotice(
             new DateOnly(2026, 10, 2),
             "标题",
-            new Uri("https://conduit-club.github.io/updates/2026-10-02/"));
+            new Uri("https://wzbcmc.cn/updates/2026-10-02/"));
 
         Assert.IsNull(ClubUpdateNoticeParser.ParseArticle("<main><p>不是文章正文</p></main>", notice));
     }

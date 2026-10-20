@@ -21,12 +21,13 @@
             <local:MyCard Margin="0,15,0,15" Title="{DynamicResource Conduit.Brand.AboutTitle}">
                 <StackPanel Margin="24,42,24,22">
                     <TextBlock Text="{DynamicResource Conduit.Brand.AboutDescription}" FontSize="22" FontWeight="SemiBold" TextWrapping="Wrap" />
-                    <TextBlock Text="Conduit Club · 上海海洋大学 Minecraft 社团" Margin="0,10,0,6" TextWrapping="Wrap" />
-                    <TextBlock Text="基于 PCL-CE 独立开发的第三方社团启动器。开发：Moeary 与 Codex。" TextWrapping="Wrap" />
+                    <TextBlock Text="WZBC MC · 温州商学院 Minecraft 社团" Margin="0,10,0,6" TextWrapping="Wrap" />
+                    <TextBlock Text="基于 SHOU-PCL / PCL-CE 的独立第三方社团启动器。WZBC 品牌与校园素材来自社团官网；SHOU-PCL 原社团版开发：Moeary / Codex。" TextWrapping="Wrap" />
                     <TextBlock x:Name="ClubReleaseIdentity" Margin="0,8,0,0" Opacity="0.72" TextWrapping="Wrap" />
                     <WrapPanel Margin="0,16,0,0">
-                        <local:MyButton Text="社团主页" Height="35" Padding="14,0" Margin="0,0,12,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://conduit-club.github.io/" />
-                        <local:MyButton Text="社团启动器源码" Height="35" Padding="14,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://github.com/Conduit-Club/SHOU-PCL" />
+                        <local:MyButton Text="社团主页" Height="35" Padding="14,0" Margin="0,0,12,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://wzbcmc.cn/" />
+                        <local:MyButton Text="WZBC 源码" Height="35" Padding="14,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://github.com/Dr-jesper/WZBC-Launcher" />
+                        <local:MyButton Text="SHOU-PCL 上游源码" Height="35" Padding="14,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://github.com/Conduit-Club/SHOU-PCL" />
                     </WrapPanel>
                 </StackPanel>
             </local:MyCard>
@@ -68,7 +69,7 @@
                         x:Name="ImgPCLLogo"
                         Grid.Row="2"
                         Margin="3" MouseLeftButtonDown="ImgPCLLogo_Click"
-                        Source="/Plain Craft Launcher 2;component/Images/Conduit/club-logo.png">
+                        Source="/Plain Craft Launcher 2;component/Images/Wzbc/club-logo.png">
                         <Image.Clip>
                             <EllipseGeometry
                                 Center="17 17"
@@ -115,13 +116,13 @@
                         Text="{DynamicResource Setup.About.SourceCode}" />
                 </Grid>
             </local:MyCard>
-            <local:MyCard Margin="0,0,0,15" Title="特别鸣谢 · 社团指导老师-ZRY">
+            <local:MyCard Margin="0,0,0,15" Title="SHOU-PCL 上游鸣谢 · 社团指导老师-ZRY">
                 <StackPanel Margin="24,42,24,20">
                     <TextBlock Text="为 Minecraft 潮涌核心社团的创立提供了大力支持。" TextWrapping="Wrap" />
                     <local:MyButton Text="了解指导老师" HorizontalAlignment="Left" Height="35" Padding="14,0" Margin="0,14,0,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://xxxy.shou.edu.cn/_t2275/2023/0706/c17034a320081/page.psp" />
                 </StackPanel>
             </local:MyCard>
-            <local:MyCard Margin="0,0,0,15" Title="特别贡献 · 空间博士-ZST">
+            <local:MyCard Margin="0,0,0,15" Title="SHOU-PCL 上游鸣谢 · 空间博士-ZST">
                 <StackPanel Margin="24,42,24,20">
                     <TextBlock Text="为潮涌核心社在虚拟现实和 Unity 技术的发展开发上做出了不可磨灭的贡献。" TextWrapping="Wrap" />
                     <local:MyButton Text="了解空间博士" HorizontalAlignment="Left" Height="35" Padding="14,0" Margin="0,14,0,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://xxxy.shou.edu.cn/_t2275/2023/0707/c17036a353973/page.psp" />
@@ -315,7 +316,7 @@
                     </Image>
                 </Grid>
             </local:MyCard>
-            <local:MyCard Margin="0,0,0,15" Title="社团版贡献者">
+            <local:MyCard Margin="0,0,0,15" Title="SHOU-PCL 上游社团版贡献者">
                 <StackPanel Margin="24,42,24,20">
                     <local:MyListItem Title="Moeary" Info="项目开发与社团维护" SvgIcon="lucide/user" IsHitTestVisible="False" />
                     <local:MyListItem Title="Codex" Info="开发协作与测试" SvgIcon="lucide/code" IsHitTestVisible="False" />

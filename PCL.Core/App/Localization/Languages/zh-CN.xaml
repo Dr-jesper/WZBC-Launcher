@@ -12,10 +12,10 @@
 
     <!-- Conduit brand -->
 
-    <sys:String x:Key="Conduit.Brand.Name">潮涌核心社</sys:String>
-    <sys:String x:Key="Conduit.Brand.LauncherTitle">潮涌核心社启动器</sys:String>
-    <sys:String x:Key="Conduit.Brand.AboutTitle">关于潮涌核心社</sys:String>
-    <sys:String x:Key="Conduit.Brand.AboutDescription">Plain Craft Launcher 潮涌核心社版</sys:String>
+    <sys:String x:Key="Conduit.Brand.Name">WZBC MC</sys:String>
+    <sys:String x:Key="Conduit.Brand.LauncherTitle">WZBC-Launcher</sys:String>
+    <sys:String x:Key="Conduit.Brand.AboutTitle">关于 WZBC MC</sys:String>
+    <sys:String x:Key="Conduit.Brand.AboutDescription">WZBC-Launcher · 温州商学院 Minecraft 社团</sys:String>
 
     <!-- Application -->
 
@@ -1903,7 +1903,7 @@
     <sys:String x:Key="Main.Eula.Message">在使用 PCL CE 前，请同意 PCL 的用户协议与免责声明。</sys:String>
     <sys:String x:Key="Main.Eula.Title">协议授权</sys:String>
     <sys:String x:Key="Main.Eula.View">查看用户协议与免责声明</sys:String>
-    <sys:String x:Key="Main.Exit.HasDownloadingTask">潮涌核心社启动器仍有下载任务尚未完成，是否确定退出？</sys:String>
+    <sys:String x:Key="Main.Exit.HasDownloadingTask">WZBC-Launcher仍有下载任务尚未完成，是否确定退出？</sys:String>
     <sys:String x:Key="Main.Extra.BackToTop.ToolTip">返回顶部</sys:String>
     <sys:String x:Key="Main.Extra.GameLog.ToolTip">游戏日志</sys:String>
     <sys:String x:Key="Main.Extra.GiveUp.ToolTip">投降</sys:String>
@@ -3098,7 +3098,7 @@
     <sys:String x:Key="Setup.Ui.Basic.LockWindow">锁定启动器大小</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.Opacity">不透明度</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.Opacity2">不透明度</sys:String>
-    <sys:String x:Key="Setup.Ui.Basic.ShowLogo">打开启动器时显示 PCL CE 图标</sys:String>
+    <sys:String x:Key="Setup.Ui.Basic.ShowLogo">打开启动器时显示 WZBC 启动画面</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.ShowTriviaHint">在启动游戏时显示"你知道吗"</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.Title">基础</sys:String>
 

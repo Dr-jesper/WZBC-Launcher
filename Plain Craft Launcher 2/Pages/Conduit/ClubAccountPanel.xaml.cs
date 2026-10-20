@@ -68,6 +68,7 @@ public partial class ClubAccountPanel : UserControl
         _snapshot = snapshot;
         if (_filter == "all" && ModMain.frmLaunchLeft?.IsShowingAllProfiles == true)
             ModMain.frmLoginProfile?.RefreshProfileList();
+        WzbcButton.Content = $"WZBC Skin ({profiles.Count(p => Provider(p) == "wzbc")})";
         MuaButton.Content = $"MUA ({profiles.Count(p => Provider(p) == "mua")})";
         LittleButton.Content = $"LittleSkin ({profiles.Count(p => Provider(p) == "littleskin")})";
         MicrosoftButton.Content = $"微软(正版) ({profiles.Count(p => Provider(p) == "microsoft")})";
@@ -90,11 +91,12 @@ public partial class ClubAccountPanel : UserControl
         AccountSelector.Visibility = allMode ? Visibility.Collapsed : Visibility.Visible;
         AccountSelector.IsEnabled = accountSelectionEnabled;
         RemoveSelectedButton.IsEnabled = accountSelectionEnabled && GetSelectedProfile() is not null;
-        AccountSummary.Text = $"{_filter switch { "mua" => "MUA Union", "littleskin" => "LittleSkin", "microsoft" => "微软正版", "all" => "全部账户", _ => "其他账户" }}（{filtered.Length} 个角色）";
+        AccountSummary.Text = $"{_filter switch { "wzbc" => "WZBC Skin", "mua" => "MUA Union", "littleskin" => "LittleSkin", "microsoft" => "微软正版", "all" => "全部账户", _ => "其他账户" }}（{filtered.Length} 个角色）";
         EmptyHint.Visibility = filtered.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private static string Provider(McProfile p) => p.ProfileType == ProfileType.Microsoft ? "microsoft"
+        : ClubCatalog.IsProvider(p.Server, ClubCatalog.SkinAuth) ? "wzbc"
         : ClubCatalog.IsMuaProvider(p.Server) ? "mua"
         : ClubCatalog.IsProvider(p.Server, ClubCatalog.LittleSkinAuth) ? "littleskin" : "other";
     private void Provider_Click(object sender, RoutedEventArgs e)
@@ -191,11 +193,11 @@ public partial class ClubAccountPanel : UserControl
             });
             return;
         }
-        _editingProvider = provider == "microsoft" ? "微软正版" : provider == "mua" ? "MUA Union" : "LittleSkin";
+        _editingProvider = provider switch { "microsoft" => "微软正版", "wzbc" => "WZBC Skin", "mua" => "MUA Union", _ => "LittleSkin" };
         ProfileService.IsCreatingProfile = true;
         if (provider != "microsoft")
         {
-            PageLoginAuth.draggedAuthServer = provider == "mua" ? ClubCatalog.MuaAuth : ClubCatalog.LittleSkinAuth;
+            PageLoginAuth.draggedAuthServer = provider switch { "wzbc" => ClubCatalog.SkinAuth, "mua" => ClubCatalog.MuaAuth, _ => ClubCatalog.LittleSkinAuth };
             PageLoginAuth.draggedAuthServerOAuthSupported = null;
         }
         ModMain.frmLaunchLeft.RefreshPage(false, provider == "microsoft" ? ModLaunch.McLoginType.Ms : ModLaunch.McLoginType.Auth);

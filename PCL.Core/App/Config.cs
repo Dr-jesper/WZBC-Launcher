@@ -273,6 +273,7 @@ public static partial class Config
         [ConfigGroup("Theme")] partial class ThemeConfigGroup
         {
             [ConfigItem<bool>("ConduitDianaDefaultApplied", false, ConfigSource.Local)] public partial bool ClubDianaDefaultApplied { get; set; }
+            [ConfigItem<bool>("WzbcDefaultApplied", false, ConfigSource.Local)] public partial bool WzbcDefaultApplied { get; set; }
             /// <summary>
             /// 配色主题模式。
             /// </summary>
@@ -281,12 +282,12 @@ public static partial class Config
             /// <summary>
             /// 暗色配色主题。
             /// </summary>
-            [ConfigItem<ColorTheme>("UiDarkColor", ColorTheme.Diana)] public partial ColorTheme DarkColor { get; set; }
+            [ConfigItem<ColorTheme>("UiDarkColor", ColorTheme.Wzbc)] public partial ColorTheme DarkColor { get; set; }
 
             /// <summary>
             /// 亮色配色主题。
             /// </summary>
-            [ConfigItem<ColorTheme>("UiLightColor", ColorTheme.Diana)] public partial ColorTheme LightColor { get; set; }
+            [ConfigItem<ColorTheme>("UiLightColor", ColorTheme.Wzbc)] public partial ColorTheme LightColor { get; set; }
 
             /// <summary>
             /// 窗口透明度。

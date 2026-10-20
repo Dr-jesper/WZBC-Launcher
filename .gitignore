@@ -354,3 +354,7 @@ MaskFiles/
 .env
 .env.*
 !.env.example
+
+# Local source references; optimized application assets live under Images/Wzbc.
+/微信图片_*.png
+/微信图片_*.jpg

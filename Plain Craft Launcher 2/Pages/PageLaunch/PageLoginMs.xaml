@@ -25,7 +25,7 @@
         <local:MyButton Text="{DynamicResource Launch.Account.Microsoft.Start}" x:Name="BtnLogin" ColorType="Highlight"
                         Height="28" Width="100" Margin="0,0,0,0" Grid.Row="2" Grid.Column="0" />
         <TextBlock x:Name="MicrosoftUnavailable" Grid.Row="3" Grid.ColumnSpan="2"
-                   Text="社团 Microsoft 登录尚未开通，API 申请与配置仍在处理中，请先使用 LittleSkin 或 MUA。"
+                   Text="本构建未配置 Microsoft Client ID，请联系维护者；也可选择第三方账户登录。"
                    TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center"
                    Margin="12,8,12,0" Opacity="0.75" />
         <Grid Grid.Row="4" Grid.ColumnSpan="2" Opacity="0.3" Margin="2,30,2,0" HorizontalAlignment="Center">

@@ -15,7 +15,8 @@ public static class UpdateManager
         ? UpdateEnums.VersionStatus.Unknown
         : latest.IsNewerThan(ClubRelease.CurrentTag) ? UpdateEnums.VersionStatus.NotLatest : UpdateEnums.VersionStatus.Latest;
     public static void UpdateStart(UpdateEnums.UpdateType type, string receivedKey = null, bool forceValidated = false)
-        => ModBase.OpenWebsite(ClubUpdates.Latest?.PageUrl ?? ClubCatalog.Repository + "/releases");
+        => ModBase.OpenWebsite(ClubUpdates.Latest?.PageUrl ?? (string.IsNullOrWhiteSpace(ClubCatalog.ReleaseRepository)
+            ? ClubCatalog.Website : ClubCatalog.ReleaseRepository + "/releases"));
     public static void UpdateRestart(bool triggerRestartAndByEnd, bool triggerRestart = true) { }
     public static void ShowCEAnnounce() { }
     internal static void DownloadLatestPCL(ModLoader.LoaderBase loaderToSyncProgress = null)

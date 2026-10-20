@@ -26,7 +26,7 @@ public partial class ClubLaunchPanel : UserControl
     {
         public string Id => server.Id;
         public string Name => server.Name;
-        public string Detail => server.Id == "none" ? "不自动连接服务器" : server.Address + " · " + (server.Id == "smp" ? "1.21.1" : "1.21.11");
+        public string Detail => server.Id == "none" ? "不自动连接服务器" : server.Address + " · 版本与准入请见入服指南";
         public bool Selected
         {
             get => selected;
@@ -72,11 +72,16 @@ public partial class ClubLaunchPanel : UserControl
         foreach (var choice in _serverChoices) choice.Selected = choice.Id == server.Id;
         Config.System.ClubServer = server.Id;
         UpdateDestination(server);
+        ClubOnlineCount.Text = server.Id == "none" ? "—" : "未知";
+        ClubOnlineBadge.ToolTip = server.Id == "none"
+            ? "选择服务器后显示该入口的在线数据；两条模组服线路不重复计数。"
+            : "正在读取所选入口；服务器状态不代表账户拥有准入资格。";
+        StartStatusRefresh();
     }
 
     private void UpdateDestination(ClubServer server) => DestinationHint.Text = server.Id == "none"
         ? "当前选择：只启动游戏，不自动入服。"
-        : $"启动后前往 {server.Name}，实际版本 {(server.Id == "smp" ? "1.21.1" : "1.21.11")}。";
+        : $"启动后前往 {server.Name}。请使用对应实例；版本与准入请向管理员确认。";
 
     private void StartStatusRefresh()
     {
@@ -103,14 +108,19 @@ public partial class ClubLaunchPanel : UserControl
         _statusRefreshRunning = true;
         try
         {
-            // The public proxy reports the same upstream population for every forced-host
-            // entry, so querying all three cards would count the same players repeatedly.
-            var server = ClubCatalog.FindServer("smp");
+            // The two modded routes share a population; never add their counts together.
+            var server = ClubCatalog.FindServer(Config.System.ClubServer);
+            if (string.IsNullOrEmpty(server.Address))
+            {
+                ClubOnlineCount.Text = "—";
+                ClubOnlineBadge.ToolTip = "选择服务器后显示该入口的在线数据；两条模组服线路不重复计数。";
+                return;
+            }
             var status = await Task.Run(
                 () => _statusProbe.QueryAsync(server, cancellationToken), cancellationToken);
             if (!_ready || generation != _statusGeneration || cancellationToken.IsCancellationRequested)
                 return;
-            UpdateClubStatus(status);
+            if (Config.System.ClubServer == server.Id) UpdateClubStatus(status);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -138,7 +148,7 @@ public partial class ClubLaunchPanel : UserControl
         if (!status.IsKnown)
         {
             ClubOnlineCount.Text = "未知";
-            ClubOnlineBadge.ToolTip = "社团代理入口未响应，在线人数未知。";
+            ClubOnlineBadge.ToolTip = "所选服务器入口未响应，在线人数未知。";
             return;
         }
 
@@ -146,7 +156,7 @@ public partial class ClubLaunchPanel : UserControl
         var sampleText = status.SampleNames.Count == 0
             ? "服务器未提供玩家名单。"
             : "服务器提供的玩家名单（可能不完整）：\n" + string.Join("、", status.SampleNames);
-        ClubOnlineBadge.ToolTip = $"按社团代理入口返回的人数：{status.OnlinePlayers}/{status.MaxPlayers}\n{sampleText}";
+        ClubOnlineBadge.ToolTip = $"按所选服务器入口返回的人数：{status.OnlinePlayers}/{status.MaxPlayers}\n{sampleText}";
     }
 
     private void ShowHistory_Click(object sender, MouseButtonEventArgs e)

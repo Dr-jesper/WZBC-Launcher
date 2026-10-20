@@ -20,7 +20,8 @@
   </Style>
 </UserControl.Resources>
  <StackPanel>
-  <UniformGrid Columns="3" Margin="0,0,0,6">
+  <UniformGrid Columns="2" Margin="0,0,0,6">
+   <Button x:Name="WzbcButton" Content="WZBC Skin (0)" Tag="wzbc" Click="Provider_Click" Style="{StaticResource ClubActionButton}" Height="34" Margin="0,0,3,3" FontSize="10" />
    <Button x:Name="MicrosoftButton" Content="微软(正版) (0)" Tag="microsoft" Click="Provider_Click" Style="{StaticResource ClubActionButton}" Height="34" Margin="0,0,3,0" FontSize="10" />
    <Button x:Name="LittleButton" Content="LittleSkin (0)" Tag="littleskin" Click="Provider_Click" Style="{StaticResource ClubActionButton}" Height="34" Margin="0,0,3,0" FontSize="10" />
    <Button x:Name="MuaButton" Content="MUA (0)" Tag="mua" Click="Provider_Click" Style="{StaticResource ClubActionButton}" Height="34" FontSize="10" />

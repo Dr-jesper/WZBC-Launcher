@@ -7,7 +7,7 @@ namespace PCL.Core.Conduit;
 
 public sealed record ClubRelease(string Tag, string Title, string Notes, string PageUrl)
 {
-    public const string CurrentVersion = "1.2.0";
+    public const string CurrentVersion = "1.2.0-wzbc.1";
     public const string CurrentCodename = "zyf";
     public const string CurrentTag = "v" + CurrentVersion;
 
@@ -18,8 +18,14 @@ public sealed record ClubRelease(string Tag, string Title, string Notes, string 
         return CompareReleaseVersions(candidate!, candidateSeries, current!, currentSeries) > 0;
     }
 
-    public static ClubRelease? ParseLatest(string json)
+    public static ClubRelease? ParseLatest(string json, string? repository = null, string? legacyRepository = null)
     {
+        repository ??= ClubCatalog.ReleaseRepository;
+        if (!IsReleaseRepository(repository))
+            return null;
+        // A legacy origin is accepted only when explicitly configured. WZBC never
+        // falls back to SHOU-PCL's releases simply because it is the source project.
+        var allowLegacy = IsReleaseRepository(legacyRepository);
         using var document = JsonDocument.Parse(json);
         ClubRelease? latest = null;
         foreach (var release in document.RootElement.EnumerateArray()
@@ -29,13 +35,19 @@ public sealed record ClubRelease(string Tag, string Title, string Notes, string 
             var tag = release.GetProperty("tag_name").GetString() ?? "";
             var url = release.GetProperty("html_url").GetString() ?? "";
             if (!TryParseTag(tag, out _, out _)
-                || !(url.StartsWith(ClubCatalog.Repository + "/releases/tag/", StringComparison.Ordinal)
-                     || url.StartsWith(ClubCatalog.LegacyRepository + "/releases/tag/", StringComparison.Ordinal))) continue;
+                || !(url.StartsWith(repository.TrimEnd('/') + "/releases/tag/", StringComparison.Ordinal)
+                     || (allowLegacy && url.StartsWith(legacyRepository!.TrimEnd('/') + "/releases/tag/", StringComparison.Ordinal)))) continue;
             var candidate = new ClubRelease(tag, release.GetProperty("name").GetString() ?? tag, release.GetProperty("body").GetString() ?? "", url);
             if (latest is null || candidate.IsNewerThan(latest.Tag)) latest = candidate;
         }
         return latest;
     }
+
+    private static bool IsReleaseRepository(string? repository)
+        => Uri.TryCreate(repository, UriKind.Absolute, out var source)
+           && source.Scheme == "https" && source.Host == "github.com" && source.IsDefaultPort
+           && source.UserInfo.Length == 0 && source.Query.Length == 0 && source.Fragment.Length == 0
+           && source.AbsolutePath.Trim('/').Split('/') is [ { Length: > 0 }, { Length: > 0 } ];
 
     private static bool TryParseTag(string tag, out SemVer? version, out TagSeries series)
     {

@@ -13,15 +13,19 @@ namespace PCL;
 public partial class PageSetupUI
 {
     private ColorTheme[] AvailableThemes => Basics.IsAprilFool
-        ? [ColorTheme.SkyBlue, ColorTheme.CatBlue, ColorTheme.DeathBlue, ColorTheme.HmclBlue, ColorTheme.Diana]
-        : [ColorTheme.SkyBlue, ColorTheme.CatBlue, ColorTheme.DeathBlue, ColorTheme.Diana];
+        ? [ColorTheme.SkyBlue, ColorTheme.CatBlue, ColorTheme.DeathBlue, ColorTheme.HmclBlue, ColorTheme.Diana, ColorTheme.Wzbc, ColorTheme.Naiwa, ColorTheme.NaiwaYellow]
+        : [ColorTheme.SkyBlue, ColorTheme.CatBlue, ColorTheme.DeathBlue, ColorTheme.Diana, ColorTheme.Wzbc, ColorTheme.Naiwa, ColorTheme.NaiwaYellow];
     public string[] ThemeColors => AvailableThemes.Select(theme => theme switch
     {
         ColorTheme.SkyBlue => Lang.Text("Setup.Ui.Theme.Color.SkyBlue"),
         ColorTheme.CatBlue => Lang.Text("Setup.Ui.Theme.Color.CatBlue"),
         ColorTheme.DeathBlue => Lang.Text("Setup.Ui.Theme.Color.CrashBlue"),
         ColorTheme.HmclBlue => Lang.Text("Setup.Ui.Theme.Color.Hmcl"),
-        _ => "嘉然配色"
+        ColorTheme.Diana => "嘉然配色",
+        ColorTheme.Wzbc => "WZBC · 社团紫",
+        ColorTheme.Naiwa => "奶蛙配色",
+        ColorTheme.NaiwaYellow => "奶蛙黄",
+        _ => theme.ToString()
     }).ToArray();
 
     public new bool isLoaded;

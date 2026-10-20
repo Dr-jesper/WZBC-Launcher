@@ -37,7 +37,7 @@ public partial class PageSetupAbout
         ItemAboutPcl.Info = ItemAboutPcl.Info.Replace("%VERSION%", ModBase.versionBaseName)
             .Replace("%VERSIONCODE%", ModBase.versionCode.ToString()).Replace("%BRANCH%", ModBase.versionBranchName)
             .Replace("%COMMIT_HASH%", ModBase.commitHashShort);
-        ClubReleaseIdentity.Text = $"发行版本 v{ClubRelease.CurrentVersion} · 代号 {ClubRelease.CurrentCodename}";
+        ClubReleaseIdentity.Text = $"WZBC 预览版 {ClubRelease.CurrentTag} · SHOU-PCL 基线 v1.2.0";
 
         if (!Lang.IsChineseMainland)
         {

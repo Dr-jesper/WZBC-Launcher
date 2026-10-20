@@ -1,6 +1,6 @@
 # 如何为项目做贡献
 
-SHOU-PCL 自 2026-10-20 起独立维护。新功能从本社团仓库的 `dev` 分支创建，并将 PR 提交至本仓库的 `dev`；`dev → main` 用于稳定分支整合。下方上游 Wiki 和原贡献规范仅保留作历史与技术参考，不要求向原上游提交。历史重建说明见 [HISTORY.md](docs/conduit/HISTORY.md)。
+本仓库为 WZBC-Launcher，基于 SHOU-PCL main。请向 [WZBC 仓库](https://github.com/Dr-jesper/WZBC-Launcher)的 `main` 提交功能分支和问题报告。下方原贡献规范仅作为历史与技术参考；SHOU-PCL 历史重建说明见 [HISTORY.md](docs/conduit/HISTORY.md)。提交前请阅读 `AGENTS.md`，完成相关构建与测试，不上传账户配置、凭据、日志、原始参考图或构建目录。
 
 Wiki 页面:
 [开发指南](https://github.com/PCL-Community/PCL2-CE/wiki/开发指南)

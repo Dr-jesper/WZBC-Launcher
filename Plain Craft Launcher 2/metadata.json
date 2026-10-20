@@ -1,9 +1,9 @@
 {
-  "name": "Plain Craft Launcher 潮涌核心社版",
+  "name": "WZBC-Launcher",
   "version": {
     "base": "1.2.0",
     "upstream": "2.12.1",
-    "suffix": "",
+    "suffix": "wzbc.1",
     "code": 526
   },
   "licenses": [

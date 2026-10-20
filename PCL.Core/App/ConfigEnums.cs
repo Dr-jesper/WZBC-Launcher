@@ -38,7 +38,10 @@ public enum ColorTheme
     CatBlue = 1,
     DeathBlue = 2,
     HmclBlue = 3,
-    Diana = 4
+    Diana = 4,
+    Wzbc = 5,
+    Naiwa = 6,
+    NaiwaYellow = 7
 }
 
 /// <summary>

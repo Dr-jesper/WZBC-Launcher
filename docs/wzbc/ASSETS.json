@@ -1,0 +1,70 @@
+{
+  "date": "2026-10-20",
+  "source_project": "WZBC 社团官网",
+  "operation": "比例保留缩放与 JPEG 格式转换，原图只读",
+  "selected": [
+    {
+      "source": "复建/2025-06-11_12.39.29.png",
+      "source_sha256": "b5eeac2cbc6006c31b6d6cf52466ce1333e54af3f617123d54de28f66178bf8b",
+      "original_size": [
+        2560,
+        1369
+      ],
+      "output": "campus-wide.jpg",
+      "output_sha256": "0f96c7207ddf5bd648d5b16487626446c1a8094f64971e312daa6a56fe06efde",
+      "output_size": [
+        1920,
+        1027
+      ],
+      "description": "校园复建全景"
+    },
+    {
+      "source": "复建/2025-03-17_00.17.54.png",
+      "source_sha256": "4b2ea1f295139f1ed20c772940e0bfac0f71f955189792cfbf0ca7ce11d4bdf1",
+      "original_size": [
+        2560,
+        1369
+      ],
+      "output": "campus-walk.jpg",
+      "output_sha256": "dc0e08f5b62d4cf6d3717257fbff1583373194121af5d5f4e52a4d04fc39a3f9",
+      "output_size": [
+        1920,
+        1027
+      ],
+      "description": "校园步道"
+    },
+    {
+      "source": "复建/2025-01-08_21.32.13.png",
+      "source_sha256": "c91166ceba9c80a32cf21c247e9f196c94d948740c4048e4a04a06a7ed40e057",
+      "original_size": [
+        2560,
+        1369
+      ],
+      "output": "campus-court.jpg",
+      "output_sha256": "94e4629a1319a6e5ff1be97f7476923a68d649f718335a05978d35c115984c05",
+      "output_size": [
+        1920,
+        1027
+      ],
+      "description": "校园运动场"
+    },
+    {
+      "source": "复建/2025-09-27_20.23.25.png",
+      "source_sha256": "b5a32e41f7beda309d9f4fc2cd28ef3430fe5d86483110a70959de0640a0905b",
+      "original_size": [
+        2560,
+        1369
+      ],
+      "output": "campus-water.jpg",
+      "output_sha256": "15d9e2f4caaaacc1c2830dfc4ff5a2b58c5cbcfc4f19f88c1a5315e0e5c7029a",
+      "output_size": [
+        1920,
+        1027
+      ],
+      "description": "水景与树影"
+    }
+  ],
+  "excluded": [
+    "复建/2025-09-24_23.12.24.png：官网既有清单标注为其他项目，不用于社团校园展示"
+  ]
+}

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using PCL.Core.Minecraft.Profile.Models;
+using PCL.Core.App;
 
 namespace PCL.Core.Conduit;
 
@@ -12,14 +13,14 @@ public sealed record ClubServer(string Id, string Name, string Address)
 /// <summary>社团公开文档中的入口；不包含账户凭据。</summary>
 public static class ClubCatalog
 {
-    public const string BrandName = "潮涌核心社";
-    public const string BrandNameEnglish = "Conduit Club";
-    public const string LauncherName = "潮涌核心社启动器";
-    public const string LauncherNameEnglish = "Conduit Club Launcher";
+    public const string BrandName = "WZBC MC";
+    public const string BrandNameEnglish = "WZBC Minecraft Club";
+    public const string LauncherName = "WZBC-Launcher";
+    public const string LauncherNameEnglish = "WZBC-Launcher";
     public const string GameTypeInfo = BrandName;
     public const string LegacyGameTypeInfo = "PCLCE";
 
-    public const string Website = "https://conduit-club.github.io/";
+    public const string Website = "https://wzbcmc.cn/";
     public const string Repository = "https://github.com/Conduit-Club/SHOU-PCL";
     public const string LegacyRepository = "https://github.com/Conduit-Club/PCL-CE-SHOU";
     // MUA Union is a server-side aggregation API. Players authenticate against
@@ -28,15 +29,20 @@ public static class ClubCatalog
     public const string MuaAuth = "https://skin.mualliance.ltd/api/yggdrasil";
     public const string MuaUnionAuth = "https://skin.mualliance.ltd/api/union/yggdrasil";
     public const string LittleSkinAuth = "https://littleskin.cn/api/yggdrasil";
-    // The public client ID is configured and the club application has passed
-    // Microsoft's review. Actual account login still needs to be verified.
-    public const bool MicrosoftApiReady = true;
+    // A downstream build must supply its own public application identifier.
+    public static bool MicrosoftApiReady => !string.IsNullOrWhiteSpace(Config.System.ClubMicrosoftClientId)
+        || !string.IsNullOrWhiteSpace(Secrets.MSOAuthClientId);
+    // WZBC releases are independent from the source club's release stream.
+    public static string ReleaseRepository => "https://github.com/Dr-jesper/WZBC-Launcher";
+    public static bool UpdateNoticesReady => false;
+    public const string SkinWebsite = "https://skin.wzbcmc.cn/";
+    public const string SkinAuth = SkinWebsite + "api/yggdrasil";
     public static IReadOnlyList<ClubServer> Servers { get; } = Array.AsReadOnly(new[]
     {
         new ClubServer("none", "只启动游戏", ""),
-        new ClubServer("smp", "SMP · 多人生存", "smp.shoumc.com"),
-        new ClubServer("create", "Create · 创造建筑", "create.shoumc.com"),
-        new ClubServer("shou", "SHOU · 校园展示", "shou.shoumc.com")
+        new ClubServer("modded", "模组服 · 线路一", "mc.wzbcmc.cn"),
+        new ClubServer("modded-alt", "模组服 · 线路二", "mc-2.wzbcmc.cn"),
+        new ClubServer("build", "校园复建服", "build.wzbcmc.cn")
     });
 
     public static ClubServer FindServer(string? id)
@@ -60,7 +66,7 @@ public static class ClubCatalog
 
     public static bool CanJoin(McProfile profile) => profile.ProfileType == ProfileType.Microsoft
         || (profile.ProfileType is ProfileType.Authlib or ProfileType.YggdrasilConnect
-            && (IsMuaProvider(profile.Server) || IsProvider(profile.Server, LittleSkinAuth)));
+            && (IsMuaProvider(profile.Server) || IsProvider(profile.Server, LittleSkinAuth) || IsProvider(profile.Server, SkinAuth)));
 
     /// <summary>
     /// Recognizes both the current member-site login API and the legacy Union
@@ -82,6 +88,7 @@ public static class ClubCatalog
     {
         ProfileType.Microsoft => "微软正版",
         ProfileType.Offline => "离线账户 · 无法进入社团服务器",
+        _ when IsProvider(profile.Server, SkinAuth) => "WZBC Skin",
         _ when IsMuaProvider(profile.Server) => "MUA Union",
         _ when IsProvider(profile.Server, LittleSkinAuth) => "LittleSkin",
         _ => "第三方 · " + (profile.ServerName ?? profile.Server ?? "自定义认证")

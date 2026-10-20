@@ -24,8 +24,8 @@ public sealed record ClubUpdateArticle(ClubUpdateNotice Notice, string Body);
 /// </summary>
 public static class ClubUpdateNoticeParser
 {
-    public const string IndexUrl = "https://conduit-club.github.io/updates/";
-    public const string TrustedHost = "conduit-club.github.io";
+    public const string IndexUrl = "https://wzbcmc.cn/updates/";
+    public const string TrustedHost = "wzbcmc.cn";
     private const int MaxTitleLength = 200;
     private const int MaxBodyLength = 120_000;
     private static readonly TimeSpan RegexMatchTimeout = TimeSpan.FromMilliseconds(250);

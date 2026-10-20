@@ -1,43 +1,30 @@
-**简体中文** | [English（上游原版说明）](README-EN.md) | [繁體中文（上游原版說明）](README-ZH_TW.md)
-
 <div align="center">
 
-<img src="Plain%20Craft%20Launcher%202/Images/Conduit/club-logo.png" alt="潮涌核心社标志" width="96" height="96">
+<img src="Plain%20Craft%20Launcher%202/Images/Wzbc/club-logo.png" alt="WZBC Minecraft 社团标志" width="96" height="96">
 
-# 潮涌核心社启动器
+# WZBC-Launcher
 
-由 Conduit-Club 独立维护，为潮涌核心社定制的 Minecraft 启动器。
+温州商学院 Minecraft 社团启动器 · 从校园到方块
 
-[下载最新版](https://github.com/Conduit-Club/SHOU-PCL/releases/latest) · [社团主页](https://conduit-club.github.io/) · [问题反馈](https://github.com/Conduit-Club/SHOU-PCL/issues)
+[下载预览版](https://github.com/Dr-jesper/WZBC-Launcher/releases) · [社团官网](https://wzbcmc.cn/) · [皮肤站](https://skin.wzbcmc.cn/) · [构建说明](docs/wzbc/BUILD.md)
 
 </div>
 
-## 五湖四海之士，汇于东海之滨
+基于 [SHOU-PCL](https://github.com/Conduit-Club/SHOU-PCL) main 的独立第三方定制版本，保留账号管理、游戏下载与安装、实例管理、模组依赖和启动能力，加入 WZBC Logo、校园复建轮播与社团入口。来源基线为 v1.2.0（zyf），后续仅跟踪 SHOU-PCL；历史来源见[历史说明](docs/conduit/HISTORY.md)。
 
-从校园还原到自由创造，为社团玩家提供统一的游戏入口，让游玩、建设与分享更方便。
+- WZBC Skin、Microsoft、MUA Union、LittleSkin 与自定义账户管理、角色切换。
+- 模组服双线路、校园复建服选择，以及“只启动游戏”。游戏版本与准入请向管理员确认。
+- 官网、皮肤站、校园地图、入服说明与社团 QQ 群 **788564340**。
+- 默认 WZBC 品牌紫，另有“奶蛙配色”和独立“奶蛙黄”，均支持深浅模式；原有主题继续可选，更新时保留主题选择。
 
-## 主要功能
+当前版本为 **v1.2.0-wzbc.1 预览版**，提供 Windows x64 自包含 ZIP。解压后运行 WZBC-Launcher-win-x64.exe，启动器无需另装 .NET；Minecraft 仍需对应 Java。下载后可对照附件 .sha256 校验文件。
 
-- Microsoft、MUA Union、LittleSkin 账户管理与角色切换。
-- 社团首页、实景轮播与嘉然主题。
-- 游戏实例管理、社团入口选择与更新日志提醒。
+**Microsoft Client ID 正在申请，当前包暂不能使用 Microsoft 登录。** WZBC 下载入口已绑定本仓库，官网更新日志源暂未接入。真实登录、游戏下载和 Minecraft 启动/入服仍需验收；已完成的检查见[验证记录](docs/wzbc/VALIDATION.md)，其余事项见[待完成清单](docs/wzbc/PENDING.md)。
 
-## 开始使用
-
-从 [Releases](https://github.com/Conduit-Club/SHOU-PCL/releases/latest) 下载 Windows x64 启动器包，解压后运行，添加账户并选择游戏实例即可开始。运行启动器无需另装 .NET，启动 Minecraft 仍需 Java。
-
-当前候选版本为 [v1.2.0 · zyf](docs/conduit/RELEASE-v1.2.0.md)。`main` 为稳定分支，`dev` 为开发分支；历史迁移与来源见 [历史说明](docs/conduit/HISTORY.md)。版本变化与已知限制见对应发行说明；源码构建请参阅[构建文档](docs/conduit/BUILD.md)。社团 QQ 群：**756155087**。
-
-## 社团实景
-
-| 校园湖畔 | 生存世界 | 创造建筑 |
-| --- | --- | --- |
-| ![校园湖畔](Plain%20Craft%20Launcher%202/Images/Conduit/campus-lake.jpg) | ![生存世界](Plain%20Craft%20Launcher%202/Images/Conduit/spawn-plaza.jpg) | ![创造建筑](Plain%20Craft%20Launcher%202/Images/Conduit/spawn-statues.jpg) |
+开发与资源说明见[构建说明](docs/wzbc/BUILD.md)、[定制说明](docs/wzbc/CUSTOMIZATION.md)和[来源核对](docs/wzbc/SOURCE-PARITY.md)。源码仓库收录运行所需的优化素材，体验包通过 Releases 提供。
 
 ## 许可与致谢
 
-本项目历史上基于 [PCL-Community/PCL-CE](https://github.com/PCL-Community/PCL-CE) 开发，现由 Conduit-Club 独立维护，不是 PCL、PCL-CE、Mojang 或 Microsoft 的官方发行物。
+本项目不是 PCL、PCL-CE、SHOU-PCL、Mojang 或 Microsoft 的官方发行物。感谢 SHOU-PCL / Conduit-Club（原社团版开发 Moeary / Codex）、[PCL Community](https://github.com/PCL-Community/PCL-CE) 与 PCL 原作者[龙腾猫跃](https://github.com/Meloong-Git/PCL)（[赞助入口](https://ifdian.net/a/LTCat)）。关于页保留原作者、上游社团贡献者与鸣谢。
 
-感谢 PCL 原作者[龙腾猫跃](https://github.com/Meloong-Git/PCL)（[赞助入口](https://ifdian.net/a/LTCat)）与 PCL Community。项目保留原作者署名和第三方声明；`Plain Craft Launcher 2/` 遵循 [PCL 分发有限许可](Plain%20Craft%20Launcher%202/LICENCE)，其他目录遵循 [Apache License 2.0](LICENSE)。
-
-社团版开发与维护：**Moeary / Codex**。特别鸣谢[社团指导老师-ZRY](https://xxxy.shou.edu.cn/_t2275/2023/0706/c17034a320081/page.psp)与[空间博士-ZST](https://xxxy.shou.edu.cn/_t2275/2023/0707/c17036a353973/page.psp)。
+Plain Craft Launcher 2/ 遵循 [PCL 分发有限许可](Plain%20Craft%20Launcher%202/LICENCE)，其他目录遵循 [Apache License 2.0](LICENSE)。docs/conduit/ 为原社团历史文档；WZBC 当前状态以 docs/wzbc/ 为准。

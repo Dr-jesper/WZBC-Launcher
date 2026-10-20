@@ -23,10 +23,10 @@
         <Platforms>AnyCPU;x64;ARM64</Platforms>
         <ImplicitUsings>enable</ImplicitUsings>
         <ApplicationManifest>app.manifest</ApplicationManifest>
-        <ApplicationIcon>Images\Conduit\club.ico</ApplicationIcon>
-        <AssemblyTitle>Plain Craft Launcher Community Edition</AssemblyTitle>
+        <ApplicationIcon>Images\Wzbc\club.ico</ApplicationIcon>
+        <AssemblyTitle>WZBC-Launcher</AssemblyTitle>
         <Description>Minecraft 启动器 (作者: 龙腾猫跃; 经社区二次开发版本)</Description>
-        <Product>Plain Craft Launcher Community Edition</Product>
+        <Product>WZBC-Launcher</Product>
         <Copyright>Copyright © 龙腾猫跃 2016. All Rights Reserved.</Copyright>
         <AssemblyVersion>1.2.0.0</AssemblyVersion>
         <FileVersion>1.2.0.0</FileVersion>

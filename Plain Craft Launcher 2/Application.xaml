@@ -30,6 +30,16 @@
             <FontFamily x:Key="LaunchFontFamily">Resources/#PCL English, Microsoft YaHei UI, Segoe UI</FontFamily>
 
             <!-- 颜色表 -->
+            <Color x:Key="ColorObjectHeader">#601986</Color>
+            <Color x:Key="ColorObjectHeaderText">#FFFFFF</Color>
+            <Color x:Key="ColorObjectHeaderSelectedText">#601986</Color>
+            <SolidColorBrush x:Key="ColorBrushHeader">#601986</SolidColorBrush>
+            <SolidColorBrush x:Key="ColorBrushHeaderText">#FFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="ColorBrushHeaderSelected">#FFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="ColorBrushHeaderSelectedText">#601986</SolidColorBrush>
+            <SolidColorBrush x:Key="ColorBrushHeaderHover">#74269B</SolidColorBrush>
+            <Color x:Key="WzbcBrandColor">#601986</Color>
+            <SolidColorBrush x:Key="WzbcBrandBrush">#601986</SolidColorBrush>
             <SolidColorBrush x:Key="ColorBrush1">#343d4a</SolidColorBrush>
             <SolidColorBrush x:Key="ColorBrush2">#0b5bcb</SolidColorBrush>
             <SolidColorBrush x:Key="ColorBrush3">#1370f3</SolidColorBrush>

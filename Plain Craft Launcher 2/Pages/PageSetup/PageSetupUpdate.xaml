@@ -3,12 +3,12 @@
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:PCL" PanScroll="{Binding ElementName=PanBack}">
  <local:MyScrollViewer x:Name="PanBack" VerticalScrollBarVisibility="Auto">
   <StackPanel x:Name="PanMain" Margin="25">
-   <local:MyCard Title="潮涌核心社 · 软件更新">
+   <local:MyCard Title="WZBC-Launcher · 软件更新">
     <StackPanel Margin="24,42,24,24">
      <TextBlock x:Name="CurrentVersion" FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap" />
-     <TextBlock Text="更新来源：Conduit-Club/SHOU-PCL" Margin="0,12,0,5" />
+     <TextBlock Text="WZBC 独立发行源 · GitHub Releases" Margin="0,12,0,5" />
      <TextBlock Text="仅在这里手动检查社团发行版，不自动下载、不后台替换程序。" TextWrapping="Wrap" />
-     <TextBlock x:Name="StatusText" Text="点击检查更新，查看社团最新发行版。" Margin="0,18,0,12" TextWrapping="Wrap" />
+     <TextBlock x:Name="StatusText" Text="点击检查 WZBC 发布的版本和预览版。" Margin="0,18,0,12" TextWrapping="Wrap" />
      <WrapPanel>
       <local:MyButton x:Name="BtnCheckAgain" Text="检查社团更新" Click="Check_Click" Height="35" Padding="14,0" Margin="0,0,12,8" ColorType="Highlight" />
       <local:MyButton x:Name="BtnUpdate" Text="打开下载页面" Click="Download_Click" Height="35" Padding="14,0" Margin="0,0,12,8" />

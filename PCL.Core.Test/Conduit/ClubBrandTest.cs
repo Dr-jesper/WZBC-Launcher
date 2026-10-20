@@ -9,11 +9,21 @@ public sealed class ClubBrandTest
     [TestMethod]
     public void NewGameTypeInfoUsesClubBrand()
     {
-        Assert.AreEqual("潮涌核心社", ClubCatalog.BrandName);
-        Assert.AreEqual("Conduit Club", ClubCatalog.BrandNameEnglish);
+        Assert.AreEqual("WZBC MC", ClubCatalog.BrandName);
+        Assert.AreEqual("WZBC Minecraft Club", ClubCatalog.BrandNameEnglish);
         Assert.AreEqual(ClubCatalog.BrandName, ClubCatalog.GameTypeInfo);
-        Assert.AreEqual("潮涌核心社启动器", ClubCatalog.LauncherName);
-        Assert.AreEqual("Conduit Club Launcher", ClubCatalog.LauncherNameEnglish);
+        Assert.AreEqual("WZBC-Launcher", ClubCatalog.LauncherName);
+        Assert.AreEqual("WZBC-Launcher", ClubCatalog.LauncherNameEnglish);
+    }
+
+    [TestMethod]
+    public void WzbcUsesItsOwnReleaseRepository()
+    {
+        Assert.AreEqual("https://github.com/Dr-jesper/WZBC-Launcher", ClubCatalog.ReleaseRepository);
+        Assert.IsFalse(ClubCatalog.UpdateNoticesReady);
+        Assert.IsNull(ClubRelease.ParseLatest("[]"));
+        Assert.IsNull(ClubRelease.ParseLatest("[]", "http://github.com/owner/repo"));
+        Assert.IsNull(ClubRelease.ParseLatest("[]", string.Empty));
     }
 
     [TestMethod]

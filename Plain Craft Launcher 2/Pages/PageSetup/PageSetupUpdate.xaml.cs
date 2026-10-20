@@ -8,12 +8,17 @@ public partial class PageSetupUpdate
     public PageSetupUpdate()
     {
         InitializeComponent();
-        CurrentVersion.Text = "Plain Craft Launcher 潮涌核心社版\n" + ClubRelease.CurrentTag;
+        CurrentVersion.Text = "WZBC-Launcher " + ClubRelease.CurrentTag + " · 预览版\nSHOU-PCL 基线 v1.2.0";
     }
     private void Check_Click(object sender, MouseButtonEventArgs e) => CheckUpdate();
     public async void CheckUpdate()
     {
         if (!BtnCheckAgain.IsEnabled) return;
+        if (string.IsNullOrWhiteSpace(ClubCatalog.ReleaseRepository))
+        {
+            StatusText.Text = "WZBC 发行源尚未配置，请向社团获取本地构建包。";
+            return;
+        }
         BtnCheckAgain.IsEnabled = false;
         StatusText.Text = "正在检查社团 GitHub Releases…";
         try
@@ -31,5 +36,5 @@ public partial class PageSetupUpdate
         finally { BtnCheckAgain.IsEnabled = true; }
     }
     private void Download_Click(object sender, MouseButtonEventArgs e)
-        => ModBase.OpenWebsite(ClubUpdates.Latest?.PageUrl ?? ClubCatalog.Repository + "/releases");
+        => ModBase.OpenWebsite(ClubUpdates.Latest?.PageUrl ?? (string.IsNullOrWhiteSpace(ClubCatalog.ReleaseRepository) ? ClubCatalog.Website : ClubCatalog.ReleaseRepository + "/releases"));
 }

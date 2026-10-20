@@ -41,12 +41,12 @@ public static class ClubUpdates
 
     public static IReadOnlyList<ClubUpdateHistoryItem> History => _history;
 
-    private static string HistoryCachePath => Path.Combine(ModBase.pathTemp, "Cache", "ConduitUpdateNotices.json");
+    private static string HistoryCachePath => Path.Combine(ModBase.pathTemp, "Cache", "WzbcUpdateNotices.json");
 
     private static HttpClient CreateClient()
     {
         var client = new HttpClient { Timeout = TimeSpan.FromSeconds(20) };
-        client.DefaultRequestHeaders.UserAgent.ParseAdd("SHOU-PCL/" + ClubRelease.CurrentVersion);
+        client.DefaultRequestHeaders.UserAgent.ParseAdd("WZBC-Launcher/" + ClubRelease.CurrentVersion);
         client.DefaultRequestHeaders.Accept.ParseAdd("application/vnd.github+json");
         return client;
     }
@@ -57,14 +57,16 @@ public static class ClubUpdates
         {
             Timeout = TimeSpan.FromSeconds(8)
         };
-        client.DefaultRequestHeaders.UserAgent.ParseAdd("SHOU-PCL/" + ClubRelease.CurrentVersion);
+        client.DefaultRequestHeaders.UserAgent.ParseAdd("WZBC-Launcher/" + ClubRelease.CurrentVersion);
         client.DefaultRequestHeaders.Accept.ParseAdd("text/html");
         return client;
     }
 
     public static async Task<ClubRelease> CheckAsync()
     {
-        var json = await Client.GetStringAsync("https://api.github.com/repos/Conduit-Club/SHOU-PCL/releases?per_page=30");
+        if (string.IsNullOrWhiteSpace(ClubCatalog.ReleaseRepository)) return Latest = null;
+        var repository = new Uri(ClubCatalog.ReleaseRepository).AbsolutePath.Trim('/');
+        var json = await Client.GetStringAsync($"https://api.github.com/repos/{repository}/releases?per_page=30");
         return Latest = ClubRelease.ParseLatest(json);
     }
 
@@ -73,7 +75,7 @@ public static class ClubUpdates
     /// </summary>
     public static void CheckStartupNotice()
     {
-        if (Interlocked.Exchange(ref _startupNoticeCheckStarted, 1) != 0)
+        if (!ClubCatalog.UpdateNoticesReady || Interlocked.Exchange(ref _startupNoticeCheckStarted, 1) != 0)
             return;
 
         try
@@ -100,6 +102,11 @@ public static class ClubUpdates
     /// <summary>显示已缓存的更新历史，并在窗口打开后异步刷新正文。</summary>
     public static void ShowHistory()
     {
+        if (!ClubCatalog.UpdateNoticesReady)
+        {
+            ModMain.MyMsgBox("WZBC 更新日志源尚未接入。社团动态请查看官网。", "社团更新日志");
+            return;
+        }
         if (ModBase.isProgramEnded)
             return;
 
@@ -263,6 +270,7 @@ public static class ClubUpdates
 
     private static async Task<HistoryRefreshResult> RefreshHistoryAsync()
     {
+        if (!ClubCatalog.UpdateNoticesReady) return new HistoryRefreshResult([], false, null);
         await RefreshLock.WaitAsync().ConfigureAwait(false);
         try
         {

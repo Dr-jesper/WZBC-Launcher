@@ -9,7 +9,7 @@ namespace PCL;
 
 public partial class ClubBackdrop : UserControl
 {
-    private static readonly string[] Pictures = ["campus-lake.jpg", "spawn-plaza.jpg", "spawn-statues.jpg"];
+    private static readonly string[] Pictures = ["campus-wide.jpg", "campus-walk.jpg", "campus-court.jpg", "campus-water.jpg"];
     private readonly DispatcherTimer _carousel = new() { Interval = TimeSpan.FromSeconds(15) };
     private readonly BitmapImage[] _images = new BitmapImage[Pictures.Length];
     private int _index;
@@ -36,7 +36,7 @@ public partial class ClubBackdrop : UserControl
         if (_images[index] is { } cached) return cached;
         var image = new BitmapImage();
         image.BeginInit();
-        image.UriSource = new Uri($"pack://application:,,,/Plain Craft Launcher 2;component/Images/Conduit/{Pictures[index]}");
+        image.UriSource = new Uri($"pack://application:,,,/Plain Craft Launcher 2;component/Images/Wzbc/{Pictures[index]}");
         image.DecodePixelWidth = 1600;
         image.CacheOption = BitmapCacheOption.OnLoad;
         image.EndInit();

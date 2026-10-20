@@ -74,7 +74,7 @@
                         <local:MyCheckBox Text="启动时提示社团更新日志" Margin="-1,0,0,4" Height="22"
                                           x:Name="CheckClubUpdateNotice" Tag="ConduitUpdateNotice"
                                           Change="CheckBoxChange" />
-                        <TextBlock Text="开启后在启动完成时后台检查社团网站；网络失败会静默跳过，已展示过的日期不会重复提示。"
+                        <TextBlock Text="WZBC 更新日志源尚未接入；配置兼容的日志源后，此开关控制启动提醒。社团动态请查看官网。"
                                    TextWrapping="Wrap" Opacity="0.75" Margin="0,0,0,10" />
                         <StackPanel x:Name="PanelBlur" Margin="0,0,0,10">
                             <local:MyCheckBox Text="{DynamicResource Setup.Ui.Basic.AdvancedMaterial}" Height="22" x:Name="CheckBlur" Tag="UiBlur"
@@ -143,7 +143,7 @@
                 <StackPanel Margin="25,40,25,20">
                     <local:MyCheckBox x:Name="CheckClubHomeSlideshow" Text="首页社团实景轮播" Tag="ConduitHomeSlideshow"
                                       Change="CheckBoxChange" Height="24" Margin="-1,0,0,6" />
-                    <TextBlock Text="默认开启：校园湖畔、生存服主城与创造服雕像。每 15 秒淡入切换，背景轻度虚化；关闭后恢复主题背景。"
+                    <TextBlock Text="默认开启：温州商学院校园复建全景、步道、运动场与水景。每 15 秒淡入切换，背景轻度虚化；关闭后恢复主题背景。"
                                TextWrapping="Wrap" Opacity="0.75" Margin="0,0,0,16" />
                     <Grid x:Name="PanBackgroundSuit" Height="28" Margin="0,0,0,10" Visibility="Collapsed">
                         <Grid.ColumnDefinitions>

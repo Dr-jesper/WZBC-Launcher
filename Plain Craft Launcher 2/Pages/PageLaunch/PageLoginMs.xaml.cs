@@ -35,7 +35,7 @@ public partial class PageLoginMs
     {
         if (!ClubCatalog.MicrosoftApiReady)
         {
-            HintService.Hint("社团 Microsoft 登录尚未开通，API 申请与配置仍在处理中，请先使用 LittleSkin 或 MUA。", HintType.Warning);
+            HintService.Hint("本构建未配置 Microsoft Client ID，请联系维护者；也可选择第三方账户登录。", HintType.Warning);
             return;
         }
         if (IsAuthenticating) return;

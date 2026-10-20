@@ -69,7 +69,7 @@ public static class ModLaunch
         else if (currentLaunchOptions.UseClubAccount)
         {
             if (!PCL.Core.Conduit.ClubCatalog.CanJoin(selectedProfile))
-                checkResult = "请选择微软正版、MUA Union 或 LittleSkin 账户进入社团服务器。";
+                checkResult = "请选择微软正版、WZBC Skin、MUA Union 或 LittleSkin 账户；具体准入以服务器规则为准。";
         }
         else if (Config.InstanceAuth.LoginRequirementSolution[ModInstanceList.McMcInstanceSelected?.PathInstance] == 1) // 要求正版验证
         {

@@ -3560,7 +3560,7 @@ public static class ModBase
                                  Lang.Text("Common.Action.OpenFolder"),
                                  Lang.Text("Setup.Feedback.Reminder.NotNeeded")) ==
                              1)) OpenExplorer(exePath + @"PCL\Log\");
-        OpenWebsite(PCL.Core.Conduit.ClubCatalog.Repository + "/issues/");
+        OpenWebsite(PCL.Core.Conduit.ClubCatalog.Website + "join.html#contact");
     }
 
     // 社团反馈不依赖 CE 自动更新检查；离线检查失败也不应阻止反馈。

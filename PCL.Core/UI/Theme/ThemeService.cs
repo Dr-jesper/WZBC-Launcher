@@ -58,14 +58,8 @@ public sealed partial class ThemeService
     [LifecycleStart]
     private static void _Start()
     {
-        // Apply the club default once when upgrading from a CE/early club configuration.
-        // Subsequent user choices are retained.
-        if (!Config.Preference.Theme.ClubDianaDefaultApplied)
-        {
-            Config.Preference.Theme.LightColor = ColorTheme.Diana;
-            Config.Preference.Theme.DarkColor = ColorTheme.Diana;
-            Config.Preference.Theme.ClubDianaDefaultApplied = true;
-        }
+        // Config defaults supply WZBC for new profiles. Shared theme choices must
+        // survive extracting an update into a new folder with fresh local settings.
         IsDarkMode = _IsDarkMode();
         _LogStatus();
         _RefreshAll();
@@ -166,6 +160,9 @@ public sealed partial class ThemeService
             ColorTheme.DeathBlue => (268, -0.05, -0.1),
             ColorTheme.HmclBlue => (275, -0.03, -0.35),
             ColorTheme.Diana => (15, 0, -0.4),
+            ColorTheme.Wzbc => (310, 0, -0.2),
+            ColorTheme.Naiwa => (95, 0, -0.2),
+            ColorTheme.NaiwaYellow => (90, 0, -0.1),
 #if DEBUG
             _ => ((int)theme, 0, 0)
 #else
@@ -253,5 +250,9 @@ public sealed partial class ThemeService
         var colors = _CalculateColors(CurrentTone, GetCurrentThemeArgs());
         foreach (var c in colors) c.Apply();
         if (CurrentTheme == ColorTheme.Diana) DianaPalette.Apply(IsDarkMode);
+        if (CurrentTheme == ColorTheme.Wzbc) WzbcPalette.Apply(IsDarkMode);
+        if (CurrentTheme is ColorTheme.Naiwa or ColorTheme.NaiwaYellow)
+            NaiwaPalette.Apply(IsDarkMode, CurrentTheme == ColorTheme.NaiwaYellow);
+        ClubThemeHeader.Apply(CurrentTheme);
     }
 }

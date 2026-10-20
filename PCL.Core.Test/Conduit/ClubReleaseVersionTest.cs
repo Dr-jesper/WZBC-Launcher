@@ -10,7 +10,7 @@ public sealed class ClubReleaseVersionTest
     [TestMethod]
     public void CurrentFormalReleaseStartsAboveLegacyClubBaseline()
     {
-        Assert.AreEqual("v1.2.0", ClubRelease.CurrentTag);
+        Assert.AreEqual("v1.2.0-wzbc.1", ClubRelease.CurrentTag);
         Assert.AreEqual("zyf", ClubRelease.CurrentCodename);
 
         var formal = new ClubRelease("v1.1.0", "formal", "", "");
@@ -29,7 +29,11 @@ public sealed class ClubReleaseVersionTest
     {
         Assert.IsTrue(new ClubRelease("v1.2.1", "patch", "", "")
             .IsNewerThan(ClubRelease.CurrentTag));
-        Assert.IsFalse(new ClubRelease("v1.2.0-rc.1", "rc", "", "")
+        Assert.IsFalse(new ClubRelease("v1.2.0-wzbc.1", "current", "", "")
+            .IsNewerThan(ClubRelease.CurrentTag));
+        Assert.IsTrue(new ClubRelease("v1.2.0-wzbc.2", "next preview", "", "")
+            .IsNewerThan(ClubRelease.CurrentTag));
+        Assert.IsTrue(new ClubRelease("v1.2.0", "stable", "", "")
             .IsNewerThan(ClubRelease.CurrentTag));
         Assert.IsTrue(new ClubRelease("v1.2.1-rc.1", "rc", "", "")
             .IsNewerThan(ClubRelease.CurrentTag));
@@ -48,7 +52,23 @@ public sealed class ClubReleaseVersionTest
             new { draft = true, published_at = "2026-10-06T00:00:00Z", tag_name = "v9.0.0", html_url = ClubCatalog.Repository + "/releases/tag/v9.0.0", name = "draft", body = "" }
         });
 
-        Assert.AreEqual("v1.1.1", ClubRelease.ParseLatest(json)!.Tag);
+        Assert.AreEqual("v1.1.1", ClubRelease.ParseLatest(json, ClubCatalog.Repository)!.Tag);
+    }
+
+    [TestMethod]
+    [DataRow("https://github.com/Dr-jesper/WZBC-Launcher", true)]
+    [DataRow("https://github.com/Conduit-Club/SHOU-PCL", false)]
+    [DataRow("https://github.com/Conduit-Club/PCL-CE-SHOU", false)]
+    [DataRow("https://github.com/Dr-jesper/WZBC-Launcher-fake", false)]
+    public void DefaultReleaseSourceAcceptsOnlyWzbc(string repository, bool accepted)
+    {
+        var json = JsonSerializer.Serialize(new[]
+        {
+            new { draft = false, published_at = "2026-10-20T00:00:00Z", tag_name = ClubRelease.CurrentTag,
+                html_url = repository + "/releases/tag/" + ClubRelease.CurrentTag, name = "WZBC preview", body = "" }
+        });
+
+        Assert.AreEqual(accepted, ClubRelease.ParseLatest(json) is not null);
     }
 
     [TestMethod]
@@ -63,6 +83,7 @@ public sealed class ClubReleaseVersionTest
                 html_url = repository + "/releases/tag/v1.2.0", name = "zyf", body = "" }
         });
 
-        Assert.AreEqual(accepted, ClubRelease.ParseLatest(json) is not null);
+        Assert.AreEqual(accepted, ClubRelease.ParseLatest(json, ClubCatalog.Repository, ClubCatalog.LegacyRepository) is not null);
+        Assert.IsNull(ClubRelease.ParseLatest(json), "WZBC must not offer source-project releases.");
     }
 }

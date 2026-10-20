@@ -12,10 +12,10 @@
 
     <!-- Conduit brand -->
 
-    <sys:String x:Key="Conduit.Brand.Name">Conduit Club</sys:String>
-    <sys:String x:Key="Conduit.Brand.LauncherTitle">Conduit Club Launcher</sys:String>
-    <sys:String x:Key="Conduit.Brand.AboutTitle">About Conduit Club</sys:String>
-    <sys:String x:Key="Conduit.Brand.AboutDescription">Plain Craft Launcher — Conduit Club edition</sys:String>
+    <sys:String x:Key="Conduit.Brand.Name">WZBC MC</sys:String>
+    <sys:String x:Key="Conduit.Brand.LauncherTitle">WZBC-Launcher</sys:String>
+    <sys:String x:Key="Conduit.Brand.AboutTitle">About WZBC MC</sys:String>
+    <sys:String x:Key="Conduit.Brand.AboutDescription">WZBC-Launcher · WZBC Minecraft Club</sys:String>
 
     <!-- Application -->
 
@@ -1856,7 +1856,7 @@
     <sys:String x:Key="Main.Eula.Message">Before using PCL CE, please review and agree to the Terms of Service and Disclaimer.</sys:String>
     <sys:String x:Key="Main.Eula.Title">ToS &amp; Disclaimer authorisation</sys:String>
     <sys:String x:Key="Main.Eula.View">ToS &amp; Disclaimer</sys:String>
-    <sys:String x:Key="Main.Exit.HasDownloadingTask">The Conduit Club launcher still has a download task in progress. Are you sure you want to quit?</sys:String>
+    <sys:String x:Key="Main.Exit.HasDownloadingTask">The WZBC MC launcher still has a download task in progress. Are you sure you want to quit?</sys:String>
     <sys:String x:Key="Main.Extra.BackToTop.ToolTip">Back to top</sys:String>
     <sys:String x:Key="Main.Extra.GameLog.ToolTip">Launch log</sys:String>
     <sys:String x:Key="Main.Extra.GiveUp.ToolTip">Surrender</sys:String>
@@ -3042,7 +3042,7 @@
     <sys:String x:Key="Setup.Ui.Basic.LockWindow">Lock launcher size</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.Opacity">Opacity</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.Opacity2">Opacity</sys:String>
-    <sys:String x:Key="Setup.Ui.Basic.ShowLogo">Display the PCL CE logo whilst opening the launcher</sys:String>
+    <sys:String x:Key="Setup.Ui.Basic.ShowLogo">Display the WZBC splash screen whilst opening the launcher</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.ShowTriviaHint">Show 'Trivia' when launching the game</sys:String>
     <sys:String x:Key="Setup.Ui.Basic.Title">Basics</sys:String>
 

@@ -57,23 +57,25 @@
    <StackPanel Margin="20,18">
     <DockPanel>
      <Border x:Name="ClubOnlineBadge" DockPanel.Dock="Right" Margin="12,0,0,0" Padding="10,4" Background="{DynamicResource ColorBrush8}" CornerRadius="6"
-             ToolTip="正在读取社团代理入口的在线数据。">
+             ToolTip="选择服务器后显示该入口返回的在线数据。">
       <StackPanel>
-       <TextBlock Text="社团在线" FontSize="11" HorizontalAlignment="Center" Opacity="0.75" />
+       <TextBlock Text="所选入口在线" FontSize="11" HorizontalAlignment="Center" Opacity="0.75" />
        <TextBlock x:Name="ClubOnlineCount" Text="未知" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" />
       </StackPanel>
      </Border>
-     <Image Source="/Plain Craft Launcher 2;component/Images/Conduit/club-logo.png" Width="48" Height="48" Margin="0,0,12,0" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+     <Image Source="/Plain Craft Launcher 2;component/Images/Wzbc/club-logo.png" Width="48" Height="48" Margin="0,0,12,0" RenderOptions.BitmapScalingMode="NearestNeighbor" />
      <StackPanel VerticalAlignment="Center">
-      <TextBlock Text="{DynamicResource Conduit.Brand.Name}" FontSize="24" FontWeight="SemiBold" Foreground="{DynamicResource ColorBrush2}" />
-      <TextBlock Text="五湖四海之士，汇于东海之滨" Margin="0,4,0,0" TextWrapping="Wrap" />
+      <TextBlock Text="{DynamicResource Conduit.Brand.Name}" FontSize="22" FontWeight="SemiBold" Foreground="{DynamicResource ColorBrush2}" />
+      <TextBlock Text="从校园到方块，一起创造我们的世界" Margin="0,4,0,0" TextWrapping="Wrap" />
      </StackPanel>
     </DockPanel>
     <WrapPanel Margin="0,14,0,0">
-     <local:MyButton Text="社团 Wiki" Height="32" Margin="0,0,8,4" Padding="12,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://conduit-club.github.io/" />
-     <local:MyButton Text="登录与入服指南" Height="32" Margin="0,0,8,4" Padding="12,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://conduit-club.github.io/servers/velocity/" />
+     <local:MyButton Text="社团官网" Height="32" Margin="0,0,8,4" Padding="12,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://wzbcmc.cn/" />
+     <local:MyButton Text="登录与入服指南" Height="32" Margin="0,0,8,4" Padding="12,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://wzbcmc.cn/servers.html" />
      <local:MyButton Text="社团更新日志" Height="32" Margin="0,0,8,4" Padding="12,0" Click="ShowHistory_Click" />
-     <TextBlock Text="QQ群 756155087" VerticalAlignment="Center" FontSize="12" />
+     <local:MyButton Text="社团皮肤站" Height="32" Margin="0,0,8,4" Padding="12,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://skin.wzbcmc.cn/" />
+     <local:MyButton Text="校园地图" Height="32" Margin="0,0,8,4" Padding="12,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://wzbcmc.cn/campus-maps/2d/" />
+     <TextBlock Text="QQ群 788564340" VerticalAlignment="Center" FontSize="12" />
     </WrapPanel>
    </StackPanel>
   </local:MyCard>

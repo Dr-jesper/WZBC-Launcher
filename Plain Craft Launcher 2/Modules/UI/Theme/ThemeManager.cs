@@ -33,14 +33,39 @@ public static class ThemeManager
         ModBase.RunInUi(() =>
         {
             if (!ModMain.frmMain.IsLoaded) return;
+            RefreshTitleButtons();
             RefreshBackground();
             RefreshAllContextMenuThemes();
         });
     }
     
+    private static void RefreshTitleButtons()
+    {
+        foreach (var button in new[] { ModMain.frmMain.BtnTitleClose, ModMain.frmMain.BtnTitleMin,
+                     ModMain.frmMain.BtnTitleHelp, ModMain.frmMain.BtnTitleInner })
+        {
+            button.Theme = MyIconButton.Themes.Custom;
+            button.Foreground = (SolidColorBrush)AppResources["ColorBrushHeaderText"];
+        }
+    }
+
     // 主页面背景
     private static void RefreshBackground()
     {
+        if (ThemeService.CurrentTheme is ColorTheme.Naiwa or ColorTheme.NaiwaYellow)
+        {
+            ModMain.frmMain.PanForm.Background = (Brush)AppResources["ColorBrushBackground"];
+            return;
+        }
+        if (ThemeService.CurrentTheme == ColorTheme.Wzbc)
+        {
+            var colors = IsDarkMode ? new[] { "#1F1624", "#30113F", "#291D30" } : new[] { "#F7F5F0", "#F1E9F5", "#FCFAFD" };
+            var background = new LinearGradientBrush { StartPoint = new Point(0, 0), EndPoint = new Point(1, 1) };
+            for (var i = 0; i < colors.Length; i++) background.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString(colors[i]), i / 2d));
+            background.Freeze();
+            ModMain.frmMain.PanForm.Background = background;
+            return;
+        }
         if (ThemeService.CurrentTheme == ColorTheme.Diana)
         {
             var colors = IsDarkMode ? new[] { "#241D20", "#402B31", "#33262A" } : new[] { "#FDF9F3", "#FDEBED", "#F9EFE4" };

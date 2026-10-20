@@ -3,7 +3,7 @@ param(
     [ValidateSet('x64', 'ARM64')][string]$Architecture = 'x64',
     [ValidateSet('Beta', 'Release')][string]$Configuration = 'Beta',
     [string]$Dotnet = 'dotnet',
-    [string]$OutputRoot = 'artifacts/conduit',
+    [string]$OutputRoot = 'artifacts/wzbc',
     [string]$EnvFile = '.env'
 )
 $ErrorActionPreference = 'Stop'
@@ -42,11 +42,12 @@ try {
     if ($LASTEXITCODE -ne 0) { throw "dotnet clean failed: $LASTEXITCODE" }
     & $Dotnet publish 'Plain Craft Launcher 2/Plain Craft Launcher 2.csproj' -c $Configuration "-p:Platform=$Architecture" -p:UseSharedCompilation=false --self-contained true -o $output
     if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed: $LASTEXITCODE" }
-    $name = "SHOU-PCL-win-$($Architecture.ToLowerInvariant())"
+    $name = "WZBC-Launcher-win-$($Architecture.ToLowerInvariant())"
     Move-Item -LiteralPath (Join-Path $output 'Plain Craft Launcher 2.exe') -Destination (Join-Path $output "$name.exe")
     Copy-Item -LiteralPath (Join-Path $repo 'LICENSE') -Destination $output
     Copy-Item -LiteralPath (Join-Path $repo 'Plain Craft Launcher 2/LICENCE') -Destination $output
-    Copy-Item -LiteralPath (Join-Path $repo 'docs/conduit/BUILD.md') -Destination (Join-Path $output 'BUILD.md')
+    Copy-Item -LiteralPath (Join-Path $repo 'docs/wzbc/BUILD.md') -Destination (Join-Path $output 'BUILD.md')
+    Copy-Item -LiteralPath (Join-Path $repo 'docs/wzbc/PENDING.md') -Destination (Join-Path $output 'PENDING.md')
     $commit = git rev-parse HEAD
     if ($LASTEXITCODE -ne 0) { throw 'Cannot resolve source commit.' }
     $sdk = & $Dotnet --version
@@ -56,9 +57,16 @@ try {
     $metadata = Get-Content -LiteralPath (Join-Path $repo 'Plain Craft Launcher 2/metadata.json') -Raw | ConvertFrom-Json
     $releaseSource = Get-Content -LiteralPath (Join-Path $repo 'PCL.Core/Conduit/ClubRelease.cs') -Raw
     $codename = [regex]::Match($releaseSource, 'CurrentCodename = "([^"]+)"').Groups[1].Value
-    "Version: $($metadata.version.base)`nCodename: $codename`nSource base commit: $commit`nSource state: $sourceState`nSDK: $sdk`nConfiguration: $Configuration`nRuntime: win-$($Architecture.ToLowerInvariant())`nSelf-contained: true`nMicrosoft public Client ID configured: $appConfigured`nOther service credentials: not embedded" | Set-Content (Join-Path $output 'BUILD-INFO.txt') -Encoding utf8
+    $version = $metadata.version.base + $(if ($metadata.version.suffix) { '-' + $metadata.version.suffix })
+    "Version: $version`nCodename (SHOU-PCL baseline): $codename`nSource commit: $commit`nSource state: $sourceState`nSDK: $sdk`nConfiguration: $Configuration`nRuntime: win-$($Architecture.ToLowerInvariant())`nSelf-contained: true`nMicrosoft public Client ID configured: $appConfigured`nOther service credentials: not embedded" | Set-Content (Join-Path $output 'BUILD-INFO.txt') -Encoding utf8
     $archive = Join-Path (Split-Path $output) "$name.zip"
-    Compress-Archive -Path "$output/*" -DestinationPath $archive
+    # Package only distribution files, never runtime-created profiles, caches or logs.
+    $packageNames = @("$name.exe", 'LICENSE', 'LICENCE', 'BUILD.md', 'PENDING.md', 'BUILD-INFO.txt')
+    $actualNames = @(Get-ChildItem -LiteralPath $output | ForEach-Object Name)
+    if (@(Compare-Object $packageNames $actualNames).Count -ne 0) {
+        throw 'Unexpected publish output; inspect it before packaging.'
+    }
+    Compress-Archive -LiteralPath @($packageNames | ForEach-Object { Join-Path $output $_ }) -DestinationPath $archive
     $hash = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()
     "$hash  $name.zip" | Set-Content "$archive.sha256" -Encoding ascii
     Write-Host "Published: $archive"

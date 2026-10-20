@@ -11,7 +11,7 @@
     MouseMove="FormMain_MouseMove"
     x:Name="WindMain" x:Class="PCL.FormMain" Style="{StaticResource MyWindow}"
     AllowDrop="True" Topmost="True" Title="{DynamicResource Conduit.Brand.LauncherTitle}" MinHeight="470" MinWidth="810"
-    ScrollViewer.VerticalScrollBarVisibility="Disabled" Icon="/Plain Craft Launcher 2;component/Images/Conduit/club.ico"
+    ScrollViewer.VerticalScrollBarVisibility="Disabled" Icon="/Plain Craft Launcher 2;component/Images/Wzbc/club.ico"
     ResizeMode="CanResize" Background="{x:Null}" d:DesignWidth="870" d:DesignHeight="520" Width="850" Height="500"
     WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" AllowsTransparency="False">
     <Window.TaskbarItemInfo>
@@ -118,7 +118,7 @@
                 <local:AnimatedBackgroundGrid Grid.Row="0" x:Name="PanTitle" Height="48"
                                               MouseLeftButtonDown="FormDragMove"
                                               WindowChrome.IsHitTestVisibleInChrome="True"
-                                              BackgroundBrush="{DynamicResource ColorBrush3}">
+                                              BackgroundBrush="{DynamicResource ColorBrushHeader}">
                     <!-- <Grid.Background> -->
                     <!--     <LinearGradientBrush EndPoint="1,0" StartPoint="0,0"> -->
                     <!--         <GradientStop Color="{StaticResource ColorObject4}" Offset="0"/> -->
@@ -146,13 +146,13 @@
                             <Path Grid.Column="0" x:Name="ShapeTitleLogo" Data="M26,29 v-25 h6 a7,7 180 0 1 0,14 h-6 M62.5,6.5 a10,11.5 180 1 0 0,18 M71,2.5 v24.5 h13.5" SnapsToDevicePixels="False" UseLayoutRounding="False" IsHitTestVisible="False" HorizontalAlignment="Left" Margin="19,15.5,0,15.5" Stretch="fill" Stroke="White" StrokeThickness="2.2" Width="39" />
                             <Path Grid.Column="0" x:Name="ShapeHMCLTitleLogo" Data="M 60.375 53.406 L 53.625 53.406 L 53.625 0.906 L 63.6 0.906 L 78.15 34.131 L 92.475 0.906 L 102.675 0.906 L 102.675 53.406 L 95.55 53.406 L 95.55 9.981 L 81.525 41.556 L 74.475 41.556 L 60.375 9.981 L 60.375 53.406 Z M 7.125 53.406 L 0 53.406 L 0 0.906 L 7.125 0.906 L 7.125 23.331 L 33 23.331 L 33 0.906 L 40.125 0.906 L 40.125 53.406 L 33 53.406 L 33 29.481 L 7.125 29.481 L 7.125 53.406 Z M 149.85 2.706 L 147.675 8.706 Q 145.35 7.581 142.913 6.906 Q 140.475 6.231 137.175 6.231 Q 132.375 6.231 128.588 8.706 Q 124.8 11.181 122.625 15.831 A 25.755 25.755 0 0 0 120.458 26.263 A 38.963 38.963 0 0 0 120.45 27.081 Q 120.45 33.381 122.588 38.106 Q 124.725 42.831 128.512 45.456 Q 132.3 48.081 137.175 48.081 Q 140.85 48.081 143.55 47.181 Q 146.25 46.281 148.8 44.856 L 150.975 50.781 Q 148.2 52.281 144.638 53.293 Q 141.075 54.306 136.35 54.306 Q 129.525 54.306 124.275 51.043 Q 119.025 47.781 116.1 41.743 A 31.603 31.603 0 0 1 113.201 28.922 A 45.601 45.601 0 0 1 113.175 27.381 Q 113.175 19.356 116.138 13.168 Q 119.1 6.981 124.538 3.493 Q 129.975 0.006 137.25 0.006 Q 141 0.006 144.075 0.718 Q 147.15 1.431 149.85 2.706 Z M 191.925 53.406 L 160.725 53.406 L 160.725 0.906 L 167.85 0.906 L 167.85 47.031 L 191.925 47.031 L 191.925 53.406 Z"
                                 StrokeThickness="0.2" SnapsToDevicePixels="False" UseLayoutRounding="False" IsHitTestVisible="False" HorizontalAlignment="Left" Height="15" Margin="45,15.5,0,15.5" Stretch="Fill" Stroke="White" Fill="White" Width="52" />
-                            <TextBlock Grid.Column="0" x:Name="LabTitleLogo" Visibility="Collapsed" SnapsToDevicePixels="False" UseLayoutRounding="False" IsHitTestVisible="False" HorizontalAlignment="Left" Margin="18,0,0,0" Foreground="White" FontSize="17" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="0" x:Name="LabTitleLogo" Visibility="Collapsed" SnapsToDevicePixels="False" UseLayoutRounding="False" IsHitTestVisible="False" HorizontalAlignment="Left" Margin="18,0,0,0" Foreground="{DynamicResource ColorBrushHeaderText}" FontSize="17" VerticalAlignment="Center" />
                             <local:MyImage Grid.Column="0" x:Name="ImageTitleLogo" SnapsToDevicePixels="False" UseLayoutRounding="False" IsHitTestVisible="False" HorizontalAlignment="Left" Margin="7" VerticalAlignment="Center" Visibility="Collapsed" />
-                            <Image x:Name="ClubTitleLogo" Grid.Column="0" Source="/Plain Craft Launcher 2;component/Images/Conduit/club-logo.png" Width="28" Height="28" Margin="14,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                            <Image x:Name="ClubTitleLogo" Grid.Column="0" Source="/Plain Craft Launcher 2;component/Images/Wzbc/club-logo.png" Width="28" Height="28" Margin="14,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" RenderOptions.BitmapScalingMode="NearestNeighbor" />
                             <Border x:Name="CELogo" Grid.Column="1" IsHitTestVisible="False" HorizontalAlignment="Left" Margin="8,0,0,0" Height="24" Padding="0">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{DynamicResource Conduit.Brand.LauncherTitle}" FontSize="13" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" />
-                                    <Border Background="White" CornerRadius="3" Margin="7,0,0,0" Padding="5,1"><TextBlock Text="SHOU" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource ColorBrush2}" VerticalAlignment="Center" /></Border>
+                                    <TextBlock Text="{DynamicResource Conduit.Brand.LauncherTitle}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource ColorBrushHeaderText}" VerticalAlignment="Center" />
+                                    <Border Background="White" CornerRadius="3" Margin="7,0,0,0" Padding="5,1"><TextBlock Text="WZBC" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource ColorBrushHeaderSelectedText}" VerticalAlignment="Center" /></Border>
                                 </StackPanel>
                             </Border>
                         </Grid>
@@ -184,7 +184,7 @@
                                             SvgIcon="lucide/arrow-left" />
                         <TextBlock SnapsToDevicePixels="False" IsHitTestVisible="False" Name="LabTitleInner"
                                    VerticalAlignment="Center" Margin="47,1,60,0" HorizontalAlignment="Left"
-                                   Foreground="White" FontSize="15" />
+                                   Foreground="{DynamicResource ColorBrushHeaderText}" FontSize="15" />
                     </Grid>
                 </local:AnimatedBackgroundGrid>
                 <Grid x:Name="PanLeft" Grid.Row="1" HorizontalAlignment="Left" SnapsToDevicePixels="True">
