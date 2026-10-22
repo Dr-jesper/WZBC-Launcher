@@ -4,7 +4,8 @@ param(
     [ValidateSet('Beta', 'Release')][string]$Configuration = 'Beta',
     [string]$Dotnet = 'dotnet',
     [string]$OutputRoot = 'artifacts/wzbc',
-    [string]$EnvFile = '.env'
+    [string]$EnvFile = '.env',
+    [switch]$BuildOnly
 )
 $ErrorActionPreference = 'Stop'
 $repo = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
@@ -48,6 +49,9 @@ try {
     Copy-Item -LiteralPath (Join-Path $repo 'Plain Craft Launcher 2/LICENCE') -Destination $output
     Copy-Item -LiteralPath (Join-Path $repo 'docs/wzbc/BUILD.md') -Destination (Join-Path $output 'BUILD.md')
     Copy-Item -LiteralPath (Join-Path $repo 'docs/wzbc/PENDING.md') -Destination (Join-Path $output 'PENDING.md')
+    foreach ($document in @('PRIVACY.md', 'SECURITY.md', 'LICENSING.md')) {
+        Copy-Item -LiteralPath (Join-Path $repo $document) -Destination $output
+    }
     $commit = git rev-parse HEAD
     if ($LASTEXITCODE -ne 0) { throw 'Cannot resolve source commit.' }
     $sdk = & $Dotnet --version
@@ -59,9 +63,14 @@ try {
     $codename = [regex]::Match($releaseSource, 'CurrentCodename = "([^"]+)"').Groups[1].Value
     $version = $metadata.version.base + $(if ($metadata.version.suffix) { '-' + $metadata.version.suffix })
     "Version: $version`nCodename (SHOU-PCL baseline): $codename`nSource commit: $commit`nSource state: $sourceState`nSDK: $sdk`nConfiguration: $Configuration`nRuntime: win-$($Architecture.ToLowerInvariant())`nSelf-contained: true`nMicrosoft public Client ID configured: $appConfigured`nOther service credentials: not embedded" | Set-Content (Join-Path $output 'BUILD-INFO.txt') -Encoding utf8
+    if ($BuildOnly) {
+        Write-Host "Build verified; no distribution archive created: $output"
+        return
+    }
     $archive = Join-Path (Split-Path $output) "$name.zip"
     # Package only distribution files, never runtime-created profiles, caches or logs.
-    $packageNames = @("$name.exe", 'LICENSE', 'LICENCE', 'BUILD.md', 'PENDING.md', 'BUILD-INFO.txt')
+    $packageNames = @("$name.exe", 'LICENSE', 'LICENCE', 'BUILD.md', 'PENDING.md', 'BUILD-INFO.txt',
+        'PRIVACY.md', 'SECURITY.md', 'LICENSING.md')
     $actualNames = @(Get-ChildItem -LiteralPath $output | ForEach-Object Name)
     if (@(Compare-Object $packageNames $actualNames).Count -ne 0) {
         throw 'Unexpected publish output; inspect it before packaging.'

@@ -24,9 +24,11 @@ public sealed class MicrosoftProvider : IAuthenticateProvider
     private const string TokenEndpoint = "https://login.microsoftonline.com/consumers/oauth2/v2.0/token";
 
     private readonly string _clientId;
+    private readonly Func<HttpClient>? _clientFactory;
 
-    public MicrosoftProvider(string? clientId = null)
+    public MicrosoftProvider(string? clientId = null, Func<HttpClient>? clientFactory = null)
     {
+        _clientFactory = clientFactory;
         _clientId = !string.IsNullOrWhiteSpace(clientId) ? clientId
             : !string.IsNullOrWhiteSpace(Config.System.ClubMicrosoftClientId) ? Config.System.ClubMicrosoftClientId
             : Secrets.MSOAuthClientId;
@@ -42,7 +44,7 @@ public sealed class MicrosoftProvider : IAuthenticateProvider
                 ["client_id"] = _clientId,
                 ["scope"] = "XboxLive.signin offline_access"
             }))
-            .SendAsync(NetworkService.GetClient(NetworkService.MicrosoftEntraId), cancellationToken: token)
+            .SendAsync(_clientFactory?.Invoke() ?? NetworkService.GetClient(NetworkService.MicrosoftEntraId), cancellationToken: token)
             .ConfigureAwait(false);
         var result = await response.AsJsonAsync<DeviceCodeData>(cancellationToken: token).ConfigureAwait(false)
                      ?? throw new InvalidOperationException("Microsoft device authorization response was empty.");
@@ -61,7 +63,7 @@ public sealed class MicrosoftProvider : IAuthenticateProvider
                 ["grant_type"] = "urn:ietf:params:oauth:grant-type:device_code",
                 ["device_code"] = data.DeviceCode ?? string.Empty
             }))
-            .SendAsync(NetworkService.GetClient(NetworkService.MicrosoftEntraId), cancellationToken: token)
+            .SendAsync(_clientFactory?.Invoke() ?? NetworkService.GetClient(NetworkService.MicrosoftEntraId), cancellationToken: token)
             .ConfigureAwait(false);
         var result = await response.AsJsonAsync<AuthorizeResult>(cancellationToken: token).ConfigureAwait(false);
         result?.Validate();
@@ -97,7 +99,7 @@ public sealed class MicrosoftProvider : IAuthenticateProvider
     public async Task<bool> ValidateAsync(McProfile profile, CancellationToken token)
     {
         if (profile.IsExpired || string.IsNullOrWhiteSpace(profile.AccessToken)) return false;
-        return await MojangUtils.CheckLicenseAsync(profile, token).ConfigureAwait(false);
+        return await MojangUtils.CheckLicenseAsync(profile, token, _clientFactory?.Invoke()).ConfigureAwait(false);
     }
 
     public async Task<AuthorizeResult> RefreshOAuthAsync(string refreshToken, CancellationToken token)
@@ -111,7 +113,7 @@ public sealed class MicrosoftProvider : IAuthenticateProvider
                 ["refresh_token"] = refreshToken,
                 ["scope"] = "XboxLive.signin offline_access"
             }))
-            .SendAsync(NetworkService.GetClient(NetworkService.MicrosoftEntraId), cancellationToken: token)
+            .SendAsync(_clientFactory?.Invoke() ?? NetworkService.GetClient(NetworkService.MicrosoftEntraId), cancellationToken: token)
             .ConfigureAwait(false);
         var result = await response.AsJsonAsync<AuthorizeResult>(cancellationToken: token).ConfigureAwait(false)
                      ?? throw new InvalidOperationException("Microsoft token response was empty.");
@@ -130,7 +132,7 @@ public sealed class MicrosoftProvider : IAuthenticateProvider
         {
             Properties = new XboxProperty { RpsTicket = $"d={oauth.AccessToken}" },
             TokenType = "JWT"
-        }, isXsts: false, token).ConfigureAwait(false)
+        }, isXsts: false, token, _clientFactory?.Invoke()).ConfigureAwait(false)
                   ?? throw new IdentityModelAuthenticationException("xbox_authentication_failed", "Xbox Live returned no token.");
 
         var xsts = await XboxUtils.AuthenticateAsync(new XboxAuthenticate<XSTSProperty>
@@ -138,14 +140,14 @@ public sealed class MicrosoftProvider : IAuthenticateProvider
             Properties = new XSTSProperty { UserTokens = [xbl.Token] },
             RelyingParty = "rp://api.minecraftservices.com/",
             TokenType = "JWT"
-        }, isXsts: true, token).ConfigureAwait(false)
+        }, isXsts: true, token, _clientFactory?.Invoke()).ConfigureAwait(false)
                    ?? throw new IdentityModelAuthenticationException("xsts_authentication_failed", "XSTS returned no token.");
 
         var userHash = xsts.DisplayClaims?.Xui is { Count: > 0 } ? xsts.DisplayClaims.Xui[0].UserHash : null;
         if (string.IsNullOrWhiteSpace(userHash))
             throw new IdentityModelAuthenticationException("xsts_missing_user_hash", "XSTS response did not contain a user hash.");
 
-        var minecraft = await MojangUtils.AuthenticateAsync(xsts.Token, userHash, token).ConfigureAwait(false)
+        var minecraft = await MojangUtils.AuthenticateAsync(xsts.Token, userHash, token, _clientFactory?.Invoke()).ConfigureAwait(false)
                         ?? throw new IdentityModelAuthenticationException("minecraft_authentication_failed", "Minecraft authentication returned no token.");
         if (string.IsNullOrWhiteSpace(minecraft.AccessToken))
             throw new IdentityModelAuthenticationException("minecraft_authentication_failed", "Minecraft access token is empty.");
@@ -157,10 +159,10 @@ public sealed class MicrosoftProvider : IAuthenticateProvider
             Uuid = string.Empty,
             TokenType = minecraft.TokenType
         };
-        if (!await MojangUtils.CheckLicenseAsync(safe, token).ConfigureAwait(false))
+        if (!await MojangUtils.CheckLicenseAsync(safe, token, _clientFactory?.Invoke()).ConfigureAwait(false))
             throw new IdentityModelAuthenticationException("minecraft_not_owned", "The Microsoft account does not own Minecraft.");
 
-        var profile = await MojangUtils.GetProfileAsync(safe, token).ConfigureAwait(false);
+        var profile = await MojangUtils.GetProfileAsync(safe, token, _clientFactory?.Invoke()).ConfigureAwait(false);
         return new AuthenticationResult
         {
             ProfileType = ProfileType.Microsoft,

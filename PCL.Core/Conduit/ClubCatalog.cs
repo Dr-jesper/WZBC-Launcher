@@ -86,12 +86,12 @@ public static class ClubCatalog
 
     public static string AccountSource(McProfile profile) => profile.ProfileType switch
     {
-        ProfileType.Microsoft => "微软正版",
+        ProfileType.Microsoft => "Microsoft · 启动时核验正版",
         ProfileType.Offline => "离线账户 · 无法进入社团服务器",
-        _ when IsProvider(profile.Server, SkinAuth) => "WZBC Skin",
-        _ when IsMuaProvider(profile.Server) => "MUA Union",
-        _ when IsProvider(profile.Server, LittleSkinAuth) => "LittleSkin",
-        _ => "第三方 · " + (profile.ServerName ?? profile.Server ?? "自定义认证")
+        _ when IsProvider(profile.Server, SkinAuth) => "WZBC Skin · 第三方认证",
+        _ when IsMuaProvider(profile.Server) => "MUA Union · 第三方认证",
+        _ when IsProvider(profile.Server, LittleSkinAuth) => "LittleSkin · 第三方认证",
+        _ => "第三方认证 · " + (profile.ServerName ?? profile.Server ?? "自定义认证")
     };
 
     public static string AccountStatus(McProfile profile)

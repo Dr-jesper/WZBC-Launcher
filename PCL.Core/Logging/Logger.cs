@@ -96,6 +96,7 @@ public sealed class Logger : IAsyncDisposable
     public void Log(string message)
     {
         if (_disposed) return;
+        message = SecretRedactor.Redact(message);
         if (!_logChannel.Writer.TryWrite(message))
         {
             Interlocked.Increment(ref _droppedCount);
@@ -140,6 +141,9 @@ public sealed class Logger : IAsyncDisposable
                     await Task.Delay(80).ConfigureAwait(false);
                 }
             }
+
+            // Dispose may complete the channel immediately after its last message.
+            if (lineCount != 0) await DoRefreshAsync().ConfigureAwait(false);
 
             async Task DoRefreshAsync()
             {

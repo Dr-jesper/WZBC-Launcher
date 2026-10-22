@@ -35,7 +35,7 @@ public partial class PageLoginMs
     {
         if (!ClubCatalog.MicrosoftApiReady)
         {
-            HintService.Hint("本构建未配置 Microsoft Client ID，请联系维护者；也可选择第三方账户登录。", HintType.Warning);
+            HintService.Hint("Microsoft 应用已注册，但 Minecraft Services 审核未获批准；本构建未启用微软登录。", HintType.Warning);
             return;
         }
         if (IsAuthenticating) return;

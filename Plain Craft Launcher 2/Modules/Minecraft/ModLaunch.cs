@@ -2685,8 +2685,8 @@ public static class ModLaunch
         McLaunchLog("");
         McLaunchLog("~ 档案参数 ~");
         McLaunchLog("玩家用户名：" + mcLoginLoader.output.Name);
-        McLaunchLog("AccessToken：" + mcLoginLoader.output.AccessToken);
-        McLaunchLog("ClientToken：" + mcLoginLoader.output.ClientToken);
+        McLaunchLog("AccessToken：[REDACTED]");
+        McLaunchLog("ClientToken：[REDACTED]");
         McLaunchLog("UUID：" + mcLoginLoader.output.Uuid);
         McLaunchLog("验证方式：" + mcLoginLoader.output.Type);
         McLaunchLog("");

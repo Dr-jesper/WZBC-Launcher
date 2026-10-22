@@ -1,5 +1,6 @@
 using System;
 using PCL;
+using PCL.Core.Logging;
 
 namespace PCL
 {
@@ -10,18 +11,9 @@ namespace PCL
         /// </summary>
         public static string FilterAccessToken(string raw, char filterChar)
         {
-            // 打码 "accessToken " 后的内容
-            if (raw.Contains("accessToken "))
-                foreach (var Token in raw.RegexSearch("(?<=accessToken ([^ ]{5}))[^ ]+(?=[^ ]{5})"))
-                    raw = raw.Replace(Token, new string(filterChar, Token.Count()));
-            // 打码当前登录的结果
-            var accessToken = ModLaunch.mcLoginLoader.output.AccessToken;
-            if (accessToken is not null && accessToken.Length >= 10 && raw.ContainsF(accessToken, true) &&
-                (ModLaunch.mcLoginLoader.output.Uuid ?? "") !=
-                (ModLaunch.mcLoginLoader.output.AccessToken ?? "")) // UUID 和 AccessToken 一样则不打码
-                raw = raw.Replace(accessToken, accessToken[..5] + new string(filterChar, accessToken.Length - 10) +
-                                               accessToken[^5..]);
-            return raw;
+            // Fully remove known credentials, including short values and unlabelled occurrences.
+            var login = ModLaunch.mcLoginLoader.output;
+            return SecretRedactor.Redact(raw, [login.AccessToken, login.ClientToken]);
         }
 
         /// <summary>

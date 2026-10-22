@@ -71,7 +71,7 @@ public partial class ClubAccountPanel : UserControl
         WzbcButton.Content = $"WZBC Skin ({profiles.Count(p => Provider(p) == "wzbc")})";
         MuaButton.Content = $"MUA ({profiles.Count(p => Provider(p) == "mua")})";
         LittleButton.Content = $"LittleSkin ({profiles.Count(p => Provider(p) == "littleskin")})";
-        MicrosoftButton.Content = $"微软(正版) ({profiles.Count(p => Provider(p) == "microsoft")})";
+        MicrosoftButton.Content = $"Microsoft ({profiles.Count(p => Provider(p) == "microsoft")})";
         var filtered = _filter == "all" ? profiles : profiles.Where(p => Provider(p) == _filter).ToArray();
         _suppressAccountSelection = true;
         try
@@ -91,7 +91,7 @@ public partial class ClubAccountPanel : UserControl
         AccountSelector.Visibility = allMode ? Visibility.Collapsed : Visibility.Visible;
         AccountSelector.IsEnabled = accountSelectionEnabled;
         RemoveSelectedButton.IsEnabled = accountSelectionEnabled && GetSelectedProfile() is not null;
-        AccountSummary.Text = $"{_filter switch { "wzbc" => "WZBC Skin", "mua" => "MUA Union", "littleskin" => "LittleSkin", "microsoft" => "微软正版", "all" => "全部账户", _ => "其他账户" }}（{filtered.Length} 个角色）";
+        AccountSummary.Text = $"{_filter switch { "wzbc" => "WZBC Skin", "mua" => "MUA Union", "littleskin" => "LittleSkin", "microsoft" => "Microsoft 账户", "all" => "全部账户", _ => "其他账户" }}（{filtered.Length} 个角色）";
         EmptyHint.Visibility = filtered.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
     }
 

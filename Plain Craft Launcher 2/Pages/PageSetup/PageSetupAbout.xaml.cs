@@ -24,6 +24,9 @@ public partial class PageSetupAbout
 
     public ObservableCollection<GitHubContributor> Contributors { get; set; } = new();
 
+    private void CopySupportEmail_Click(object sender, MouseButtonEventArgs e)
+        => ModBase.ClipboardSet("1175234170@qq.com");
+
     private void PageOtherAbout_Loaded(object sender, RoutedEventArgs e)
     {
         // 重复加载部分
@@ -37,7 +40,7 @@ public partial class PageSetupAbout
         ItemAboutPcl.Info = ItemAboutPcl.Info.Replace("%VERSION%", ModBase.versionBaseName)
             .Replace("%VERSIONCODE%", ModBase.versionCode.ToString()).Replace("%BRANCH%", ModBase.versionBranchName)
             .Replace("%COMMIT_HASH%", ModBase.commitHashShort);
-        ClubReleaseIdentity.Text = $"WZBC 预览版 {ClubRelease.CurrentTag} · SHOU-PCL 基线 v1.2.0";
+        ClubReleaseIdentity.Text = $"WZBC 修复源码 {ClubRelease.CurrentTag} · SHOU-PCL 基线 v1.2.0 · 暂缓公开新包";
 
         if (!Lang.IsChineseMainland)
         {

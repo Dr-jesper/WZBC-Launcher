@@ -30,7 +30,7 @@ public static class MojangUtils
     /// <param name="xstsToken">XSTS 令牌</param>
     /// <param name="userHash">Xbox User Hash</param>
     /// <returns><see cref="MojangResponse"/></returns>
-    public static async Task<MojangResponse?> AuthenticateAsync(string xstsToken, string userHash, CancellationToken token)
+    public static async Task<MojangResponse?> AuthenticateAsync(string xstsToken, string userHash, CancellationToken token, HttpClient? httpClient = null)
     {
         using var response = await HttpRequest.CreatePost(MojangAuthenticateEndpoint)
             .WithContent(new StringContent(
@@ -39,7 +39,7 @@ public static class MojangUtils
                     IdentityToken = $"XBL3.0 x={userHash};{xstsToken}"
                 }
                 ), Encoding.UTF8, "application/json")
-            ).SendAsync(cancellationToken: token).ConfigureAwait(false);
+            ).SendAsync(httpClient, cancellationToken: token).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
         return await response.AsJsonAsync<MojangResponse>(cancellationToken: token).ConfigureAwait(false);
     }
@@ -49,11 +49,11 @@ public static class MojangUtils
     /// </summary>
     /// <param name="profile"><see cref="SafeProfile"/></param>
     /// <returns>如果没有有效许可，返回 false</returns>
-    public static async Task<bool> CheckLicenseAsync(SafeProfile profile, CancellationToken token)
+    public static async Task<bool> CheckLicenseAsync(SafeProfile profile, CancellationToken token, HttpClient? httpClient = null)
     {
         using var response = await HttpRequest.Create(LicenseEndpoint)
             .WithAuthentication(profile.TokenType, profile.AccessToken)
-            .SendAsync(cancellationToken: token).ConfigureAwait(false);
+            .SendAsync(httpClient, cancellationToken: token).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
         var result = await response.AsJsonAsync<JsonObject>(cancellationToken: token).ConfigureAwait(false);
         return result?["items"] is JsonArray items && items.Any(item =>
@@ -63,11 +63,11 @@ public static class MojangUtils
     /// 获取玩家的完整档案
     /// </summary>
     /// <returns>档案信息</returns>
-    public static async Task<MojangProfile> GetProfileAsync(SafeProfile profile, CancellationToken token)
+    public static async Task<MojangProfile> GetProfileAsync(SafeProfile profile, CancellationToken token, HttpClient? httpClient = null)
     {
         using var response = await HttpRequest.Create(ProfileEndpont)
             .WithAuthentication(profile.TokenType, profile.AccessToken)
-            .SendAsync(cancellationToken: token).ConfigureAwait(false);
+            .SendAsync(httpClient, cancellationToken: token).ConfigureAwait(false);
         if (response.StatusCode == HttpStatusCode.NotFound)
             throw new IdentityModelAuthenticationException("profile_not_created",
                 "The Microsoft account has not created a Minecraft Java profile yet.");

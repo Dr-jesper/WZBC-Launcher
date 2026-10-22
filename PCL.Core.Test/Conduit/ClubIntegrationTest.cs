@@ -32,7 +32,7 @@ public class ClubIntegrationTest
 
         var legacy = new McProfile { ProfileType = ProfileType.Authlib, Server = ClubCatalog.MuaUnionAuth };
         Assert.IsTrue(ClubCatalog.CanJoin(legacy));
-        Assert.AreEqual("MUA Union", ClubCatalog.AccountSource(legacy));
+        Assert.AreEqual("MUA Union · 第三方认证", ClubCatalog.AccountSource(legacy));
     }
 
     [TestMethod]
@@ -47,13 +47,13 @@ public class ClubIntegrationTest
         manager.Add(mua);
         manager.Add(little);
         manager.Select(mua);
-        Assert.AreEqual("MUA Union", ClubCatalog.AccountSource(manager.Current!));
+        Assert.AreEqual("MUA Union · 第三方认证", ClubCatalog.AccountSource(manager.Current!));
         Assert.AreEqual("mua-test-token", manager.Current!.AccessToken);
         manager.Select(little);
         var reloaded = new ProfileManagement<McProfile>();
         reloaded.LoadFromString(manager.Serialize());
         reloaded.SelectAt(reloaded.LastUsed);
-        Assert.AreEqual("LittleSkin", ClubCatalog.AccountSource(reloaded.Current!));
+        Assert.AreEqual("LittleSkin · 第三方认证", ClubCatalog.AccountSource(reloaded.Current!));
         Assert.AreEqual("little-test-token", reloaded.Current!.AccessToken);
         Assert.AreEqual(3, reloaded.GetAll().Count);
     }

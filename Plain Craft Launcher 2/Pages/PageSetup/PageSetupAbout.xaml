@@ -1,4 +1,4 @@
-<local:MyPageRight
+﻿<local:MyPageRight
     x:Class="PCL.PageSetupAbout"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -18,20 +18,6 @@
             x:Name="PanMain"
             Margin="25,10"
             Grid.IsSharedSizeScope="True">
-            <local:MyCard Margin="0,15,0,15" Title="{DynamicResource Conduit.Brand.AboutTitle}">
-                <StackPanel Margin="24,42,24,22">
-                    <TextBlock Text="{DynamicResource Conduit.Brand.AboutDescription}" FontSize="22" FontWeight="SemiBold" TextWrapping="Wrap" />
-                    <TextBlock Text="WZBC MC · 温州商学院 Minecraft 社团" Margin="0,10,0,6" TextWrapping="Wrap" />
-                    <TextBlock Text="本项目维护：Dr-jesper 与 Codex" Margin="0,0,0,6" FontWeight="SemiBold" TextWrapping="Wrap" />
-                    <TextBlock Text="基于 SHOU-PCL / PCL-CE 的独立第三方社团启动器。WZBC 品牌与校园素材来自社团官网；SHOU-PCL 原社团版开发：Moeary / Codex。" TextWrapping="Wrap" />
-                    <TextBlock x:Name="ClubReleaseIdentity" Margin="0,8,0,0" Opacity="0.72" TextWrapping="Wrap" />
-                    <WrapPanel Margin="0,16,0,0">
-                        <local:MyButton Text="社团主页" Height="35" Padding="14,0" Margin="0,0,12,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://wzbcmc.cn/" />
-                        <local:MyButton Text="WZBC 源码" Height="35" Padding="14,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://github.com/Dr-jesper/WZBC-Launcher" />
-                        <local:MyButton Text="SHOU-PCL 上游源码" Height="35" Padding="14,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://github.com/Conduit-Club/SHOU-PCL" />
-                    </WrapPanel>
-                </StackPanel>
-            </local:MyCard>
             <local:MyCard Margin="0,0,0,15" Title="原作者与 PCL-CE 支持">
                 <Grid Margin="21,40,21,16">
                     <Grid.RowDefinitions>
@@ -117,6 +103,28 @@
                         Text="{DynamicResource Setup.About.SourceCode}" />
                 </Grid>
             </local:MyCard>
+            <local:MyCard Margin="0,15,0,15" Title="{DynamicResource Conduit.Brand.AboutTitle}">
+                <StackPanel Margin="24,42,24,22">
+                    <TextBlock Text="{DynamicResource Conduit.Brand.AboutDescription}" FontSize="22" FontWeight="SemiBold" TextWrapping="Wrap" />
+                    <TextBlock Text="WZBC MC · 温州商学院 Minecraft 社团" Margin="0,10,0,6" TextWrapping="Wrap" />
+                    <TextBlock Text="NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT." FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,8" />
+                    <TextBlock Text="本项目维护：Dr-jesper 与 Codex" Margin="0,0,0,6" FontWeight="SemiBold" TextWrapping="Wrap" />
+                    <TextBlock Text="维护者负责发布和支持；项目未声称获得校方背书。联系：1175234170@qq.com" TextWrapping="Wrap" />
+                    <TextBlock Text="混合许可：并非整个项目都适用 Apache-2.0。当前名称与主题的 PCL 单独授权尚未取得，新的二进制公开发行暂缓。" TextWrapping="Wrap" Margin="0,6,0,0" />
+                    <TextBlock Text="Microsoft 应用已注册；Minecraft Services 审核未获批准。离线或第三方认证不等于正版验证。" TextWrapping="Wrap" Margin="0,6,0,0" />
+                    <TextBlock Text="基于 SHOU-PCL / PCL-CE 的独立第三方社团启动器。WZBC 品牌与校园素材来自社团官网；SHOU-PCL 原社团版开发：Moeary / Codex。" TextWrapping="Wrap" />
+                    <TextBlock x:Name="ClubReleaseIdentity" Margin="0,8,0,0" Opacity="0.72" TextWrapping="Wrap" />
+                    <WrapPanel Margin="0,16,0,0">
+                        <local:MyButton Text="社团主页" Height="35" Padding="14,0" Margin="0,0,12,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://wzbcmc.cn/" />
+                        <local:MyButton Text="WZBC 源码" Height="35" Padding="14,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://github.com/Dr-jesper/WZBC-Launcher" />
+                        <local:MyButton Text="SHOU-PCL 上游源码" Height="35" Padding="14,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://github.com/Conduit-Club/SHOU-PCL" />
+                        <local:MyButton Text="复制联系邮箱" Height="35" Padding="14,0" Click="CopySupportEmail_Click" />
+                        <local:MyButton Text="隐私与账户数据" Height="35" Padding="14,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://github.com/Dr-jesper/WZBC-Launcher/blob/main/PRIVACY.md" />
+                        <local:MyButton Text="许可范围" Height="35" Padding="14,0" local:CustomEventService.EventType="OpenUrl" local:CustomEventService.EventData="https://github.com/Dr-jesper/WZBC-Launcher/blob/main/LICENSING.md" />
+                    </WrapPanel>
+                </StackPanel>
+            </local:MyCard>
+
             <local:MyCard Margin="0,0,0,15" Title="SHOU-PCL 上游鸣谢 · 社团指导老师-ZRY">
                 <StackPanel Margin="24,42,24,20">
                     <TextBlock Text="为 Minecraft 潮涌核心社团的创立提供了大力支持。" TextWrapping="Wrap" />

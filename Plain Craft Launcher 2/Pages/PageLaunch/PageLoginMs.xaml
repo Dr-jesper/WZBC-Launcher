@@ -25,7 +25,7 @@
         <local:MyButton Text="{DynamicResource Launch.Account.Microsoft.Start}" x:Name="BtnLogin" ColorType="Highlight"
                         Height="28" Width="100" Margin="0,0,0,0" Grid.Row="2" Grid.Column="0" />
         <TextBlock x:Name="MicrosoftUnavailable" Grid.Row="3" Grid.ColumnSpan="2"
-                   Text="本构建未配置 Microsoft Client ID，请联系维护者；也可选择第三方账户登录。"
+                   Text="Microsoft 应用已注册，但 Minecraft Services 审核未获批准；本构建未启用微软登录。应用注册不等于游戏服务授权。"
                    TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center"
                    Margin="12,8,12,0" Opacity="0.75" />
         <Grid Grid.Row="4" Grid.ColumnSpan="2" Opacity="0.3" Margin="2,30,2,0" HorizontalAlignment="Center">

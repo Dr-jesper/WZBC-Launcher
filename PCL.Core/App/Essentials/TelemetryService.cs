@@ -23,14 +23,14 @@ namespace PCL.Core.App.Essentials;
 [LifecycleService(LifecycleState.Running)]
 public sealed partial class TelemetryService
 {
-    private static void _InitSentry()
+    private static bool _InitSentry()
     {
         Context.Info("开始初始化 Sentry SDK");
         var dsn = EnvironmentInterop.GetSecret("SENTRY_DSN");
-        if (dsn is null)
+        if (string.IsNullOrWhiteSpace(dsn))
         {
             Context.Warn("未找到 Sentry DSN");
-            return;
+            return false;
         }
         
         var release = $"{Basics.VersionName}";
@@ -79,6 +79,7 @@ public sealed partial class TelemetryService
         });
         
         Context.Info("Sentry SDK 初始化完成");
+        return true;
     }
 
     // 错误上报
@@ -154,7 +155,8 @@ public sealed partial class TelemetryService
     private static async Task _StartAsync()
     {
         if (!Config.System.Telemetry) return;
-        _InitSentry();
+        // No collector configured: do not probe the device/network or other launchers.
+        if (!_InitSentry()) return;
         
         var appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 

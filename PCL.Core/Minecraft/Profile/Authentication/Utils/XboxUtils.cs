@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Json;
+using System.Net.Http;
 using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,11 +15,11 @@ public static class XboxUtils
     private const string XboxLiveAuthServer = "https://user.auth.xboxlive.com/user/authenticate";
     private const string XstsAuthorizeServer = "https://xsts.auth.xboxlive.com/xsts/authorize";
     public static async Task<XboxLiveResponse?> AuthenticateAsync<T>(XboxAuthenticate<T> authData, bool isXsts,
-        CancellationToken token)
+        CancellationToken token, HttpClient? httpClient = null)
     {
         using var response = await HttpRequest.CreatePost(
                 isXsts ? XstsAuthorizeServer:XboxLiveAuthServer
-                ).WithJsonContent(authData).SendAsync(cancellationToken: token)
+                ).WithJsonContent(authData).SendAsync(httpClient, cancellationToken: token)
             .ConfigureAwait(false);
         if (!response.IsSuccess && isXsts)
         {
