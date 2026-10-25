@@ -31,7 +31,7 @@
    <TextBlock x:Name="AccountSummary" FontWeight="SemiBold" VerticalAlignment="Center" />
   </DockPanel>
   <TextBlock x:Name="EmptyHint" Text="尚无此来源角色，请在下方登录。" FontSize="11" TextWrapping="Wrap" />
-  <TextBlock Text="仅 Microsoft 登录路径核验 Minecraft 正版；皮肤站认证和离线档案不等于正版验证。" FontSize="10" TextWrapping="Wrap" Opacity="0.7" Margin="0,3,0,4" />
+  <TextBlock Text="{DynamicResource Launch.Account.AdmissionHint}" FontSize="10" TextWrapping="Wrap" Opacity="0.7" Margin="0,3,0,4" />
   <Grid x:Name="AccountActions" Margin="0,2,0,0">
    <Grid.ColumnDefinitions>
     <ColumnDefinition />

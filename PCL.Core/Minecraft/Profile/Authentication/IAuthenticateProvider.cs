@@ -19,6 +19,8 @@ public sealed record AuthenticationRequest
     public string? DiscoveryAddress { get; init; }
     public string? ClientId { get; init; }
     public bool ForceRefresh { get; init; }
+    /// <summary>Stable account chosen by the caller; never reuse another account's cache.</summary>
+    public string? ExpectedProfileId { get; init; }
     public bool ForceReselectProfile { get; init; }
     /// <summary>Imports other roles from a new password login response.</summary>
     public bool ImportAvailableProfiles { get; init; }

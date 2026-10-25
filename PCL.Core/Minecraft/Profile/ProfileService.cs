@@ -143,13 +143,11 @@ public partial class ProfileService
         ArgumentNullException.ThrowIfNull(request);
         _EnsureLoaded();
 
-        var canUseExisting = existing?.ProfileType == profileType;
+        token.ThrowIfCancellationRequested();
+        var canUseExisting = MatchesExistingAuthentication(profileType, request, existing);
+        if (!canUseExisting) existing = null;
 
-        if (canUseExisting && !request.ForceRefresh &&
-            (profileType is ProfileType.Microsoft or ProfileType.YggdrasilConnect) &&
-            existing!.ExpiresAt is { } expires &&
-            expires > DateTimeOffset.UtcNow.AddMinutes(1) &&
-            !string.IsNullOrWhiteSpace(existing.AccessToken))
+        if (CanReuseCachedSession(profileType, request, existing, DateTimeOffset.UtcNow))
         {
             if (select) Select(existing);
             return existing;
@@ -182,45 +180,22 @@ public partial class ProfileService
         if (canUseExisting && !string.IsNullOrWhiteSpace(existing!.AccessToken) &&
             (!request.ForceReselectProfile || profileType != ProfileType.Authlib))
         {
+            (AuthenticationResult? Result, bool ReuseExisting) refresh;
             try
             {
-                result = await provider.RefreshAsync(existing!, token).ConfigureAwait(false);
+                refresh = await RefreshExistingAsync(provider, profileType, request, existing!, token,
+                    ex => Context.Warn("刷新档案失败，将尝试重新认证", ex)).ConfigureAwait(false);
             }
-            catch (OperationCanceledException)
+            finally
             {
-                throw;
+                if (existing!.AuthenticationInvalidated) Save();
             }
-            catch (IdentityModelAuthenticationException ex)
+            if (refresh.ReuseExisting)
             {
-                Context.Warn("刷新档案失败，将尝试重新认证", ex);
-                if (ex.Error?.StartsWith("xsts_", StringComparison.OrdinalIgnoreCase) == true)
-                    throw;
-                if (!string.Equals(ex.Error, "invalid_grant", StringComparison.OrdinalIgnoreCase) &&
-                    request.RefreshFailureHandler is not null &&
-                    await request.RefreshFailureHandler(ex, token).ConfigureAwait(false))
-                {
-                    if (select) Select(existing!);
-                    return existing!;
-                }
+                if (select) Select(existing!);
+                return existing!;
             }
-            catch (Exception ex)
-            {
-                if (request.RefreshFailureHandler is not null &&
-                    await request.RefreshFailureHandler(ex, token).ConfigureAwait(false))
-                {
-                    if (select) Select(existing!);
-                    return existing!;
-                }
-                if (profileType == ProfileType.Authlib &&
-                    !string.IsNullOrWhiteSpace(request.Username) && !string.IsNullOrWhiteSpace(request.Password))
-                {
-                    Context.Warn("刷新第三方档案失败，将尝试使用凭据重新认证", ex);
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            result = refresh.Result;
         }
 
         if (result is null)
@@ -237,6 +212,7 @@ public partial class ProfileService
             result = await provider.AuthenticateAsync(loginRequest, token).ConfigureAwait(false);
         }
 
+        if (canUseExisting && profileType == ProfileType.Microsoft) EnsureSelectedMicrosoftIdentity(existing!, result);
         var matched = canUseExisting ? existing : _FindMatchingProfile(result);
         token.ThrowIfCancellationRequested();
         return ApplyAuthenticationResult(result, matched, select, token, request.ImportAvailableProfiles);
@@ -258,6 +234,7 @@ public partial class ProfileService
         profile.TokenType = result.TokenType;
         profile.ExpiresAt = result.ExpiresAt;
         profile.RawJson = result.RawJson;
+        profile.AuthenticationInvalidated = false;
         profile.Server = result.Server ?? profile.Server;
         profile.ServerName = result.ServerName ?? profile.ServerName;
         profile.LoginName = result.LoginName ?? profile.LoginName;

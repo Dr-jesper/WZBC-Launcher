@@ -18,6 +18,7 @@ using PCL.Core.Minecraft.Profile.Authentication;
 using PCL.Core.Minecraft.Profile.Models;
 using System.Globalization;
 using PCL.Core.Logging;
+using PCL.Core.Conduit;
 
 namespace PCL;
 
@@ -62,39 +63,15 @@ public static class ModLaunch
         {
             checkResult = Lang.Text("Minecraft.Launch.Precheck.NoProfile");
         }
-        else if (ModInstanceList.McMcInstanceSelected.Info.HasLabyMod) // LabyMod 本身仍要求正版
-        {
-            if (selectedProfile.ProfileType != ProfileType.Microsoft) checkResult = Lang.Text("Minecraft.Launch.Precheck.RequireMicrosoft");
-        }
-        else if (currentLaunchOptions.UseClubAccount)
-        {
-            if (!PCL.Core.Conduit.ClubCatalog.CanJoin(selectedProfile))
-                checkResult = "请选择微软正版、WZBC Skin、MUA Union 或 LittleSkin 账户；具体准入以服务器规则为准。";
-        }
-        else if (Config.InstanceAuth.LoginRequirementSolution[ModInstanceList.McMcInstanceSelected?.PathInstance] == 1) // 要求正版验证
-        {
-            if (selectedProfile.ProfileType != ProfileType.Microsoft) checkResult = Lang.Text("Minecraft.Launch.Precheck.RequireMicrosoft");
-        }
-        else if (Config.InstanceAuth.LoginRequirementSolution[ModInstanceList.McMcInstanceSelected?.PathInstance] == 2) // 要求第三方验证
-        {
-            if (selectedProfile.ProfileType is not (ProfileType.Authlib or ProfileType.YggdrasilConnect))
-                checkResult = Lang.Text("Minecraft.Launch.Precheck.RequireThirdParty");
-            else if (selectedProfile.Server?.BeforeLast("/authserver") !=
-                     Config.InstanceAuth.AuthServerAddress[ModInstanceList.McMcInstanceSelected?.PathInstance])
-                checkResult = Lang.Text("Minecraft.Launch.Precheck.AuthServerMismatch");
-        }
-        else if (Config.InstanceAuth.LoginRequirementSolution[ModInstanceList.McMcInstanceSelected?.PathInstance] == 3) // 要求正版验证或第三方验证
-        {
-            if (selectedProfile.ProfileType == ProfileType.Offline)
-                checkResult = Lang.Text("Minecraft.Launch.Precheck.RequireMicrosoftOrThirdParty");
-            else if ((selectedProfile.ProfileType is ProfileType.Authlib or ProfileType.YggdrasilConnect) &&
-                     selectedProfile.Server?.BeforeLast("/authserver") !=
-                     Config.InstanceAuth.AuthServerAddress[ModInstanceList.McMcInstanceSelected?.PathInstance])
-                checkResult = Lang.Text("Minecraft.Launch.Precheck.AuthServerMismatch");
-        }
+        else if (string.IsNullOrEmpty(checkResult))
+            checkResult = AccountRejectionMessage(LaunchAccountPolicy.Evaluate(selectedProfile, GetLaunchAccountRules()));
 
         if (!string.IsNullOrEmpty(checkResult))
             throw new ArgumentException(checkResult);
+
+        _launchSelectedAccount = new LaunchAccountSnapshot(selectedProfile!);
+        _launchInstancePath = ModInstanceList.McMcInstanceSelected.PathInstance;
+        _launchTargetServer = ResolveRequestedServer();
 
 #if BETA
         if (currentLaunchOptions?.SaveBatch is null) // 保存脚本时不提示
@@ -192,6 +169,41 @@ public static class ModLaunch
 
     public static bool isLaunching;
     public static McLaunchOptions currentLaunchOptions;
+    private static LaunchAccountSnapshot? _launchSelectedAccount;
+    private static LaunchAccountSnapshot? _launchAuthenticatedAccount;
+    private static string? _launchInstancePath;
+    private static string? _launchTargetServer;
+
+    private static string ResolveRequestedServer() => !string.IsNullOrWhiteSpace(currentLaunchOptions.WorldName)
+        ? string.Empty : ClubCatalog.ResolveLaunchServer(currentLaunchOptions.ServerIp,
+            Config.Instance.ServerToEnter[ModInstanceList.McMcInstanceSelected?.PathInstance]);
+
+    private static LaunchAccountRules GetLaunchAccountRules() => new(
+        Config.InstanceAuth.LoginRequirementSolution[ModInstanceList.McMcInstanceSelected?.PathInstance],
+        Config.InstanceAuth.AuthServerAddress[ModInstanceList.McMcInstanceSelected?.PathInstance],
+        ModInstanceList.McMcInstanceSelected.Info.HasLabyMod, currentLaunchOptions.UseClubAccount, ResolveRequestedServer());
+
+    private static string AccountRejectionMessage(LaunchAccountRejection rejection) => rejection switch
+    {
+        LaunchAccountRejection.None => string.Empty,
+        LaunchAccountRejection.ClubAccountRequired => Lang.Text("Minecraft.Launch.Precheck.ClubAccountRequired"),
+        LaunchAccountRejection.UnknownProfileType => Lang.Text("Minecraft.Launch.Precheck.UnsupportedAccount"),
+        _ => Lang.Text("Minecraft.Launch.Precheck." + rejection)
+    };
+
+    private static void EnsureLaunchAccount(bool authenticated)
+    {
+        var profile = ProfileService.Current;
+        var snapshot = authenticated ? _launchAuthenticatedAccount : _launchSelectedAccount;
+        if (snapshot is null || !snapshot.MatchesIdentity(profile) ||
+            _launchInstancePath != ModInstanceList.McMcInstanceSelected?.PathInstance ||
+            _launchTargetServer != ResolveRequestedServer() ||
+            (authenticated && (!snapshot.MatchesAuthenticated(profile, DateTimeOffset.UtcNow) ||
+                !snapshot.MatchesResult(mcLoginLoader.output.Uuid, mcLoginLoader.output.Type, mcLoginLoader.output.AccessToken))))
+            throw new InvalidOperationException(Lang.Text("Minecraft.Launch.Precheck.AccountChanged"));
+        var rejection = LaunchAccountPolicy.Evaluate(profile, GetLaunchAccountRules());
+        if (rejection != LaunchAccountRejection.None) throw new InvalidOperationException(AccountRejectionMessage(rejection));
+    }
 
     public class McLaunchOptions
     {
@@ -240,17 +252,21 @@ public static class ModLaunch
     /// </summary>
     public static bool McLaunchStart(McLaunchOptions options = null)
     {
-        isLaunching = true;
-        currentLaunchOptions = options ?? new McLaunchOptions();
         // 预检查
         if (!ModBase.RunInUi())
             throw new Exception("McLaunchStart 必须在 UI 线程调用！");
         if (mcLaunchLoader.State == ModBase.LoadState.Loading)
         {
             HintService.Hint(Lang.Text("Minecraft.Launch.Error.AlreadyLaunching"), HintType.Error);
-            isLaunching = false;
             return false;
         }
+
+        isLaunching = true;
+        currentLaunchOptions = options ?? new McLaunchOptions();
+        _launchSelectedAccount = null;
+        _launchAuthenticatedAccount = null;
+        _launchInstancePath = null;
+        _launchTargetServer = null;
 
         // 强制切换需要启动的实例
         if (currentLaunchOptions.instance is not null &&
@@ -340,6 +356,7 @@ public static class ModLaunch
         }
         catch (Exception ex)
         {
+            isLaunching = false;
             if (!ex.Message.StartsWithF("$$"))
                 HintService.Hint(Lang.Text("Minecraft.Launch.Precheck.Failed.WithDetail", ex.Message), HintType.Error);
             throw;
@@ -475,6 +492,7 @@ public static class ModLaunch
     // 各个登录方式的对应数据
     public abstract class McLoginData
     {
+        public string? ProfileId;
         /// <summary>
         ///     登录方式。
         /// </summary>
@@ -534,7 +552,7 @@ public static class ModLaunch
 
         public override int GetHashCode()
         {
-            return (int)Math.Round(ModBase.GetHash(UserName + Password + BaseUrl + (int)LoginType) %
+            return (int)Math.Round(ModBase.GetHash(ProfileId + UserName + Password + BaseUrl + DiscoveryAddress + ProviderType + (int)LoginType) %
                                    (decimal)int.MaxValue);
         }
     }
@@ -552,7 +570,7 @@ public static class ModLaunch
 
         public override int GetHashCode()
         {
-            return (int)Math.Round(ModBase.GetHash(LoginType.ToString()) % (decimal)int.MaxValue);
+            return (int)Math.Round(ModBase.GetHash(ProfileId + LoginType.ToString()) % (decimal)int.MaxValue);
         }
     }
 
@@ -590,7 +608,7 @@ public static class ModLaunch
         public override int GetHashCode()
         {
             return (int)Math.Round(
-                ModBase.GetHash(UserName + SkinType + SkinName + (int)LoginType) % (decimal)int.MaxValue);
+                ModBase.GetHash(ProfileId + UserName + Uuid + SkinType + SkinName + (int)LoginType) % (decimal)int.MaxValue);
         }
     }
 
@@ -638,6 +656,9 @@ public static class ModLaunch
     private static void McLoginStart(ModLoader.LoaderTask<McLoginData, McLoginResult> data)
     {
         ModBase.Log("[Profile] 开始加载选定档案");
+        EnsureLaunchAccount(authenticated: false);
+        if (data.input.ProfileId != ProfileService.Current?.ProfileId)
+            throw new InvalidOperationException(Lang.Text("Minecraft.Launch.Precheck.AccountChanged"));
         // 校验登录信息
         var checkResult = ProfileUi.IsProfileValid();
         if (!string.IsNullOrEmpty(checkResult))
@@ -664,8 +685,14 @@ public static class ModLaunch
         }
 
         // 尝试加载
-        loader.WaitForExit(data.input, mcLoginLoader, data.isForceRestarting);
+        // Run the identity path for this account on every launch; providers still
+        // decide whether their own unexpired session may be reused.
+        loader.WaitForExit(data.input, mcLoginLoader, true);
         data.output = (McLoginResult)((dynamic)loader).output;
+        EnsureLaunchAccount(authenticated: false);
+        _launchAuthenticatedAccount = new LaunchAccountSnapshot(ProfileService.Current!);
+        if (!_launchAuthenticatedAccount.MatchesResult(data.output.Uuid, data.output.Type, data.output.AccessToken))
+            throw new InvalidOperationException(Lang.Text("Minecraft.Launch.Precheck.AccountChanged"));
         ModBase.RunInUi(() => ModMain.frmLaunchLeft.RefreshPage(false)); // 刷新自动填充列表
         ModBase.Log("[Profile] 选定档案加载完成");
     }
@@ -694,10 +721,15 @@ public static class ModLaunch
         {
             stored = ProfileService.AuthenticateAsync(ProfileType.Microsoft, new AuthenticationRequest
             {
-                ForceRefresh = data.isForceRestarting,
+                ForceRefresh = data.isForceRestarting && !isLaunching,
+                ExpectedProfileId = data.input.ProfileId,
                 DeviceCodeHandler = ProfileUi.ShowDeviceCodeLoginAsync,
                 RefreshFailureHandler = _ConfirmMicrosoftRefreshFailureAsync
             }, existing, select: true, data.AbortedToken).GetAwaiter().GetResult();
+        }
+        catch (MicrosoftServiceException ex) when (ProfileUi.HandleMicrosoftServiceError(ex))
+        {
+            throw new IdentityModelException("$$", ex);
         }
         catch (IdentityModelAuthenticationException ex) when (
             ProfileUi.HandleMicrosoftXstsError(ex) ||
@@ -765,7 +797,8 @@ public static class ModLaunch
             DiscoveryAddress = input.DiscoveryAddress,
             Username = input.UserName,
             Password = input.Password,
-            ForceRefresh = data.isForceRestarting,
+            ForceRefresh = data.isForceRestarting && !isLaunching,
+            ExpectedProfileId = input.ProfileId,
             ForceReselectProfile = input.ForceReselectProfile,
             ImportAvailableProfiles = input.ImportAvailableProfiles,
             // Imported multi-profile entries deliberately have no token. On
@@ -2473,6 +2506,7 @@ public static class ModLaunch
 
     private static void McLaunchCustom(ModLoader.LoaderTask<int, int> loader)
     {
+        EnsureLaunchAccount(authenticated: true);
         // 获取自定义命令
         var customCommandGlobal = Config.Launch.PreLaunchCommand;
         if (!string.IsNullOrEmpty(customCommandGlobal))
@@ -2583,6 +2617,7 @@ public static class ModLaunch
 
     private static void McLaunchRun(ModLoader.LoaderTask<int, Process> loader)
     {
+        EnsureLaunchAccount(authenticated: true);
         var noJavaw = Config.Launch.NoJavaw &&
                       mcLaunchJavaSelected.Installation.JavawExePath is not null;
 

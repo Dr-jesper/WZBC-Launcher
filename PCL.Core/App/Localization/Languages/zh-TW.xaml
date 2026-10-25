@@ -3580,4 +3580,15 @@
     <sys:String x:Key="Watcher.WindowLoaded">Minecraft 視窗已載入：{0}（{1}）</sys:String>
     <sys:String x:Key="Watcher.WindowMaximized">已最大化 Minecraft 視窗：{0}</sys:String>
 
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.ServicesDenied">Microsoft 與 Xbox 授權已完成，但 Minecraft Services 拒絕了本啟動器的登入請求（HTTP 403）。&#xA;請聯絡維護者確認本啟動器的 Minecraft 服務授權狀態。此次登入尚未完成。</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.ServiceFailed">登入在「{0}」階段失敗（HTTP {1}）。&#xA;請稍後再試；如果持續出現，請將失敗階段和狀態碼回報給維護者。</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.Stage.XboxLive">Xbox Live 驗證</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.Stage.Xsts">Xbox 服務授權</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.Stage.MinecraftLogin">Minecraft 服務登入</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.Stage.Entitlements">遊戲權益驗證</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.Stage.JavaProfile">Java 玩家資料取得</sys:String>
+    <sys:String x:Key="Launch.Account.AdmissionHint">啟動時依帳號類型驗證：Microsoft 核驗遊戲權益，皮膚站驗證對應服務，離線角色僅表示本機身分。</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Precheck.ClubAccountRequired">此社團伺服器需要 Microsoft、WZBC Skin、MUA Union 或 LittleSkin 帳號。請選擇支援的帳號後重試。</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Precheck.UnsupportedAccount">不支援此帳號類型，請重新選擇帳號。</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Precheck.AccountChanged">帳號、憑證或啟動目標已變更，或此次工作階段已過期。請重新選擇帳號並啟動。</sys:String>
 </ResourceDictionary>

@@ -3643,4 +3643,15 @@
     <sys:String x:Key="Watcher.WindowLoaded">Minecraft window loaded: {0} ({1})</sys:String>
     <sys:String x:Key="Watcher.WindowMaximized">Minecraft window maximized: {0}</sys:String>
 
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.ServicesDenied">Microsoft and Xbox authorization completed, but Minecraft Services rejected this launcher's sign-in request (HTTP 403).&#xA;Please contact the maintainer to confirm this launcher's Minecraft Services access status. Sign-in has not completed.</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.ServiceFailed">Sign-in failed at the {0} stage (HTTP {1}).&#xA;Please try again later. If this continues, report the stage and status code to the maintainer.</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.Stage.XboxLive">Xbox Live authentication</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.Stage.Xsts">Xbox service authorization</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.Stage.MinecraftLogin">Minecraft Services sign-in</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.Stage.Entitlements">game entitlement verification</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.Stage.JavaProfile">Java player profile retrieval</sys:String>
+    <sys:String x:Key="Launch.Account.AdmissionHint">Accounts use separate checks: Microsoft game entitlements, skin-site authentication, or a local offline identity.</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Precheck.ClubAccountRequired">This community server requires a Microsoft, WZBC Skin, MUA Union, or LittleSkin account. Select a supported account and try again.</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Precheck.UnsupportedAccount">This account type is not supported. Please select another account.</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Precheck.AccountChanged">The account, credentials, or launch target changed, or this session expired. Please select the account and launch again.</sys:String>
 </ResourceDictionary>

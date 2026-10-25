@@ -349,6 +349,7 @@ MaskFiles/
 
 # Conduit-Club build outputs
 /artifacts/
+/local-handoff/
 
 # Local build configuration (never commit credentials)
 .env

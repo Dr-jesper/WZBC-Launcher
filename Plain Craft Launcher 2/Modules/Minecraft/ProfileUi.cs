@@ -27,6 +27,20 @@ public static class ProfileUi
 {
     private static int _isMsSkinChanging;
 
+    public static bool HandleMicrosoftServiceError(MicrosoftServiceException exception)
+    {
+        LogWrapper.Warn(exception, "Profile", "Microsoft service request failed");
+        var denied = exception is { Stage: MicrosoftAuthenticationStage.MinecraftLogin, StatusCode: HttpStatusCode.Forbidden };
+        var message = denied
+            ? Lang.Text("Minecraft.Launch.Login.Microsoft.ServicesDenied")
+            : Lang.Text("Minecraft.Launch.Login.Microsoft.ServiceFailed",
+                Lang.Text("Minecraft.Launch.Login.Microsoft.Stage." + exception.Stage),
+                (int)exception.StatusCode!.Value);
+        ModBase.RunInUiWait(() => ModMain.MyMsgBox(message, Lang.Text("Minecraft.Launch.Login.Failed"),
+            Lang.Text("Common.Action.Confirm"), isWarn: true));
+        return true;
+    }
+
     /// <summary>
     ///     处理微软登录中的 XSTS 账号类错误，向用户展示对应的操作指引。
     /// </summary>
@@ -396,7 +410,7 @@ public static class ProfileUi
                 _ => new ModLaunch.McLoginLegacy()
             };
         }
-        return profile.ProfileType switch
+        ModLaunch.McLoginData input = profile.ProfileType switch
         {
             ProfileType.Microsoft => new ModLaunch.McLoginMs(),
             ProfileType.Authlib => new ModLaunch.McLoginServer(ModLaunch.McLoginType.Auth)
@@ -417,6 +431,8 @@ public static class ProfileUi
             },
             _ => new ModLaunch.McLoginLegacy { UserName = profile.UserName, Uuid = profile.Uuid }
         };
+        input.ProfileId = profile.ProfileId;
+        return input;
     }
 
     public static string IsProfileValid()
