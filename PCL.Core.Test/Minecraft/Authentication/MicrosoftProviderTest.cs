@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PCL.Core.Minecraft.IdentityModel;
+using PCL.Core.Minecraft.Profile;
 using PCL.Core.Minecraft.Profile.Authentication;
 using PCL.Core.Minecraft.Profile.Models;
 
@@ -145,6 +146,69 @@ public sealed class MicrosoftProviderTest
         await ThrowsAsync<OperationCanceledException>(() => provider.GetDeviceCodeAsync(cancelled.Token));
     }
 
+    [TestMethod]
+    [DataRow("/user/authenticate", 401, MicrosoftAuthenticationStage.XboxLive)]
+    [DataRow("/xsts/authorize", 403, MicrosoftAuthenticationStage.Xsts)]
+    [DataRow("/authentication/login_with_xbox", 403, MicrosoftAuthenticationStage.MinecraftLogin)]
+    [DataRow("/entitlements/mcstore", 403, MicrosoftAuthenticationStage.Entitlements)]
+    [DataRow("/minecraft/profile", 503, MicrosoftAuthenticationStage.JavaProfile)]
+    public async Task HttpFailuresKeepStageAndStatusWithoutEchoingRemoteBody(
+        string path, int status, MicrosoftAuthenticationStage stage)
+    {
+        using var handler = new AuthHandler { FailurePath = path, FailureStatus = (HttpStatusCode)status };
+        using var client = new HttpClient(handler);
+        var provider = new MicrosoftProvider(ClientId, () => client);
+        var error = await ThrowsAsync<MicrosoftServiceException>(
+            () => provider.RefreshAsync(new McProfile { RefreshToken = "old-refresh" }, CancellationToken.None));
+        Assert.AreEqual(stage, error.Stage);
+        Assert.AreEqual((HttpStatusCode)status, error.StatusCode);
+        Assert.AreEqual(path, handler.Requests[^1]);
+        Assert.IsFalse(error.ToString().Contains("remote-secret-test", StringComparison.Ordinal));
+    }
+
+    [TestMethod]
+    [DataRow("services403")]
+    [DataRow("entitlements403")]
+    [DataRow("notOwned")]
+    [DataRow("missingProfile")]
+    [DataRow("xstsRestriction")]
+    public async Task ExplicitDenialCannotReachTheOuterContinueWithCacheCallback(string failure)
+    {
+        using var handler = failure switch
+        {
+            "services403" => new AuthHandler { FailurePath = "/authentication/login_with_xbox" },
+            "entitlements403" => new AuthHandler { FailurePath = "/entitlements/mcstore" },
+            "notOwned" => new AuthHandler { OwnsGame = false },
+            "missingProfile" => new AuthHandler { MissingProfile = true },
+            _ => new AuthHandler { DenyXsts = true }
+        };
+        using var client = new HttpClient(handler);
+        var provider = new MicrosoftProvider(ClientId, () => client);
+        var existing = new McProfile
+        {
+            ProfileType = ProfileType.Microsoft, AccessToken = "cached-access", RefreshToken = "old-refresh",
+            UserName = "Existing", Uuid = "existing-id"
+        };
+        var callbackCalls = 0;
+        var request = new AuthenticationRequest
+        {
+            RefreshFailureHandler = (_, _) => { callbackCalls++; return Task.FromResult(true); }
+        };
+        try
+        {
+            await ProfileService.RefreshExistingAsync(provider, ProfileType.Microsoft, request, existing, CancellationToken.None);
+            Assert.Fail("An explicit rejection must propagate instead of accepting the cached profile.");
+        }
+        catch (Exception error) when (error is MicrosoftServiceException or IdentityModelAuthenticationException)
+        {
+            Assert.AreEqual(0, callbackCalls);
+            Assert.IsTrue(existing.AuthenticationInvalidated);
+            Assert.AreEqual("cached-access", existing.AccessToken);
+            Assert.AreEqual("old-refresh", existing.RefreshToken);
+            Assert.AreEqual("existing-id", existing.Uuid);
+        }
+    }
+
     private static async Task<T> ThrowsAsync<T>(Func<Task> action) where T : Exception
     {
         try { await action(); }
@@ -162,6 +226,8 @@ public sealed class MicrosoftProviderTest
         public bool DenyXsts { get; init; }
         public bool MissingProfile { get; init; }
         public string? TokenError { get; init; }
+        public string? FailurePath { get; init; }
+        public HttpStatusCode FailureStatus { get; init; } = HttpStatusCode.Forbidden;
         public List<string> Requests { get; } = [];
         public string LastBody { get; private set; } = "";
 
@@ -172,6 +238,12 @@ public sealed class MicrosoftProviderTest
             var path = request.RequestUri.AbsolutePath;
             Requests.Add(path);
             LastBody = request.Content is null ? "" : await request.Content.ReadAsStringAsync(token);
+            if (path == FailurePath)
+                return new HttpResponseMessage(FailureStatus)
+                {
+                    Content = new StringContent("remote-secret-test: untrusted response body"),
+                    RequestMessage = request
+                };
             var status = HttpStatusCode.OK;
             object response;
             if (path.EndsWith("/devicecode", StringComparison.Ordinal))

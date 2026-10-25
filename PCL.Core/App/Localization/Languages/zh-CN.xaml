@@ -3643,4 +3643,15 @@
     <sys:String x:Key="Watcher.WindowLoaded">Minecraft 窗口已加载：{0}（{1}）</sys:String>
     <sys:String x:Key="Watcher.WindowMaximized">已最大化 Minecraft 窗口：{0}</sys:String>
 
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.ServicesDenied">Microsoft 与 Xbox 授权已完成，但 Minecraft Services 拒绝了本启动器的登录请求（HTTP 403）。&#xA;请联系维护者确认本启动器的 Minecraft 服务授权状态。此次登录尚未完成。</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.ServiceFailed">登录在“{0}”阶段失败（HTTP {1}）。&#xA;请稍后重试；如果持续出现，请将失败阶段和状态码反馈给维护者。</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.Stage.XboxLive">Xbox Live 认证</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.Stage.Xsts">Xbox 服务授权</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.Stage.MinecraftLogin">Minecraft 服务登录</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.Stage.Entitlements">游戏权益核验</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Login.Microsoft.Stage.JavaProfile">Java 玩家资料获取</sys:String>
+    <sys:String x:Key="Launch.Account.AdmissionHint">启动时按账号类型验证：Microsoft 核验游戏权益，皮肤站验证对应服务，离线角色仅表示本地身份。</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Precheck.ClubAccountRequired">此社团服务器需要 Microsoft、WZBC Skin、MUA Union 或 LittleSkin 账户。请选择受支持的账户后重试。</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Precheck.UnsupportedAccount">不支持此账号类型，请重新选择账户。</sys:String>
+    <sys:String x:Key="Minecraft.Launch.Precheck.AccountChanged">账号、凭据或启动目标已变化，或本次会话已过期。请重新选择账户并启动。</sys:String>
 </ResourceDictionary>

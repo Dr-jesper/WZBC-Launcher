@@ -23,7 +23,8 @@ jobs:
       - name: Build WZBC launcher (distribution on hold)
         shell: pwsh
         env:
-          PCL_MS_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          # Public application identifier, not a client secret or service approval.
+          PCL_MS_CLIENT_ID: b42a22d0-3ca4-450d-8389-a466092f3ff7
         run: ./scripts/conduit/Publish.ps1 -BuildOnly
       - name: Offline regression tests
         shell: pwsh

@@ -40,7 +40,7 @@ public static class MojangUtils
                 }
                 ), Encoding.UTF8, "application/json")
             ).SendAsync(httpClient, cancellationToken: token).ConfigureAwait(false);
-        response.EnsureSuccessStatusCode();
+        MicrosoftServiceException.EnsureSuccess(response, MicrosoftAuthenticationStage.MinecraftLogin);
         return await response.AsJsonAsync<MojangResponse>(cancellationToken: token).ConfigureAwait(false);
     }
 
@@ -54,7 +54,7 @@ public static class MojangUtils
         using var response = await HttpRequest.Create(LicenseEndpoint)
             .WithAuthentication(profile.TokenType, profile.AccessToken)
             .SendAsync(httpClient, cancellationToken: token).ConfigureAwait(false);
-        response.EnsureSuccessStatusCode();
+        MicrosoftServiceException.EnsureSuccess(response, MicrosoftAuthenticationStage.Entitlements);
         var result = await response.AsJsonAsync<JsonObject>(cancellationToken: token).ConfigureAwait(false);
         return result?["items"] is JsonArray items && items.Any(item =>
             item?["name"]?.ToString() is "product_minecraft" or "game_minecraft");
@@ -71,7 +71,7 @@ public static class MojangUtils
         if (response.StatusCode == HttpStatusCode.NotFound)
             throw new IdentityModelAuthenticationException("profile_not_created",
                 "The Microsoft account has not created a Minecraft Java profile yet.");
-        response.EnsureSuccessStatusCode();
+        MicrosoftServiceException.EnsureSuccess(response, MicrosoftAuthenticationStage.JavaProfile);
         return await response.AsJsonAsync<MojangProfile>(cancellationToken: token).ConfigureAwait(false)
                ?? throw new InvalidOperationException("Minecraft profile response was empty.");
     }

@@ -14,6 +14,8 @@ public sealed class McProfile : SafeProfile
     [JsonPropertyName("description")] public string Description { get; set; } = string.Empty;
     [JsonPropertyName("skinHeadId")] public string SkinHeadId { get; set; } = string.Empty;
     [JsonPropertyName("rawJson")] public string RawJson { get; set; } = string.Empty;
+    // A negative authentication result must survive restart, without removing the account.
+    [JsonPropertyName("authenticationInvalidated")] public bool AuthenticationInvalidated { get; set; }
 
     // Authlib/Yggdrasil
     [JsonPropertyName("server")] public string? Server { get; set; }
@@ -46,6 +48,7 @@ public sealed class McProfile : SafeProfile
         Description = Description,
         SkinHeadId = SkinHeadId,
         RawJson = RawJson,
+        AuthenticationInvalidated = AuthenticationInvalidated,
         Server = Server,
         ServerName = ServerName,
         LoginName = LoginName,

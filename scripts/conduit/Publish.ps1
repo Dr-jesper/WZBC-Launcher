@@ -49,7 +49,7 @@ try {
     Copy-Item -LiteralPath (Join-Path $repo 'Plain Craft Launcher 2/LICENCE') -Destination $output
     Copy-Item -LiteralPath (Join-Path $repo 'docs/wzbc/BUILD.md') -Destination (Join-Path $output 'BUILD.md')
     Copy-Item -LiteralPath (Join-Path $repo 'docs/wzbc/PENDING.md') -Destination (Join-Path $output 'PENDING.md')
-    foreach ($document in @('PRIVACY.md', 'SECURITY.md', 'LICENSING.md')) {
+    foreach ($document in @('PRIVACY.md', 'SECURITY.md', 'LICENSING.md', 'TERMS.md')) {
         Copy-Item -LiteralPath (Join-Path $repo $document) -Destination $output
     }
     $commit = git rev-parse HEAD
@@ -70,7 +70,7 @@ try {
     $archive = Join-Path (Split-Path $output) "$name.zip"
     # Package only distribution files, never runtime-created profiles, caches or logs.
     $packageNames = @("$name.exe", 'LICENSE', 'LICENCE', 'BUILD.md', 'PENDING.md', 'BUILD-INFO.txt',
-        'PRIVACY.md', 'SECURITY.md', 'LICENSING.md')
+        'PRIVACY.md', 'SECURITY.md', 'LICENSING.md', 'TERMS.md')
     $actualNames = @(Get-ChildItem -LiteralPath $output | ForEach-Object Name)
     if (@(Compare-Object $packageNames $actualNames).Count -ne 0) {
         throw 'Unexpected publish output; inspect it before packaging.'

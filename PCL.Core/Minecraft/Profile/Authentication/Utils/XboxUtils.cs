@@ -35,7 +35,8 @@ public static class XboxUtils
             {
             }
         }
-        response.EnsureSuccessStatusCode();
+        MicrosoftServiceException.EnsureSuccess(response,
+            isXsts ? MicrosoftAuthenticationStage.Xsts : MicrosoftAuthenticationStage.XboxLive);
         return await response.AsJsonAsync<XboxLiveResponse>(cancellationToken: token);
     }
 }

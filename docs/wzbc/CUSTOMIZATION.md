@@ -37,3 +37,5 @@ Plain Craft Launcher 2/Images/Wzbc/ 收录运行所需的社团 Logo、多尺寸
 WZBC Skin 复用原有加密档案、密码登录与角色管理。来源识别要求 HTTPS、精确域名、端口和路径。共享配置、缓存和临时目录使用 WZBC-Launcher（Debug 带后缀），不自动读取原项目共享账户；实例旁的 PCL/ 兼容结构保留。
 
 发行源独立绑定本仓库，SHOU-PCL 发行记录只有在测试中显式指定来源时参与兼容解析，不作为默认更新回退。真实验收边界见 [VALIDATION.md](VALIDATION.md)。
+
+账号准入按维护者选择沿用上游的 Microsoft、第三方和离线身份路径，并由共同启动策略执行实例与社团限制，不新增微软绑定。账号、角色、服务和缓存彼此隔离；具体规则见 [ACCOUNT-ADMISSION.md](ACCOUNT-ADMISSION.md)。

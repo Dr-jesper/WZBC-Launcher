@@ -6,21 +6,21 @@
 
 本專案是基於 SHOU-PCL / PCL-CE / PCL 的獨立第三方啟動器，由 **[Dr-jesper](https://github.com/Dr-jesper) 與 Codex** 共同維護，維護者負責發布與支援。校名僅說明社群背景，本專案未聲稱獲得溫州商學院官方背書。
 
-**專案支援及私人安全聯絡：[1175234170@qq.com](mailto:1175234170@qq.com)** · [隱私說明](PRIVACY.md) · [安全回報](SECURITY.md)
+**專案支援及私人安全聯絡：[1175234170@qq.com](mailto:1175234170@qq.com)** · [隱私說明](PRIVACY.md) · [使用條款](TERMS.md) · [安全回報](SECURITY.md)
 
 > **混合授權，整個儲存庫並非全部適用 Apache-2.0。** 啟動器與介面目錄保留 PCL 分發有限許可及附帶指南；其他程式碼及第三方素材按各自條款處理。詳見 [LICENSING.md](LICENSING.md)。
 >
-> **新的二進位公開發行暫緩。** 維護者尚未取得涵蓋目前 WZBC 名稱及紫色／奶蛙主題的單獨授權；保留原始碼與聲明不代表授權問題已解決。
+> **新的二進位公開發行暫緩。** 名稱、主題及發行方式的單獨核對集中在[授權核對紀錄](docs/wzbc/PCL-LICENSE-REVIEW.md)。
 
-## 功能與目前狀態（2026-10-23）
+## 功能與目前狀態（2026-10-25）
 
 保留帳號管理、遊戲下載與實例安裝、模組依賴及啟動能力，加入 WZBC 標誌、校園復建輪播與社團入口。WZBC、奶蛙配色、奶蛙黃支援深淺模式，更新保留使用者選擇。功能清單不代表所有真實操作均已驗收。
 
-- Microsoft 應用程式註冊已完成；**尚未取得 Minecraft Services 授權**。維護者回報 AppID 申請於 2026-10-21 被拒，具體拒絕原因未確認。
-- Microsoft 登入路徑檢查遊戲所有權；離線檔案和第三方皮膚站認證不等於正版驗證，目前尚未對所有啟動路徑統一核驗所有權。
+- Microsoft 應用程式註冊及 Azure 首頁、隱私、條款、徽標資料已完成；**尚未取得 Minecraft Services 授權**。兩輪申請未通過，具體原因未確認。自有 Client ID 實測至 XSTS 成功，Minecraft 換票回傳 HTTP 403。
+- [統一帳號准入](docs/wzbc/ACCOUNT-ADMISSION.md)沿用上游三條身分路徑，不新增 Microsoft 綁定。Microsoft 路徑檢查遊戲權益；皮膚站及離線角色不證明 Microsoft 遊戲所有權，不能據此聲稱滿足全部 AppID 要求。
 - [v1.2.0-wzbc.2](https://github.com/Dr-jesper/WZBC-Launcher/releases/tag/v1.2.0-wzbc.2) 為歷史預覽版，未包含本輪修復，不代表已完成整改或通過 Mojang 審核。
-- 目前修復原始碼版本為 1.2.0-wzbc.3，暫不發布新的公開二進位套件。Actions 繼續編譯並執行離線測試，僅上傳測試結果。
-- 真實登入、權杖更新、遊戲下載、啟動與入服仍待驗收。詳見[驗證紀錄](docs/wzbc/VALIDATION.md)、[待辦](docs/wzbc/PENDING.md)及[再次申請評估](docs/wzbc/APPID-REVIEW.md)。
+- 目前審核原始碼版本為 1.2.0-wzbc.3，已納入認證階段提示、失效工作階段阻斷、帳號快取隔離及啟動身分複核。408 項本地離線測試通過，Windows x64 Beta/Debug 編譯通過。Actions 使用自有公開 Client ID 進行 BuildOnly，僅上傳測試報告。
+- 完整真實登入、權杖更新、遊戲下載、啟動與入服仍待驗收。[審核版本入口](docs/wzbc/REVIEW.md)集中列出證據與待辦；同步原始碼不代表再次提交申請。
 
 [社團官網](https://wzbcmc.cn/) · [皮膚站](https://skin.wzbcmc.cn/) · [建置說明](docs/wzbc/BUILD.md)
 

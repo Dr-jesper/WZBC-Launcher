@@ -1,5 +1,6 @@
 ﻿using System.Security.Authentication;
 using System.Windows;
+using System.Runtime.ExceptionServices;
 using PCL.Core.App.Localization;
 using PCL.Core.Conduit;
 using PCL.Core.Minecraft.Profile;
@@ -67,7 +68,7 @@ public partial class PageLoginMs
                 else if (ModLaunch.mcLoginMsLoader.Error is null)
                     throw new InvalidOperationException(Lang.Text("Launch.Account.Microsoft.Error.Unknown"));
                 else
-                    throw ModLaunch.mcLoginMsLoader.Error;
+                    ExceptionDispatchInfo.Capture(ModLaunch.mcLoginMsLoader.Error).Throw();
             }
             catch (ThreadInterruptedException ex)
             {
