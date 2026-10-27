@@ -9,7 +9,7 @@ using Polly;
 using System;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
+using PCL.Core.Conduit;
 
 namespace PCL.Core.IO.Net;
 
@@ -68,7 +68,7 @@ public partial class NetworkService
         services.ConfigureHttpClientDefaults(b => b
             .ConfigurePrimaryHttpMessageHandler(_GetSocketsHttpHandler)
             .ConfigureHttpClient(c => c.DefaultRequestHeaders
-                .UserAgent.Add(new ProductInfoHeaderValue("PCL-CE", Basics.VersionName)))
+                .UserAgent.ParseAdd(ClubHttpIdentity.UserAgent))
             .SetHandlerLifetime(TimeSpan.FromMinutes(LifeTime)));
         
         // 默认的 HTTP Client

@@ -1,36 +1,27 @@
-# WZBC-Launcher 构建与发行状态
+# WZBC-Launcher 构建与打包
 
-更新：2026-10-25。审核源码版本 1.2.0-wzbc.3；历史发行 v1.2.0-wzbc.2 不包含这批修复。Windows / .NET 10 SDK，本轮验证 SDK 10.0.402。审核范围见 [REVIEW.md](REVIEW.md)。
-
-**PCL 衍生使用依据仍待核实，新的公开二进制发行暂缓。** 本地编译及通过测试不产生修改或分发授权，详见 [LICENSING.md](../../LICENSING.md)。
+更新：2026-10-27。Windows / .NET 10 SDK，版本 1.2.0-wzbc.3。
 
 ```powershell
-# 本地编译
-dotnet build 'Plain Craft Launcher 2/Plain Craft Launcher 2.csproj' -c Beta -p:Platform=x64 -p:UseSharedCompilation=false
-# 完整离线回归，使用模拟认证数据，不使用真实账号
+# 离线回归（模拟认证服务）
 dotnet test PCL.Core.Test/PCL.Core.Test.csproj -c Beta -p:Platform=x64 --filter 'TestCategory!=Integration' --blame-hang-timeout 2m
-# 自包含构建检查，不创建分发 ZIP，不上传 EXE
-./scripts/conduit/Publish.ps1 -BuildOnly -OutputRoot artifacts/review
+# 仅构建，不生成分发 ZIP
+./scripts/conduit/Publish.ps1 -BuildOnly -OutputRoot artifacts/check
+# 生成 Windows x64 自包含便携 ZIP 与 SHA-256
+$env:PCL_MS_CLIENT_ID = 'b42a22d0-3ca4-450d-8389-a466092f3ff7'
+./scripts/conduit/Publish.ps1 -OutputRoot artifacts/package
 ```
 
-可通过 -Dotnet 'path/to/dotnet.exe' 指定 SDK。脚本支持 ARM64 构建参数，但未进行该架构实机验收。输出目录必须尚不存在。
+可用 `-Dotnet 'path/to/dotnet.exe'` 指定 SDK。输出目录必须尚不存在。ARM64 参数保留，当前发行目标为 x64。
 
-## 构建内容与数据
+## 分发内容
 
-BuildOnly 输出 EXE、许可、隐私/安全/待办文档与 BUILD-INFO.txt，仅用于本地检查。构建信息记录源码提交、工作区状态、版本、SDK、架构、配置和 Microsoft Client ID 是否注入。源码提交不收录本机运行目录、账号、密钥、日志、SDK 或原始参考图。
+打包脚本严格限定 EXE、LICENSE、LICENCE、BUILD.md、PENDING.md、BUILD-INFO.txt、PRIVACY.md、SECURITY.md、LICENSING.md、TERMS.md。构建信息包含提交、源码状态、SDK、配置及公开 Client ID 是否注入。运行时账号、配置、缓存、日志、SDK 和原始素材不进入 ZIP。
 
-脚本的打包模式保留供分发依据确认后的流程使用；严格限定为 EXE、LICENSE、LICENCE、BUILD.md、PENDING.md、BUILD-INFO.txt、PRIVACY.md、SECURITY.md、LICENSING.md、TERMS.md。它不是授权证明，当前不得据此自动恢复公开发行。
+脚本隔离其他 `PCL_*` 环境变量，只注入自有公开 Client ID 和源码提交；不嵌入其他项目凭据。版本说明见 [RELEASE-v1.2.0-wzbc.3.md](RELEASE-v1.2.0-wzbc.3.md)。
 
-## Microsoft 与其他服务
+## CI 与手动发行
 
-应用已完成注册，Minecraft Services 两轮审核未获批准。配置自己的公开 Client ID 只能启用客户端流程，不能代替服务授权或保证 Minecraft 登录成功。当前修复没有注入其他项目的 App ID、密钥或 Sentry DSN。
+GitHub Actions 保留 BuildOnly 和完整离线测试，仅上传测试报告。公开发行由维护者手动执行：检查源码与测试、核对 ZIP 清单和 SHA-256，再上传到自己仓库的 Release 附件。自动构建不会自动发布。
 
-脚本只接受 .env.example 所述公开 Client ID 与源码 SHA 输入，隔离其他 PCL_* 环境变量。官网启动日志源未启用；外部授权服务和真实流程限制见 [PENDING.md](PENDING.md)。
-
-## GitHub Actions
-
-WZBC Build 对 main、dev、WZBC-Launcher 推送/PR 和手动运行执行 BuildOnly 及完整离线测试；只上传测试报告，不创建新分发 ZIP，不上传新的二进制包，不自动发布 Release。仓库权限为 contents: read。
-
-工作流显式使用 WZBC 自有公开 Client ID（非 secret），避免仓库未配置 CLIENT_ID Secret 时生成无法测试 Microsoft 流程的审核构建。它不代表新增权限或服务已批准。
-
-来源基线与历史见 [SOURCE-PARITY.md](SOURCE-PARITY.md)；本轮验证见 [VALIDATION.md](VALIDATION.md)。不要用来源社团 docs/conduit 中的历史批准或服务配置代表 WZBC 的状态。
+Microsoft 应用已注册，Minecraft Services 尚未批准，当前 Microsoft 登录不可用。其他账号策略见 [ACCOUNT-ADMISSION.md](ACCOUNT-ADMISSION.md)。

@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PCL.Core.Conduit;
 using PCL.Core.Minecraft.IdentityModel;
 using PCL.Core.Minecraft.Profile;
 using PCL.Core.Minecraft.Profile.Authentication;
@@ -235,6 +236,8 @@ public sealed class MicrosoftProviderTest
         {
             token.ThrowIfCancellationRequested();
             Assert.AreEqual("https", request.RequestUri!.Scheme);
+            Assert.AreEqual(ClubHttpIdentity.UserAgent, request.Headers.UserAgent.ToString());
+            Assert.IsNull(request.Headers.Referrer);
             var path = request.RequestUri.AbsolutePath;
             Requests.Add(path);
             LastBody = request.Content is null ? "" : await request.Content.ReadAsStringAsync(token);

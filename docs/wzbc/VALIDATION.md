@@ -9,13 +9,13 @@
 ## 2026-10-23 源码修复
 
 - 简体、英文、繁体 README 统一项目身份、维护者和支持邮箱，突出非官方声明与混合许可。
-- 新增 PRIVACY.md、SECURITY.md、LICENSING.md 和 APPID-REVIEW.md，保留尚未解决的授权和所有权策略问题。
+- 新增 PRIVACY.md、SECURITY.md、LICENSING.md 和 APPID-REVIEW.md，说明隐私、安全、许可范围及账号路径。
 - 认证测试使用模拟 HTTP 服务，覆盖设备码及 scope、错误/拒绝/过期、刷新令牌保留与轮换、Xbox 限制、无关或缺失游戏许可、缺失 Java 档案、过期档案和取消。默认服务端点与所有权检查顺序不变。
 - 日志测试覆盖 JSON、键值、命令行、Bearer/Basic 和已知短凭据的完整脱敏；实际临时日志落盘检查，并修复关闭时尾部未刷新的问题。
 - 缺少 Sentry DSN 时在设备信息、NAT 和其他启动器探测前返回。该路径经源码核对，不声称已在用户遥测账号上完成端到端测试。
 - 离线与第三方账号仍保留，标签和说明明确其不等于微软正版验证。未将模拟测试说成真实登录成功。
 
-本轮完整离线回归与 Windows 构建结果以当前提交对应的 [Actions](https://github.com/Dr-jesper/WZBC-Launcher/actions/workflows/wzbc-build.yml) 为准。CI 仅上传测试报告，暂缓新的二进制公开发行。源代码中的本机验证日志位于忽略目录 artifacts/，不提交真实账号或截图。
+本轮完整离线回归与 Windows 构建结果以当前提交对应的 [Actions](https://github.com/Dr-jesper/WZBC-Launcher/actions/workflows/wzbc-build.yml) 为准。CI 仅上传测试报告，公开包由维护者手动发布。源代码中的本机验证日志位于忽略目录 artifacts/，不提交真实账号或截图。
 
 本地完整离线回归：**357 项通过，0 失败、0 跳过**（较历史 332 项新增 25 项微软认证与日志回归）。Windows x64 / Beta 的 WPF 编译为 **0 错误、5396 条继承警告**，不声称零警告构建。新增测试没有登录真实账号、使用真实令牌或改变真实游戏实例。
 
@@ -47,7 +47,7 @@ Windows x64 的 Beta BuildOnly 与 Debug 诊断构建均通过，保留继承警
 
 ## 2026-10-25 审核版本同步
 
-将上述认证、缓存及共同准入修复同步到 GitHub；三语说明、Azure 展示字段完成状态与独立许可核对统一到[审核入口](REVIEW.md)。Azure 徽标保存成功，公开条款来自已确认的 TERMS.md；门户截图、租户私人信息及运行日志不上传。
+将上述认证、缓存及共同准入修复同步到 GitHub；三语说明、Azure 展示字段完成状态与来源文件索引统一到[审核入口](REVIEW.md)。Azure 徽标保存成功，公开条款来自已确认的 TERMS.md；门户截图、租户私人信息及运行日志不上传。
 
 CI 改为显式注入 WZBC 自有公开 Client ID，保留 BuildOnly 和仅测试报告上传。构建脚本补入 TERMS.md，仍不生成或发布本轮分发包。10-25 同步前重新执行完整本地离线回归，408 项通过、0 失败、0 跳过；文档相对路径和构建脚本语法检查通过。本轮云端编译及完整离线回归以对应提交的 [WZBC Build](https://github.com/Dr-jesper/WZBC-Launcher/actions/workflows/wzbc-build.yml) 为准；不得将本地历史报告当作新提交的云端结果。
 
@@ -55,4 +55,12 @@ CI 改为显式注入 WZBC 自有公开 Client ID，保留 BuildOnly 和仅测�
 
 真实 Microsoft 初次授权已到 XSTS，Minecraft Services 仍返回 403；角色、刷新及重启恢复未验收。WZBC Skin / MUA / LittleSkin 真实账号、游戏下载、整合包、Minecraft 启动与入服，代码签名、ARM64 和干净系统仍未验收。维护者提供第二轮未通过通知；本轮没有第三次申请，也未独立核验拒信邮件头或推断具体拒绝原因。
 
-软件测试、资料补充和公开源码都不能代替 PCL 衍生授权，也不能证明满足 AppID 的所有启动路径要求。详见 [PENDING.md](PENDING.md)。
+离线自动测试与真实账号、游戏验收分别记录；技术验证范围见 [PENDING.md](PENDING.md)。
+
+## 2026-10-27 HTTP 身份及发行整理
+
+HTTP 客户端、认证发送器、下载、更新检查和 DoH 共用 WZBC-Launcher/1.2.0-wzbc.3；发送器不再自动添加上游 Referer。按当前 SHOU-Launcher 的请求标识方式保留浏览器兼容及自定义下载 UA。
+
+完整离线回归 **413 项通过、0 失败、0 跳过**；补充认证请求头断言后，相关 29 项回归通过。模拟 HTTP 验证覆盖发送器替换上游标识、Microsoft 设备码/刷新/Xbox/XSTS/Minecraft 各阶段的请求标识，以及默认、浏览器兼容、自定义下载 UA。
+
+三语首页及关于页改为项目与使用说明，原许可文本、来源署名及赞助入口保留。维护者已于本日要求手动公开预览包，CI 仍为 BuildOnly，仅上传测试结果。公开包按脚本限定清单生成，实际构建与发行信息见对应 [Release](https://github.com/Dr-jesper/WZBC-Launcher/releases/tag/v1.2.0-wzbc.3)。本轮未重复真实登录、游戏启动或入服测试。

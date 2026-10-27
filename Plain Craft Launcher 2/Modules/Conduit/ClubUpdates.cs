@@ -46,7 +46,7 @@ public static class ClubUpdates
     private static HttpClient CreateClient()
     {
         var client = new HttpClient { Timeout = TimeSpan.FromSeconds(20) };
-        client.DefaultRequestHeaders.UserAgent.ParseAdd("WZBC-Launcher/" + ClubRelease.CurrentVersion);
+        client.DefaultRequestHeaders.UserAgent.ParseAdd(ClubHttpIdentity.UserAgent);
         client.DefaultRequestHeaders.Accept.ParseAdd("application/vnd.github+json");
         return client;
     }
@@ -57,7 +57,7 @@ public static class ClubUpdates
         {
             Timeout = TimeSpan.FromSeconds(8)
         };
-        client.DefaultRequestHeaders.UserAgent.ParseAdd("WZBC-Launcher/" + ClubRelease.CurrentVersion);
+        client.DefaultRequestHeaders.UserAgent.ParseAdd(ClubHttpIdentity.UserAgent);
         client.DefaultRequestHeaders.Accept.ParseAdd("text/html");
         return client;
     }

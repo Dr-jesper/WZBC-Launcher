@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http;
 using PCL.Core.App;
+using PCL.Core.Conduit;
 
 namespace PCL.Network;
 
@@ -14,7 +15,7 @@ public static class RequestSigning
     }
     
     /// <summary>
-    ///     设置 Headers 的 UA、Referer。
+    ///     设置请求身份与下载服务 Headers。
     /// </summary>
     internal static void SecretHeadersSign(string url, ref HttpRequestMessage client, bool useBrowserUserAgent = false,
         string customUserAgent = "")
@@ -28,11 +29,8 @@ public static class RequestSigning
         {
             client.Headers.Add("x-api-key", Secrets.CurseForgeAPIKey);
         }
-        var userAgent = !string.IsNullOrEmpty(customUserAgent)
-            ? customUserAgent
-            : useBrowserUserAgent
-                ? $"PCL2/{ModBase.upstreamVersion}.{ModBase.versionBranchCode} PCLCE/{ModBase.versionStandardCode} Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
-                : $"PCL2/{ModBase.upstreamVersion}.{ModBase.versionBranchCode} PCLCE/{ModBase.versionStandardCode}";
+        var userAgent = ClubHttpIdentity.GetUserAgent(useBrowserUserAgent, customUserAgent);
+        client.Headers.UserAgent.Clear();
         client.Headers.Add("User-Agent", userAgent);
     }
 }

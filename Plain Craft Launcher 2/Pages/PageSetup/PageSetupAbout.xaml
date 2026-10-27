@@ -110,8 +110,8 @@
                     <TextBlock Text="NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT." FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,8" />
                     <TextBlock Text="本项目维护：Dr-jesper 与 Codex" Margin="0,0,0,6" FontWeight="SemiBold" TextWrapping="Wrap" />
                     <TextBlock Text="维护者负责发布和支持；项目未声称获得校方背书。联系：1175234170@qq.com" TextWrapping="Wrap" />
-                    <TextBlock Text="混合许可：并非整个项目都适用 Apache-2.0。当前名称与主题的 PCL 单独授权尚未取得，新的二进制公开发行暂缓。" TextWrapping="Wrap" Margin="0,6,0,0" />
-                    <TextBlock Text="Microsoft 应用已注册；Minecraft Services 审核未获批准。离线或第三方认证不等于正版验证。" TextWrapping="Wrap" Margin="0,6,0,0" />
+                    <TextBlock Text="许可：启动器界面目录保留 PCL 分发有限许可；其他代码及依赖按各自许可处理，详见随附许可文件。" TextWrapping="Wrap" Margin="0,6,0,0" />
+                    <TextBlock Text="Microsoft 登录当前不可用。支持皮肤站与离线角色；这些身份不核验 Microsoft 游戏所有权。" TextWrapping="Wrap" Margin="0,6,0,0" />
                     <TextBlock Text="基于 SHOU-PCL / PCL-CE 的独立第三方社团启动器。WZBC 品牌与校园素材来自社团官网；SHOU-PCL 原社团版开发：Moeary / Codex。" TextWrapping="Wrap" />
                     <TextBlock x:Name="ClubReleaseIdentity" Margin="0,8,0,0" Opacity="0.72" TextWrapping="Wrap" />
                     <WrapPanel Margin="0,16,0,0">
