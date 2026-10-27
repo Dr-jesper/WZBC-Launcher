@@ -10,6 +10,7 @@ using Ae.Dns.Protocol;
 using Ae.Dns.Protocol.Enums;
 using Ae.Dns.Protocol.Records;
 using PCL.Core.IO.Net.Http;
+using PCL.Core.Conduit;
 using PCL.Core.Logging;
 
 namespace PCL.Core.IO.Net.Dns;
@@ -44,6 +45,8 @@ public class DnsQuery : IDisposable
                 BaseAddress = new Uri("https://cloudflare-dns.com/")
             }
         ];
+        foreach (var client in _httpClients)
+            client.DefaultRequestHeaders.UserAgent.ParseAdd(ClubHttpIdentity.UserAgent);
         _resolver = new DnsCachingClient(
             new WeightedDnsRacerClient(2, _httpClients.Select(static x => new DnsHttpClient(x)).ToArray<IDnsClient>()),
             new MemoryCache("DoH Query Cache"));

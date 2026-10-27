@@ -40,7 +40,7 @@ public partial class PageSetupAbout
         ItemAboutPcl.Info = ItemAboutPcl.Info.Replace("%VERSION%", ModBase.versionBaseName)
             .Replace("%VERSIONCODE%", ModBase.versionCode.ToString()).Replace("%BRANCH%", ModBase.versionBranchName)
             .Replace("%COMMIT_HASH%", ModBase.commitHashShort);
-        ClubReleaseIdentity.Text = $"WZBC 修复源码 {ClubRelease.CurrentTag} · SHOU-PCL 基线 v1.2.0 · 暂缓公开新包";
+        ClubReleaseIdentity.Text = $"WZBC-Launcher {ClubRelease.CurrentTag} · SHOU-PCL 基线 v1.2.0";
 
         if (!Lang.IsChineseMainland)
         {

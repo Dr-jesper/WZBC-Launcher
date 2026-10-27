@@ -2,7 +2,7 @@
 
 - 本项目由 Dr-jesper 与 Codex 共同维护，README 与关于页须明确标注；SHOU-PCL 等来源贡献者的署名继续保留。
 - 公开支持及安全邮箱为 1175234170@qq.com。Microsoft 应用已注册，但 Minecraft Services 未获批准；不得把应用注册写成服务授权。
-- 当前未取得覆盖 WZBC 名称及紫色/奶蛙主题的 PCL 单独授权。先核实 LICENSING.md 所列依据，暂缓新的公开二进制发行；CI 使用 BuildOnly，仅上传测试结果。不得为满足审核而隐瞒离线/第三方路径或伪称全路径正版校验已完成。
+- 按维护者 2026-10-27 指示恢复手动公开发行；保留原许可、来源署名及第三方声明，范围见 LICENSING.md。CI 继续 BuildOnly，仅上传测试结果。不得为满足审核而隐瞒离线/第三方路径或伪称全路径正版校验已完成。
 
 - 本仓库为温州商学院 Minecraft 社团定制，基于 SHOU-PCL main 的 842393281c5ed8bb5745efc37ce775bd0a21f4a1（v1.2.0 / zyf）。保留原功能、许可证、作者署名、赞助链接与第三方声明。
 - origin 为 https://github.com/Dr-jesper/WZBC-Launcher.git；SHOU-PCL 来源远程可命名为 shou。只向自己的 fork 推送。来源更新只跟踪 SHOU-PCL，不直接同步 PCL-CE。

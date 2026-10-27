@@ -1,6 +1,6 @@
 # License scope / 许可范围
 
-核对日期：2026-10-25。Mixed licensing / 混合许可。This file documents scope and review status; it does not replace or broaden any license.
+更新：2026-10-27。Mixed licensing / 混合许可。This file describes license scope; it does not replace or broaden any license.
 
 | 范围 / Scope | 适用说明 |
 | --- | --- |
@@ -9,12 +9,10 @@
 | 第三方依赖和内嵌工具 | 各自许可证与版权声明；关于页 metadata.json 中的组件列表继续保留 |
 | WZBC 标志及校园素材 | 权利归原权利人；提供用于本项目不代表另行授予通用素材使用权，其他用途请联系权利人 |
 
-## 当前名称、主题与分发方式
+## 来源与声明
 
-**现有可核对文件尚不能确认覆盖 WZBC-Launcher 名称、紫色/奶蛙主题及修改版二进制分发。** 本轮单独核对继承基线、SHOU 当前文件、PCL 当前仓库指南和其链接的正式许可正文；依据、逐项对应及边界集中在 [PCL 继承许可核对](docs/wzbc/PCL-LICENSE-REVIEW.md)。
+本项目基于 SHOU-PCL / SHOU-Launcher，保留 PCL、PCL Community 及来源社团的署名、赞助链接与第三方声明。原始许可证随源码和发行包一并提供；根目录 Apache-2.0 不改变其他目录及依赖的许可。
 
-本项目保留原署名、赞助和许可；源码公开供审阅，CI 仅 BuildOnly 编译并上传测试结果，新的公开 EXE/ZIP 发行继续暂缓。本轮不自动改名、重置主题或修改历史 Release。
-
-English: The available documents do not establish permission covering the current WZBC name, purple/frog themes and distribution of modified binaries. See the [dated review](docs/wzbc/PCL-LICENSE-REVIEW.md). Public source, attribution and build success do not by themselves establish that permission. New public binary releases remain on hold.
+Source: [SHOU-Launcher](https://github.com/Conduit-Club/SHOU-Launcher). Original license texts and third-party notices remain included. No additional rights are granted by this summary.
 
 维护者：Dr-jesper 与 Codex。联系：1175234170@qq.com。
