@@ -1,6 +1,6 @@
 # 账号准入策略
 
-更新：2026-10-24。维护者选择“模仿上游”，因此保留 SHOU-Launcher 的三类身份路径，不新增离线或皮肤站角色绑定微软账号的要求。
+更新：2026-10-31。维护者选择“模仿上游”，因此保留 SHOU-Launcher 的三类身份路径，不新增离线或皮肤站角色绑定微软账号的要求。
 
 ## 三类身份
 
@@ -18,9 +18,9 @@
 
 1. 不支持或未选择的账号拒绝启动。
 2. LabyMod 等要求 Microsoft 的实例优先按该要求检查。
-3. 社团入口按来源的受支持认证来源检查，并保留其覆盖旧实例认证锁定的行为。
+3. 实例认证要求 1/2/3 始终检查，指定第三方服务须匹配；LabyMod 等额外 Microsoft 要求不能替代实例约束。冲突的要求拒绝启动。
 4. 从服务器卡片、实例自动进服或自定义事件指向已配置社团域名时，同样应用社团规则；不依赖按钮是否设置 UseClubAccount。域名大小写、显式端口和末尾点均识别，其他域名不因含相似字符串而被认作社团域名。
-5. 其他实例按原 Microsoft、第三方、Microsoft 或第三方的限制检查。第三方认证服务必须匹配协议、域名、端口和路径，兼容末尾 /authserver。
+5. 社团入口在实例约束通过后，继续检查受支持认证来源；两类规则须同时满足。第三方认证服务匹配协议、域名、端口和路径，兼容末尾 /authserver。
 
 来源规则参考：SHOU-Launcher main 的 [ModLaunch.cs](https://github.com/Conduit-Club/SHOU-Launcher/blob/main/Plain%20Craft%20Launcher%202/Modules/Minecraft/ModLaunch.cs) 与 [ProfileService.cs](https://github.com/Conduit-Club/SHOU-Launcher/blob/main/PCL.Core/Minecraft/Profile/ProfileService.cs)。本轮未同步 PCL-CE 或更换来源基线。
 
