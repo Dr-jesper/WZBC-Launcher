@@ -12,7 +12,7 @@
 
 <img src="Plain%20Craft%20Launcher%202/Images/Wzbc/club-logo.png" alt="WZBC 社团标志" width="80" height="80">
 
-WZBC 社群启动器保留账号管理、游戏下载与实例安装、模组依赖和启动能力，加入品牌紫、Logo、校园复建轮播、官网、皮肤站和社团服务器入口。WZBC、奶蛙配色、奶蛙黄均支持深浅模式，更新保留已选主题。
+WZBC 社群启动器提供账号与实例管理、游戏下载、安装及模组依赖管理，加入品牌紫、Logo、校园复建轮播、官网、皮肤站和社团服务器入口。WZBC、奶蛙配色、奶蛙黄均支持深浅模式，更新保留已选主题。
 
 ## 下载与使用
 
@@ -20,7 +20,7 @@ WZBC 社群启动器保留账号管理、游戏下载与实例安装、模组依
 
 支持 WZBC Skin、LittleSkin、MUA 与离线角色；Microsoft 登录当前不可用。皮肤站和离线角色不核验 Microsoft 游戏所有权。账号规则见[准入说明](docs/wzbc/ACCOUNT-ADMISSION.md)。
 
-当前版本为 **1.2.0-wzbc.3**，包含认证错误提示、账号缓存隔离、启动身份复核，以及统一的 WZBC HTTP 请求标识。构建和测试记录见[版本说明](docs/wzbc/RELEASE-v1.2.0-wzbc.3.md)。
+当前源码版本为 **1.2.0-wzbc.4**：Microsoft 登录目前不可用；本预览版暂不支持启动 Minecraft 游戏或生成启动脚本，账号、实例、皮肤和设置等非游玩管理仍可使用。版本信息见[说明](docs/wzbc/RELEASE-v1.2.0-wzbc.4.md)。二进制下载以已发布的 Release 为准。
 
 [构建说明](docs/wzbc/BUILD.md) · [定制说明](docs/wzbc/CUSTOMIZATION.md) · [社团官网](https://wzbcmc.cn/) · [皮肤站](https://skin.wzbcmc.cn/)
 
@@ -29,5 +29,3 @@ WZBC 社群启动器保留账号管理、游戏下载与实例安装、模组依
 ## 来源与致谢
 
 PCL 原作者：[龙腾猫跃](https://github.com/Meloong-Git/PCL)（[赞助](https://ifdian.net/a/LTCat)）。感谢 [PCL Community](https://github.com/PCL-Community/PCL-CE) 与 [SHOU-PCL / Conduit-Club](https://github.com/Conduit-Club/SHOU-PCL)（原社团版贡献 Moeary / Codex）。
-
-首轮来源基线是 SHOU-PCL main 的 842393281c5ed8bb5745efc37ce775bd0a21f4a1（v1.2.0 / zyf）。来源仓库现已改名为 SHOU-Launcher；旧链接由 GitHub 重定向，当前修复没有迁入其新架构或改变原基线。[来源记录](docs/wzbc/SOURCE-PARITY.md)与[历史](docs/conduit/HISTORY.md)保留。后续来源同步仅跟踪该社团仓库。

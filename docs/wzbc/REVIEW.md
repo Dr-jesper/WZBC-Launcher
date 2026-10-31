@@ -4,11 +4,11 @@
 
 **NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.**
 
-版本 **1.2.0-wzbc.3**，来源基线为 SHOU-PCL main `842393281c5ed8bb5745efc37ce775bd0a21f4a1`。
+版本 **1.2.0-wzbc.4**，来源基线为 SHOU-PCL main `842393281c5ed8bb5745efc37ce775bd0a21f4a1`。
 
 | 范围 | 入口 |
 | --- | --- |
-| 版本变化、平台与验证范围 | [版本说明](RELEASE-v1.2.0-wzbc.3.md) |
+| 版本变化、平台与验证范围 | [版本说明](RELEASE-v1.2.0-wzbc.4.md) |
 | 编译、打包与 CI | [构建说明](BUILD.md)、[Actions](https://github.com/Dr-jesper/WZBC-Launcher/actions/workflows/wzbc-build.yml) |
 | 账号选择、缓存及启动规则 | [账号准入](ACCOUNT-ADMISSION.md) |
 | 自动测试与实际操作记录 | [验证记录](VALIDATION.md) |
