@@ -18,7 +18,7 @@
 
 支援 WZBC Skin、LittleSkin、MUA 與離線角色；Microsoft 登入目前無法使用。皮膚站及離線角色不核驗 Microsoft 遊戲所有權，詳見[帳號規則](docs/wzbc/ACCOUNT-ADMISSION.md)。
 
-目前版本 **1.2.0-wzbc.3** 包含認證錯誤提示、帳號快取隔離、啟動身分複核及統一 WZBC HTTP 請求標識。[版本說明](docs/wzbc/RELEASE-v1.2.0-wzbc.3.md)提供建置與測試記錄。
+目前原始碼版本為 **1.2.0-wzbc.4**。Microsoft 登入目前無法使用；本預覽版暫不支援啟動 Minecraft 或產生啟動腳本，帳號、實例、皮膚與設定管理仍可使用。詳見[版本說明](docs/wzbc/RELEASE-v1.2.0-wzbc.4.md)，二進位下載以已發布的 Release 為準。
 
 [社團官網](https://wzbcmc.cn/) · [皮膚站](https://skin.wzbcmc.cn/) · [建置說明](docs/wzbc/BUILD.md)
 
@@ -27,5 +27,3 @@
 ## 來源與致謝
 
 PCL 原作者：[龍騰貓躍](https://github.com/Meloong-Git/PCL)（[贊助](https://ifdian.net/a/LTCat)）。感謝 [PCL Community](https://github.com/PCL-Community/PCL-CE) 及 [SHOU-PCL / Conduit-Club](https://github.com/Conduit-Club/SHOU-PCL)（原社團版貢獻 Moeary / Codex）。
-
-原始基線為 SHOU-PCL main 的 842393281c5ed8bb5745efc37ce775bd0a21f4a1（v1.2.0 / zyf）。來源儲存庫已更名為 SHOU-Launcher，本輪維持原基線；保留[歷史與原始聲明](docs/conduit/HISTORY.md)。

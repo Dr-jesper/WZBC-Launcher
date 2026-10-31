@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Plain Craft Launcher 2\metadata.json" LogicalName="PCL.metadata.json" />
+    <EmbeddedResource Include="..\Plain Craft Launcher 2\Modules\Minecraft\ModLaunch.cs" LogicalName="LaunchPipelineSource" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Net\**" />

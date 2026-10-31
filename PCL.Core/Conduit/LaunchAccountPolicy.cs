@@ -30,13 +30,9 @@ public static class LaunchAccountPolicy
         if (!Enum.IsDefined(profile.ProfileType)) return LaunchAccountRejection.UnknownProfileType;
         var microsoft = profile.ProfileType == ProfileType.Microsoft;
         var thirdParty = profile.ProfileType is ProfileType.Authlib or ProfileType.YggdrasilConnect;
-        if (rules.RequiresMicrosoft)
-            return microsoft ? LaunchAccountRejection.None : LaunchAccountRejection.RequireMicrosoft;
-        // Explicit club routes retain upstream precedence over old instance auth locks.
-        // Recognize configured club hosts for server-card and custom-event routes too.
-        if (rules.UseClubAccount || IsClubServer(rules.ServerAddress))
-            return ClubCatalog.CanJoin(profile) ? LaunchAccountRejection.None : LaunchAccountRejection.ClubAccountRequired;
-        return rules.InstanceRequirement switch
+        if (rules.RequiresMicrosoft && !microsoft)
+            return LaunchAccountRejection.RequireMicrosoft;
+        var instanceRejection = rules.InstanceRequirement switch
         {
             1 when !microsoft => LaunchAccountRejection.RequireMicrosoft,
             2 when !thirdParty => LaunchAccountRejection.RequireThirdParty,
@@ -44,6 +40,11 @@ public static class LaunchAccountPolicy
             2 or 3 when thirdParty && !SameAuthServer(profile.Server, rules.AuthServer) => LaunchAccountRejection.AuthServerMismatch,
             _ => LaunchAccountRejection.None
         };
+        if (instanceRejection != LaunchAccountRejection.None) return instanceRejection;
+        // Club admission adds a constraint; it cannot override instance authentication.
+        if (rules.UseClubAccount || IsClubServer(rules.ServerAddress))
+            return ClubCatalog.CanJoin(profile) ? LaunchAccountRejection.None : LaunchAccountRejection.ClubAccountRequired;
+        return LaunchAccountRejection.None;
     }
 
     public static bool IsClubServer(string? address)

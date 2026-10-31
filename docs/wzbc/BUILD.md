@@ -1,6 +1,6 @@
 # WZBC-Launcher 构建与打包
 
-更新：2026-10-27。Windows / .NET 10 SDK，版本 1.2.0-wzbc.3。
+更新：2026-10-27。Windows / .NET 10 SDK，版本 1.2.0-wzbc.4。
 
 ```powershell
 # 离线回归（模拟认证服务）
@@ -18,7 +18,7 @@ $env:PCL_MS_CLIENT_ID = 'b42a22d0-3ca4-450d-8389-a466092f3ff7'
 
 打包脚本严格限定 EXE、LICENSE、LICENCE、BUILD.md、PENDING.md、BUILD-INFO.txt、PRIVACY.md、SECURITY.md、LICENSING.md、TERMS.md。构建信息包含提交、源码状态、SDK、配置及公开 Client ID 是否注入。运行时账号、配置、缓存、日志、SDK 和原始素材不进入 ZIP。
 
-脚本隔离其他 `PCL_*` 环境变量，只注入自有公开 Client ID 和源码提交；不嵌入其他项目凭据。版本说明见 [RELEASE-v1.2.0-wzbc.3.md](RELEASE-v1.2.0-wzbc.3.md)。
+脚本隔离其他 `PCL_*` 环境变量，只注入自有公开 Client ID 和源码提交；不嵌入其他项目凭据。版本说明见 [RELEASE-v1.2.0-wzbc.4.md](RELEASE-v1.2.0-wzbc.4.md)。
 
 ## CI 与手动发行
 

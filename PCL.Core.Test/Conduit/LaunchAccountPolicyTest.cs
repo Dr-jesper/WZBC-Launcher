@@ -45,15 +45,68 @@ public sealed class LaunchAccountPolicyTest
     }
 
     [TestMethod]
-    public void ClubAndLabyRulesRetainUpstreamPrecedence()
+    public void ClubAndLabyRulesCannotOverrideInstanceRequirements()
     {
         var thirdParty = Profile(ProfileType.Authlib);
-        Assert.AreEqual(LaunchAccountRejection.None,
+        Assert.AreEqual(LaunchAccountRejection.RequireMicrosoft,
             LaunchAccountPolicy.Evaluate(thirdParty, new(1, UseClubAccount: true)));
         Assert.AreEqual(LaunchAccountRejection.RequireMicrosoft,
             LaunchAccountPolicy.Evaluate(thirdParty, new(UseClubAccount: true, RequiresMicrosoft: true)));
-        Assert.AreEqual(LaunchAccountRejection.None,
+        Assert.AreEqual(LaunchAccountRejection.RequireThirdParty,
             LaunchAccountPolicy.Evaluate(Profile(ProfileType.Microsoft), new(2, RequiresMicrosoft: true)));
+    }
+
+    [TestMethod]
+    [DataRow(0)]
+    [DataRow(1)]
+    [DataRow(2)]
+    [DataRow(3)]
+    public void InstanceAndClubConstraintsBothApplyAcrossEntryForms(int requirement)
+    {
+        // Entry forms converge on either the explicit flag or the resolved target host.
+        foreach (var type in new[] { ProfileType.Microsoft, ProfileType.Authlib, ProfileType.YggdrasilConnect, ProfileType.Offline })
+        foreach (var customProvider in new[] { false, true })
+        foreach (var route in new[] { "local", "flag", "server-card", "instance-server", "custom-event" })
+        {
+            var profile = Profile(type);
+            if (customProvider) profile.Server = "https://custom.example.test/auth";
+            var club = route != "local";
+            var rules = new LaunchAccountRules(requirement, profile.Server,
+                UseClubAccount: route == "flag",
+                ServerAddress: route switch
+                {
+                    "server-card" => "mc.wzbcmc.cn",
+                    "instance-server" => "MC-2.WZBCMC.CN:25565",
+                    "custom-event" => "build.wzbcmc.cn.",
+                    _ => null
+                });
+            var expected = requirement switch
+            {
+                1 when type != ProfileType.Microsoft => LaunchAccountRejection.RequireMicrosoft,
+                2 when type is not (ProfileType.Authlib or ProfileType.YggdrasilConnect) => LaunchAccountRejection.RequireThirdParty,
+                3 when type == ProfileType.Offline => LaunchAccountRejection.RequireMicrosoftOrThirdParty,
+                _ when club && (type == ProfileType.Offline || (customProvider && type != ProfileType.Microsoft))
+                    => LaunchAccountRejection.ClubAccountRequired,
+                _ => LaunchAccountRejection.None
+            };
+            Assert.AreEqual(expected, LaunchAccountPolicy.Evaluate(profile, rules),
+                $"requirement={requirement}, type={type}, customProvider={customProvider}, route={route}");
+        }
+    }
+
+    [TestMethod]
+    [DataRow(ProfileType.Authlib, 2)]
+    [DataRow(ProfileType.Authlib, 3)]
+    [DataRow(ProfileType.YggdrasilConnect, 2)]
+    [DataRow(ProfileType.YggdrasilConnect, 3)]
+    public void ClubRoutesCannotSkipInstanceAuthServerMatching(ProfileType type, int requirement)
+    {
+        foreach (var rules in new[]
+                 {
+                     new LaunchAccountRules(requirement, "https://other.example.test/auth", UseClubAccount: true),
+                     new LaunchAccountRules(requirement, "https://other.example.test/auth", ServerAddress: "mc.wzbcmc.cn")
+                 })
+            Assert.AreEqual(LaunchAccountRejection.AuthServerMismatch, LaunchAccountPolicy.Evaluate(Profile(type), rules));
     }
 
     [TestMethod]

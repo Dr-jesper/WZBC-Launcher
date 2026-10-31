@@ -30,6 +30,7 @@ public static class ModLaunch
 
     private static void McLaunchPrecheck()
     {
+        GameLaunchEligibility.EnsureCanStart(ProfileService.Current);
         if (Config.Debug.AddRandomDelay)
             Thread.Sleep(RandomUtils.NextInt(100, 2000));
         // 检查路径
@@ -194,6 +195,7 @@ public static class ModLaunch
     private static void EnsureLaunchAccount(bool authenticated)
     {
         var profile = ProfileService.Current;
+        GameLaunchEligibility.EnsureCanStart(profile);
         var snapshot = authenticated ? _launchAuthenticatedAccount : _launchSelectedAccount;
         if (snapshot is null || !snapshot.MatchesIdentity(profile) ||
             _launchInstancePath != ModInstanceList.McMcInstanceSelected?.PathInstance ||

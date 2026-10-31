@@ -22,7 +22,7 @@ Download the Windows x64 portable ZIP from [Releases](https://github.com/Dr-jesp
 
 WZBC Skin, LittleSkin, MUA and offline profiles are supported. Microsoft sign-in is currently unavailable. Third-party and offline profiles do not verify Microsoft game ownership; see the [account policy](docs/wzbc/ACCOUNT-ADMISSION.md).
 
-Version **1.2.0-wzbc.3** includes authentication error handling, account-cache isolation, launch identity checks and consistent WZBC HTTP identification. See the [release notes](docs/wzbc/RELEASE-v1.2.0-wzbc.3.md) for build and testing details.
+Current source version: **1.2.0-wzbc.4**. Microsoft sign-in is unavailable. This preview does not support launching Minecraft or generating launch scripts; account, instance, skin and settings management remain available. See the [version notes](docs/wzbc/RELEASE-v1.2.0-wzbc.4.md). Binary availability is shown on the published Releases.
 
 [Community website](https://wzbcmc.cn/) · [Skin site](https://skin.wzbcmc.cn/) · [WZBC repository](https://github.com/Dr-jesper/WZBC-Launcher)
 
@@ -31,5 +31,3 @@ Distribution archives do not bundle Minecraft itself, modified game files, playe
 ## Attribution
 
 PCL original author: [龙腾猫跃 / LTCat](https://github.com/Meloong-Git/PCL), with the original [donation link](https://ifdian.net/a/LTCat). Thanks to [PCL Community](https://github.com/PCL-Community/PCL-CE) and [Conduit-Club / SHOU-PCL](https://github.com/Conduit-Club/SHOU-PCL), including Moeary / Codex.
-
-The initial source baseline is SHOU-PCL main commit 842393281c5ed8bb5745efc37ce775bd0a21f4a1 (1.2.0 / zyf). That source repository has since been renamed SHOU-Launcher; the old link redirects. This repair retains the original baseline. [Source history](docs/conduit/HISTORY.md) and original notices are preserved.
